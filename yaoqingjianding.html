@@ -1,0 +1,278 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>邀请鉴宝</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style>
+			
+			header a {
+				color: white;
+			}
+			.mui-bar {
+				background: url(images/1X/110.png);
+				background-size: contain;
+				background-attachment: fixed;
+				background-repeat: no-repeat;
+				background-color: #e6a03c;
+				height: 70px;
+				padding-top: 20px;
+			}
+			
+			.mui-bar .mui-title {
+				color: white;
+				margin-top: 5px;
+			}
+			
+			.mui-bar-nav~.mui-content {
+				padding-top: 70px;
+			}
+			
+			.mui-content>.mui-card:first-child {
+				margin-top: 0;
+			}
+			
+			.mui-card {
+				margin: 0 0px 10px 0px;
+				font-size: 12px;
+			}
+			
+			.mui-table-view-cell:after {
+				background-color: #ffffff;
+			}
+			
+			.mui-card-header.mui-card-media {
+				padding: 15px 10px;
+			}
+			
+			.mui-card-header{
+				font-size: 13px;
+			}
+			.mui-card-header:after {
+				margin-left: 15px;
+			}
+			
+			.mui-card-header div:first-child {
+				height: 60px;
+				width: 60px;
+				float: left;
+				border: 1px solid #c0c0c0;
+				border-radius: 30px
+			}
+			
+			.mui-card-header div:nth-child(2) {
+				margin: 10px;
+				float: left;
+				width: 200px;
+				color: black;
+			}
+			
+			.mui-card-header div:first-child img {
+				height: 60px;
+				width: 60px;
+			}
+			
+			.mui-card-header span {
+				font-size: 12px;
+				color: #C0C0C0;
+			}
+			
+			.mui-card-header div:nth-child(3) {
+				margin: 10px;
+				position: absolute;
+				right: 15px;
+			}
+			
+			.mui-card-header div:nth-child(3) img {
+				height: 20px;
+				width: 20px;
+			}
+			
+			.mui-card-footer {
+				color: #C0C0C0;
+				margin-left: 15px;
+				padding: 20px 0px 15px;
+			}
+			
+			.mui-card-footer:before {
+				background-color: white;
+			}
+			
+			.item-remark-label-text {
+				float: left;
+			}
+			
+			.item-remark-label-text span,
+			.item-remark-text span {
+				color: red;
+			}
+			
+			.item-remark-text {
+				float: right;
+				position: absolute;
+				right: 15px;
+			}
+			
+			.popup {
+				position: fixed;
+				z-index: 10000;
+				top: 50%;
+				left: 50%;
+				display: none;
+				overflow: hidden;
+				width: 270px;
+				-webkit-transition-property: -webkit-transform, opacity;
+				transition-property: transform, opacity;
+				-webkit-transform: translate3d(-50%, -50%, 0) scale(1.185);
+				transform: translate3d(-50%, -50%, 0) scale(1.185);
+				text-align: center;
+				opacity: 0;
+				color: #000;
+				border-radius: 13px;
+			}
+			
+			.popup .popup-in {
+				display: block;
+				-webkit-transition-duration: 400ms;
+				transition-duration: 400ms;
+				-webkit-transform: translate3d(-50%, -50%, 0) scale(1);
+				transform: translate3d(-50%, -50%, 0) scale(1);
+				opacity: 1;
+			}
+			
+			.popup-inner {
+				position: relative;
+				padding: 15px;
+				border-radius: 13px 13px 0 0;
+				background: rgba(255, 255, 255, .95);
+			}
+			.mui-popup-title+.mui-popup-text{
+				text-align: left;
+				min-height: 100px;
+			}
+			
+			.popup-buttons {
+				position: relative;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: flex;
+				height: 44px;
+				-webkit-box-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+			}
+			
+			.popup-backdrop {
+				position: fixed;
+				z-index: 998;
+				top: 40px;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				-webkit-transition-duration: 400ms;
+				transition-duration: 400ms;
+				opacity: 0;
+				background: rgba(0, 0, 0, .4);
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+				<a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+			<h1 class="mui-title">邀请鉴宝</h1>
+		</header>
+
+		<div class="mui-content">
+
+			<div class="mui-card">
+				<div class="mui-card-header mui-card-media">
+					<div>
+						<img src="images/1X/031.png" />
+					</div>
+					<div>
+						鉴定师名字<br /><span>已鉴定过388件宝贝</span>
+					</div>
+					<div>
+						<img src="images/1X/071.png" />
+					</div>
+					<div style="clear: both;"></div>
+				</div>
+				<div class="mui-card-footer">
+					<div class="item-remark-label-text">精通：<span>字画，瓷器</span></div>
+					<div class="item-remark-text">费用：<span>¥50</span></div>
+					<div style=" clear: both;"></div>
+				</div>
+			</div>
+
+			<div class="mui-card">
+				<div class="mui-card-header mui-card-media">
+					<div>
+						<img src="images/1X/031.png" />
+					</div>
+					<div>
+						鉴定师名字<br /><span>已鉴定过388件宝贝</span>
+					</div>
+					<div>
+						<img src="images/1X/071.png" />
+					</div>
+					<div style="clear: both;"></div>
+				</div>
+				<div class="mui-card-footer">
+					<div class="item-remark-label-text">精通：<span>字画，瓷器</span></div>
+					<div class="item-remark-text">费用：<span>¥50</span></div>
+					<div style=" clear: both;"></div>
+				</div>
+			</div>
+
+			<div class="mui-card">
+				<div class="mui-card-header mui-card-media">
+					<div>
+						<img src="images/1X/031.png" />
+					</div>
+					<div>
+						鉴定师名字<br /><span>已鉴定过388件宝贝</span>
+					</div>
+					<div>
+						<img src="images/1X/071.png" />
+					</div>
+					<div style="clear: both;"></div>
+				</div>
+				<div class="mui-card-footer">
+					<div class="item-remark-label-text">精通：<span>字画，瓷器</span></div>
+					<div class="item-remark-text">费用：<span>¥50</span></div>
+					<div style=" clear: both;"></div>
+				</div>
+			</div>
+
+		</div>
+		<div class="popup popup-in">
+			<div class="popup-inner">
+				<div class="mui-popup-title">鉴定师</div>
+				<div class="mui-popup-text">鉴定师简介...</div>
+			</div>
+			<div class="popup-buttons"><span class="mui-popup-button">确定</span><span class="mui-popup-button mui-popup-button-bold">取消</span></div>
+		</div>
+		<div class="popup-backdrop" style="display: none;"></div>
+		<script src="js/mui.min.js?version=201801202115"></script>
+		<script src="js/common.js?version=201801202115"></script>
+		<script>
+			(function($, doc) {
+				$.init();
+
+				doc.getElementsByClassName('mui-card')[0].addEventListener('click', function(e) {
+					doc.getElementsByClassName('popup')[0].style.display = 'block';
+					doc.getElementsByClassName('popup')[0].style.opacity = 1;
+					doc.getElementsByClassName('popup-backdrop')[0].style.display = 'block';
+					doc.getElementsByClassName('popup-backdrop')[0].style.opacity = 1;
+				});
+				//				doc.getElementById('slider').addEventListener('slide', function(e) {});
+			})(mui, document);
+		</script>
+	</body>
+
+</html>

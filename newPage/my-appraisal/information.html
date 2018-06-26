@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/mui.min.css" rel="stylesheet"/>
+    <link href="../../css/mui.picker.css" rel="stylesheet"/>
+    <link href="../../css/mui.poppicker.css" rel="stylesheet"/>
+    <title>个人信息</title>
+    <style>
+        .mui-bar {
+            height: 70px;
+            padding-top: 20px;
+            text-align: center;
+            color: #000;
+        }
+
+        .mui-bar .mui-title {
+            color: rgb(53,53,53);
+            margin-top: 5px;
+        }
+
+        .mui-bar-nav~.mui-content {
+            padding:80px 0 60px 0;
+        }
+        .info_{
+            color: rgb(51,51,51);
+            height: 45px;
+            line-height: 45px;
+            background: white;
+            border-bottom: 1px solid rgb(248,248,248);
+            font-size: 14px;
+            position: relative;
+            padding-left: 10px;
+        }
+        .info_ span{
+            position: absolute;
+            width: 4px;
+            height: 17px;
+            background: rgb(255,169,61);
+            top: 14px;
+            left: 0;
+        }
+        .head_Img{
+            font-size: 14px;
+            height: 75px;
+            line-height: 75px;
+            background: white;
+            border-bottom: 1px solid rgb(248,248,248);
+            margin:0 10px;
+        }
+        .head_info{
+            height: 45px;
+            line-height: 45px;
+            background: white;
+            font-size: 14px;
+            margin-left: 10px;
+            border-bottom: 1px solid rgb(248,248,248);
+        }
+        .head_info input{
+            color: rgb(102,102,102);
+            font-size: 13px;
+        }
+        .head_infoS{
+            height: 45px;
+            line-height: 45px;
+            background: white;
+            font-size: 14px;
+            padding-left: 10px;
+            border-bottom: 1px solid rgb(248,248,248);
+            position: relative;
+        }
+        .box_S{
+            /*box-shadow: 0px 1px 2px rgba(0,0,0,.1);*/
+        }
+        .head_info_{
+            margin-left: 10px;
+            margin-right: 10px;
+            border-bottom: 1px solid rgb(248,248,248);
+            padding: 5px 0;
+            font-size: 14px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            color: rgb(102,102,102);
+            font-size: 14px;
+        }
+        .submitC{
+            position: fixed;
+            color: white;
+            z-index: 100;
+            height: 40px;
+            line-height: 40px;
+            width: 90%;
+            left: 5%;
+            bottom: 10px;
+            text-align: center;
+            border-radius: 44px;
+            font-size: 15px;
+        }
+        .Imgs{
+            padding: 10px;
+            /*box-shadow: 0px 1px 2px rgba(0,0,0,.1);*/
+        }
+        .Imgs div{
+            width: 30%;
+            height: 81px;
+            margin: 5px 1.66666%;
+            float: left;
+            overflow: hidden;
+            position: relative;
+        }
+        .Imgs div span{
+            position: absolute;
+            width: 23px;
+            height: 23px;
+            top: 0;
+            right: 0;
+        }
+        .Imgs div img{
+            width: 100%;
+        }
+        .head_Img span{
+            float: left;
+        }
+        .head_Img span:nth-child(2){
+            float: right;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-top: 12.5px;
+        }
+        .head_Img span:nth-child(2) img{
+            width: 100%;
+        }
+        .info_T span{
+            float: left;
+        }
+        .info_T input{
+            float: right;
+            margin: 2.5px 10px 2.5px 0;
+            width: 50%;
+            height: 40px;
+            text-align: right;
+            border: none;
+        }
+        .mui-navigate-right:after, .mui-push-left:after, .mui-push-right:after{
+            z-index: 3;
+        }
+        /*选择照片弹出框*/
+        .mui-table-view-cell{
+            margin: 0;
+            padding: 0;
+            font-size: 12px;
+            line-height: 12px;
+            padding-top: 10px;
+            height: 40px;
+            line-height: 23px;
+        }
+        [v-cloak]{
+            display: none;
+        }
+        .mui-table-view-cell:after{
+            background: white;
+        }
+        #showSexPicker{
+            padding-left: 10px;
+        }
+        #app{
+            /*position: absolute;*/
+            z-index: 1000000000000000000;
+        }
+    </style>
+</head>
+<body>
+<div id="app" v-cloak>
+
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-icon mui-icon-left-nav mui-pull-left" style="color:rgb(53,53,53)" href="javascript:back()"></a>
+        <h1 class="mui-title">个人信息</h1>
+    </header>
+    <!--<div class='zzc' v-if="isshow" @tap=""></div>-->
+    <div class="mui-content">
+        <div @tap='toNative(Id_1,Id_)' style='position:relative;background:white;height:52px;line-height:36px;padding: 8px 0 8px 0;padding-left: 10px;border-bottom:1px solid rgb(248,248,248);font-size: 16px'>个人中心
+            <span class="mui-navigate-right"></span></div>
+        <div class="info_"><span></span>基本信息</div>
+        <div style="background:white">
+            <div v-if='!appraiser' class="head_Img mui-clearfix" @tap="actionsheetPop()"><span>头像</span> <span><img :src="user.avatarKey" alt=""></span></div>
+            <div v-if='appraiser' class="head_Img mui-clearfix"><span>头像</span> <span><img :src="user.avatarKey" alt=""></span></div>
+            <div v-if='!appraiser' class="head_info info_T mui-clearfix"><span>昵称</span> <input type="text" v-model="user.name"></div>
+            <div v-if='appraiser' class="head_info info_T mui-clearfix"><span>昵称</span>
+                <span style="float:right;padding-right: 18px;font-size: 12px;color: rgb(146,146,146)">{{user.name}}</span>
+            </div>
+            <!--<div class="head_info info_T mui-clearfix"><span>性别</span>-->
+                <!--<span id="showSexPickerResult" class="mui-badge mui-badge-inverted" style="padding-right: 15px;" v-text="$options.filters.formatGender(user.gender)"></span>-->
+                <!--<span class="mui-navigate-right"></span>-->
+                <!--&lt;!&ndash;<input type="text" v-model="user.gender">&ndash;&gt;-->
+            <!--</div>-->
+            <div class="mui-table-view-cell" id="showSexPicker" @tap="showSexPickerResultFn()">性别
+                <span id="showSexPickerResult" class="mui-badge mui-badge-inverted" style="padding-right: 15px;" v-text="$options.filters.formatGender(user.gender)"></span>
+                <span class="mui-navigate-right"></span>
+            </div>
+            <div class="head_info info_T mui-clearfix"><span>手机</span> <input type="number" v-model='user.tel'></div>
+        </div>
+        <div class="head_info" @tap="forward('../../my-address-list.html')" style="position: relative;padding-left: 10px;margin-left: 0">我的地址
+            <!--<span class='mui-navigate-right'></span>-->
+            <!--<div style="position:absolute;right:30px;font-size:12px;color:#666;top:0;z-index:3" id="showCityPicker">-->
+                <!--<div ref="showC" id="showCityPickerResult">{{select_}}</div>-->
+            <!--</div>-->
+            <span class="mui-navigate-right"></span>
+        </div>
+<!--============appraiser info start===============-->
+    <div v-if='appraiser'>
+
+        <div class="info_" style="margin-top:10px"><span></span>专家信息</div>
+        <div style="background:white;margin-top:10px">
+            <div class='head_infoS' @tap="listFn('title')">我的荣誉称号 <span class='mui-navigate-right'></span></div>
+            <div class='head_info_' v-if='honoraryTitle' style="color:rgb(102,102,102)">{{honoraryTitle}}</div>
+        </div>
+
+        <div style="background:white;margin-top:10px">
+            <div class='head_infoS' @tap="listFn('context')">我的背景介绍 <span class='mui-navigate-right'></span></div>
+            <div class='head_info_' v-if='contextIntroduce' style="color:rgb(102,102,102)">{{contextIntroduce}}</div>
+        </div>
+
+        <div style="background:white;margin-top:10px">
+            <div class='head_infoS' @tap="listFn('specialty')">专家专长介绍 <span class='mui-navigate-right'></span></div>
+            <div class='head_info_' v-if='specialtyIntroduce' style="color:rgb(102,102,102)">{{specialtyIntroduce}}</div>
+        </div>
+
+        <div style="background:white;margin-top:10px">
+            <div class='head_infoS' @tap="listFn('research')">我的学术研究(成果介绍) <span class='mui-navigate-right'></span></div>
+            <div class='head_info_' v-if='academicResearch' style="color:rgb(102,102,102)">{{academicResearch}}</div>
+        </div>
+
+        <div style="background:white;margin-top:10px">
+            <div class='head_infoS'>我的生活风采</div>
+            <div class="Imgs mui-clearfix">
+                <div v-for="(item,index) in list"><img @tap="preview(index)" style="min-height:81px" :src="item" alt="">
+                    <span @tap.stop="delImg(index)"><img style="width:100%" src="../../images/new2x/mine_icon-delete1@2x.png" alt=""></span>
+                </div>
+                <div @tap="actionsheetPopS()"><img style="height:81px" :src="addImg" alt=""></div>
+            </div>
+        </div>
+    </div>
+<!--============appraiser info end===============-->
+
+
+        <div id="but" @tap="submit()" class="submitC" :style="class_1">提交</div>
+    </div>
+
+    <div id="actionsheet" class="mui-popover mui-popover-action mui-popover-bottom">
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell">
+                <a @tap="uploadFromPhotograph">拍照</a>
+            </li>
+            <li class="mui-table-view-cell">
+                <a @tap="uploadFromAlbum">从相册选择</a>
+            </li>
+        </ul>
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell">
+                <a @tap="cancelUpload()">
+                    <b>取消</b>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div id="actionsheetS" class="mui-popover mui-popover-action mui-popover-bottom">
+        <ul class="mui-table-view">
+            <!--<li class="mui-table-view-cell">-->
+                <!--<a @tap="uploadFromPhotographS">拍照</a>-->
+            <!--</li>-->
+            <li class="mui-table-view-cell">
+                <a @tap="uploadFromAlbumS">从相册选择</a>
+            </li>
+        </ul>
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell">
+                <a @tap="cancelUploadS()">
+                    <b>取消</b>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+<script src="../../js/mui.min.js"></script>
+<script src="../../js/mui.picker.js"></script>
+<script src="../../js/mui.poppicker.js"></script>
+<script src="../../js/cityData.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/jQuery-2.1.4.min.js"></script>
+<script src="../../js/vue.min.js"></script>
+<script src="../../js/common.js"></script>
+<!--<script src="../../js/common.js?version=201801202115"></script>-->
+<script>
+    function refreshList() {
+        location.reload();
+    }
+    function getPramsFromNative_three(V){
+        if(!V)return;
+        // app.$data.test = V
+        var _info = JSON.parse(V)
+
+        if(_info){
+            _info.honoraryTitle_G9?app.$data.honoraryTitle=_info.honoraryTitle_G9:true;
+            _info.contextIntroduce_G9?app.$data.contextIntroduce=_info.contextIntroduce_G9:true;
+            _info.specialtyIntroduce_G9?app.$data.specialtyIntroduce=_info.specialtyIntroduce_G9:true;
+            _info.academicResearch_G9?app.$data.academicResearch=_info.academicResearch_G9:true;
+            window.Page.setwebParams(JSON.stringify(_info),"cb")
+        }
+    }
+    function cb(){}
+    function getPramsFromNative_four(V){
+        if(!V)return;
+        app.$data.four_info = JSON.parse(V)
+    }
+    function getPramsFromNative_two(V){
+        var obj
+        if(!V){
+            obj = {
+                contextIntroduce_G9:app.$data.contextIntroduce,//背景
+                academicResearch_G9:app.$data.academicResearch,//研究成果
+                honoraryTitle_G9:app.$data.honoraryTitle,//荣誉称号
+                specialtyIntroduce_G9:app.$data.specialtyIntroduce,//专长介绍
+            }
+        }else{
+            obj = JSON.parse(V)
+            obj.contextIntroduce_G9=app.$data.contextIntroduce
+            obj.academicResearch_G9=app.$data.academicResearch
+            obj.honoraryTitle_G9=app.$data.honoraryTitle
+            obj.specialtyIntroduce_G9=app.$data.specialtyIntroduce
+        }
+        window.Page.setwebParams(JSON.stringify(obj),"cb")
+    }
+    window.onresize = function () {
+
+        var h = $(window).height();
+        //console.log(h+','+window.screen.availHeight)
+        var u = navigator.userAgent;
+        if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
+            if(h <= window.screen.availHeight/1.5){
+                $('#but').css({'position':'absoult',"margin-top":"-.5rem",'display':'none'});
+            }else{
+                $('#but').css({'position':'fixed','display':'block'});
+
+            }
+        }
+
+    }
+    $('input').on('focus',function(){
+        $('#but').hide();
+    })
+    $('input').on('blur',function(){
+        $('#but').show();
+    })
+
+    function getPhoto_callback(data, status) {
+        if (status != 'cancel') {
+            var uploadObj = {
+                isURI: true,
+                photos: new Array(data)
+            }
+            QNUpload.uploadImage(JSON.stringify(uploadObj),'uploadPhoto_callback');
+        }
+    }
+    function uploadPhoto_callback(data,status) {
+        mui('#actionsheet').popover('toggle');
+        // app.$data.user.avatarKey = data;
+        if(status != 'cancel'){
+            var path = qiniuPath+data;
+            // app.$data.user.avatarKey = 'http://img.aworld.cn/'+data;
+            app.$data.user.avatarKey = path;
+            app.$data.avatarKey = data;
+        }else {
+            mui.toast("服务器繁忙")
+        }
+    }
+
+    function getPhoto_callbackS(data, status) {
+        if (status != 'cancel') {
+            var arr
+            data&&data.indexOf("|")>-1?
+                arr=data.split("|"):
+                arr=data;
+            var uploadObj = {
+                isURI: true,
+                photos: arr
+                // photo:new Array(data)
+            }
+            QNUpload.uploadImage(JSON.stringify(uploadObj),'uploadPhoto_callbackS');
+        }
+    }
+    function uploadPhoto_callbackS(data,status) {
+        // app.$data.user.avatarKey = data;
+        mui('#actionsheetS').popover('toggle');
+        if (status != 'cancel'){
+            var arr,newArr,Nub,arr1
+            if(data&&data.indexOf("|")>-1){
+                arr = data.split("|");
+                for(var i=0;i<arr.length;i++){
+                    arr[i] = qiniuPath+arr[i]
+                }
+                newArr = app.$data.list.concat(arr);
+                newArr.length>6?Nub=newArr.length-6:true;
+                newArr.splice(0,Nub);
+                app.$data.list = newArr;
+                // app.$data.list = newArr;
+            }else {
+                // app.$data.list.push('http://ow90m0wgs.bkt.clouddn.com/'+data)
+                var images = app.$data.list
+                if(images.length<6){
+                    images.push(qiniuPath+data)
+                }else {
+                    images.splice(0,1)
+                    images.push(qiniuPath+data)
+                }
+            }
+        }else {
+            mui.toast("服务器繁忙")
+        }
+    }
+
+    var params = NewgetUrlParams()
+    Vue.filter('formatGender', formatGender);
+    var app = new Vue({
+        el:"#app",
+        data:{
+            isshow:false,
+            four_info:'',
+            addImg:"../../images/new2x/icon-add2@2x.png",
+            // logoImg:'../../images/new2x/icon-moren.png',
+            list:[],
+            sengList:[],
+            user:{
+                name:"",
+                tel:"",
+                gender:"",
+                // 头像
+                avatarKey:"../../images/new2x/icon-moren.png",
+            },
+            avatarKey:'',
+            honoraryTitle:"",
+            contextIntroduce:"",
+            specialtyIntroduce:"",
+            academicResearch:"",
+            select_:'请选择',
+            item:{
+                name: "",
+                phone: "",
+                zipCode: "",
+                isDefault: false,
+                address: {}
+            },
+            innerT_H:"",
+            class_:'background: rgb(255,169,61)',
+            class_1:'background: rgb(255,169,61)',
+            defaultAddress:'',
+            appraiser:false,
+            Id_:'',
+            Id_1:'',
+            appFlag:true
+        },
+        mounted(){
+            var self = this;
+                self.myInfo()
+            mui.init();
+
+            var sexPicker = new mui.PopPicker();
+            sexPicker.setData([{
+                value: 'M',
+                text: '男'
+            }, {
+                value: 'F',
+                text: '女'
+            }]);
+            var showSexPicker = document.getElementById('showSexPicker');
+            var showSexPickerResult = document.getElementById('showSexPickerResult');
+            showSexPicker.addEventListener('tap', function (event) {
+                sexPicker.show(function (items) {
+                    showSexPickerResult.innerText = (items[0] || {}).text;
+                    app.user.gender = (items[0] || {}).value;
+                });
+            }, false);
+
+            self.getCache()
+            // var cityPicker = new mui.PopPicker({layer: 3});
+            // cityPicker.setData(cityData);
+            // var showCityPicker = document.getElementById('showCityPicker');
+            // var showCityPickerResult = document.getElementById('showCityPickerResult');
+            // showCityPicker.addEventListener('tap', function (event) {
+            //     cityPicker.show(function (items) {
+            //         showCityPickerResult.innerText = (items[0] || {}).text + " " + (items[1] || {}).text + " " + (items[2] || {}).text;
+            //         if(!self.item){
+            //             self.item = { address:{} };
+            //         }
+            //         self.item.address.province = (items[0] || {}).text;
+            //         self.item.address.city = (items[1] || {}).text;
+            //         self.item.address.region = (items[2] || {}).text;
+            //         self.innerT_H = self.$refs.showC.innerHTML
+            //     });
+            // },false);
+
+        },
+        watch:{},
+        methods:{
+            showSexPickerResultFn(){
+                if(this.appFlag){
+                    $('#app').css({
+                        zIndex:1
+                    })
+                    this.appFlag = false
+                }
+            },
+            toNative(appId,userId){
+                if(appId){
+                    if(window.Page){
+                        window.Page.toNativeDetails("professor",appId)
+                    }
+                    return;
+                }
+                if(userId){
+                    if(window.Page){
+                        window.Page.toNativeDetails("user",userId)
+                    }
+                }
+            },
+            myInfo(){
+                var self = this;
+                ajax(api('/my'), {
+                    dataType: 'json',
+                    success: function (data) {
+                        var _app=data.appraiser,_user = data.user
+                        self.user.name = _user.nickname||'';
+                        self.user.tel = _user.phone||'';
+                        self.user.avatarKey = _user.avatar||'';
+                        // self.user.gender = _user.gender||''
+                        if(_user.gender){
+                            self.user.gender = _user.gender||'';
+                        }else{
+                            self.user.gender = '';
+                        }
+                        self.defaultAddress = data.defaultAddress||'';
+                        self.Id_ = _user.id
+                        if(_app.appraiserId){
+                            self.Id_1 = _app.appraiserId
+                            if(window.Page){
+                                window.Page.setwebParams(JSON.stringify(_app),"cb")
+                            }
+                            self.appraiser = true;
+                            self.honoraryTitle = _app.honoraryname;
+                            self.contextIntroduce = _app.intro;
+                            self.specialtyIntroduce = _app.speintroduce;
+                            self.academicResearch = _app.acaresearch;
+                            if(_app.lifestyle.length!=0){
+                                _app.lifestyle.forEach(function(key,index,Arr){
+                                    Arr[index] = qiniuPath+Arr[index]
+                                })
+                            }
+                            self.list = _app.lifestyle
+                        }
+                    },
+                    error:function(){
+
+                    }
+                });
+            },
+            preview(index) {
+                if (window.Photo) {
+                    var obj = {
+                        srcList: this.list,
+                        index: index || 0
+                    };
+                    window.Photo.preview(JSON.stringify(obj), function () { });
+                }
+            },
+            delImg(index) {
+                var self = this
+                self.list.splice(index,1)
+            },
+            listFn(name) {
+                var self = this;
+                var postData = {
+                    "nickname": self.user.name,
+                    "gender": self.user.gender,
+                    "avatar": self.user.avatarKey
+                }
+                ajax(api('/auth/user'), {
+                    data: postData,
+                    type: 'PUT',
+                    dataType: 'json',
+                    success: function (data) {
+
+                    }})
+                if(window.Page){
+                    window.Page.getwebParams('','getPramsFromNative_two')
+                }
+                switch (name){
+                    case "title":
+                        self.forward("../my-honoraryTitle.html?id=G9");
+                        break;
+                    case "context":
+                        self.forward("../context-introduce.html?id=G9");
+                        break;
+                    case "specialty":
+                        self.forward("../my-specialty-introduce.html?id=G9");
+                        break;
+                    case "research":
+                        self.forward("../my-academic-research.html?id=G9");
+                        break;
+                }
+            },
+            getCache() {
+                var self = this,par
+
+                if(params==="G10"){
+                    if(window.Page){
+                        // par =
+                            window.Page.getwebParams("","getPramsFromNative_three")
+
+                        // if(par){
+                        //     var _params = JSON.parse(par)
+                        //     _params.honoraryTitle_G9?self.honoraryTitle=_params.honoraryTitle_G9:true;
+                        //     _params.contextIntroduce_G9?self.contextIntroduce=_params.contextIntroduce_G9:true;
+                        //     _params.specialtyIntroduce_G9?self.specialtyIntroduce=_params.specialtyIntroduce_G9:true;
+                        //     _params.academicResearch_G9?self.academicResearch=_params.academicResearch_G9:true;
+                        // }
+                    }
+
+                }else{
+
+                }
+            },
+            submit() {
+                var self = this,path=qiniuPath;
+                var postData = {
+                    "nickname": self.user.name,
+                    "gender": self.user.gender,
+                    "avatar": self.user.avatarKey.replace(path,'')
+                }
+                ajax(api('/auth/user'), {
+                    data: postData,
+                    type: 'PUT',
+                    dataType: 'json',
+                    success: function (data) {
+                        if(self.appraiser){
+                            var path = qiniuPath
+                            self.list.forEach(function(key,index,Arr){
+                                if(Arr[index].indexOf(path)>-1)
+                                    self.sengList.push(Arr[index].replace(path,''))
+
+                            })
+                            var postData_s = {
+                                intro:self.contextIntroduce,//背景介绍
+                                honoraryname:self.honoraryTitle,//荣誉称号
+                                speintroduce:self.specialtyIntroduce,//专长介绍
+                                acaresearch:self.academicResearch,//学术研究
+                                lifestyle:self.sengList,//生活风采
+                            }
+                            if(postData_s.lifestyle.length==0){
+                                mui.toast("请上传生活风采照片")
+                                return;
+                            }
+                            ajax(api('/auth/appraiser'), {
+                                data: postData_s,
+                                type: 'POST',
+                                dataType: 'json',
+                                success: function (data) {
+                                    mui.toast('保存成功', {
+                                        duration: 1000
+                                    });
+                                    setTimeout(function () {
+                                        back()
+                                        if (window.Gold) {
+                                            Gold.broadcast('refreshList', 'editAddress');
+                                        }
+                                    }, 300);
+                                },
+                                error(){
+
+                                }
+                            });
+                        }else{
+                            mui.toast('保存成功', {
+                                duration: 1000
+                            });
+                            setTimeout(function () {
+                                back()
+                                if (window.Gold) {
+                                    Gold.broadcast('refreshList', 'editAddress');
+                                }
+                            }, 300);
+                        }
+                    }
+                });
+
+            },
+            actionsheetPop() {
+                if(this.appFlag){
+                    $('#app').css({
+                        zIndex:1
+                    })
+                    this.appFlag = false
+                }
+                mui('#actionsheet').popover('toggle');
+            },
+            actionsheetPopS() {
+                mui('#actionsheetS').popover('toggle');
+            },
+            uploadFromPhotograph() {//拍照
+                if (window.Photo) {
+                    var obj = {
+                        source: 1,
+                        type: 'png',
+                        returnType: 'uri',
+                        edit: true,
+                        // 张数
+                        photoNumber:1,
+
+                    };
+                    window.Photo.getPhoto(JSON.stringify(obj), 'getPhoto_callback');
+                }
+            },
+            uploadFromAlbum() {//从相册选择
+                if (window.Photo) {
+                    var obj = {
+                        source: 2,
+                        type: 'png',
+                        // returnType: 'uri',
+                        edit: true,
+                        photoNumber:1
+                    };
+                    window.Photo.getPhoto(JSON.stringify(obj), 'getPhoto_callback');
+                }
+            },
+
+            uploadFromPhotographS() {//拍照
+                if (window.Photo) {
+                    var obj = {
+                        source: 1,
+                        type: 'png',
+                        returnType: 'uri',
+                        edit: false,
+                        // 张数
+                        photoNumber:1
+                    };
+                    window.Photo.getPhoto(JSON.stringify(obj), 'getPhoto_callbackS');
+                }
+            },
+            uploadFromAlbumS() {//从相册选择
+                var Nub,self=this;Nub=6-(self.list.length-0)
+                if (window.Photo) {
+                    var obj = {
+                        source: 2,
+                        type: 'png',
+                        // returnType: 'uri',
+                        edit: false,
+                        photoNumber:Nub<0?Nub=0:Nub
+                    };
+                    window.Photo.getPhoto(JSON.stringify(obj), 'getPhoto_callbackS');
+                }
+            },
+
+            // 取消相册选择
+            cancelUpload() {
+                mui('#actionsheet').popover('toggle');
+            },
+            cancelUploadS() {
+                mui('#actionsheetS').popover('toggle');
+            },
+            getStorage(V) {
+                return sessionStorage.getItem(V)
+            },
+            rmStorage(V) {
+                if(typeof V==="object"){
+                    for(var i=0;i<V.length;i++){
+                       sessionStorage.removeItem(V[i])
+                    }
+                }else {
+                       sessionStorage.removeItem(V)
+                }
+            },
+            forward(url) {
+                forward(url)
+            },
+        }
+    })
+
+</script>
+</html>

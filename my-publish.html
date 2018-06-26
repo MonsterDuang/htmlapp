@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>我的帖子</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" href="css/mui.min.css">
+</head>
+
+<body>
+
+	<style>
+		li {
+			list-style: none;
+		}
+
+		a {
+			color: white;
+		}
+
+		.mui-bar {
+			background: url(images/1X/110.png);
+			background-size: contain;
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+			background-color: #e6a03c;
+			height: 70px;
+			padding-top: 20px;
+		}
+
+		.mui-bar .mui-title {
+			color: white;
+			margin-top: 5px;
+		}
+
+		.mui-scroll-wrapper {
+			padding-top: 70px;
+		}
+
+
+		.mui-bar-nav~.mui-content .mui-pull-top-pocket {
+			padding-top: 70px;
+		}
+
+		.mui-content>.mui-card:first-child {
+			margin-top: 10px;
+		}
+
+		.mui-control-content {
+			min-height: 600px;
+		}
+
+		.mui-card {
+			margin: 0;
+			font-size: 12px;
+			background-color: #f4f4f8;
+			box-shadow: 0 0px 0px rgba(0, 0, 0, .3);
+		}
+
+		.item {
+			margin-bottom: 10px;
+		}
+
+		.mui-card-content {
+			font-size: 12px;
+		}
+
+		.mui-card-content img {
+			width: 85px;
+			height: 85px;
+		}
+
+		.mui-col-sm-4 mui-col-xs-4 {
+			color: #c0c0c0;
+		}
+
+		.mui-table-view-cell {
+			padding: 2px 15px;
+		}
+
+		.mui-table-view-cell:after {
+			background-color: white;
+		}
+
+		.publish-item-content {
+			background-color: white;
+		}
+
+		.publish-item-content .mui-row .mui-table-view-cell {
+			padding-left: 5px;
+			padding-right: 5px;
+		}
+
+		.publish-item-content .mui-row:nth-child(2) img {
+			width: 10px;
+			height: 10px;
+			margin-right: 5px;
+		}
+
+		.publish-item-content .mui-row:nth-child(2) .mui-table-view-cell:first-child {
+			padding-left: 15px;
+		}
+
+		.mui-card-content span:first-child {
+			font-weight: bold;
+			font-size: 16px;
+			color: black;
+		}
+
+		.publish-item-action .item {
+			width: 33%;
+			max-width: 33%;
+			height: 30px;
+			line-height: 30px;
+			float: left;
+		}
+
+		.publish-item-action img {
+			width: 15px;
+			height: 15px;
+		}
+
+		.publish-item-action .item-img {
+			float: left;
+		}
+
+		.publish-item-action .item-text {
+			float: left;
+			margin-left: 2px;
+		}
+
+		.publish-item-action div:last-child {
+			position: absolute;
+			right: 5px;
+			padding-left: 30px;
+		}
+
+		.mui-card-footer {
+			padding: 0;
+			margin: 0;
+		}
+
+		.mui-pull-caption {
+			font-size: 12px;
+		}
+	</style>
+	<div id="app">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+			<h1 class="mui-title">我的帖子</h1>
+		</header>
+
+		<div class="mui-content">
+			<div class="mui-scroll-wrapper" id="pullrefresh">
+				<div style="margin-top: 10px;">
+					<div class="mui-card item" v-for="item in items" :key="item.id">
+						<div class="mui-card-content" style="display: none" v-show="!!item">
+							<div class="mui-row">
+								<div class="mui-col-sm-3 mui-col-xs-3">
+									<li class="mui-table-view-cell">
+										<span v-text="$options.filters.formatLatelyTime(item.createdAt)"></span>
+									</li>
+								</div>
+								<div class="mui-col-sm-9 mui-col-xs-9">
+									<div class="mui-card publish-item-content">
+										<div class="mui-card-content">
+											<div class="mui-row">
+												<div class="mui-col-sm-12 mui-col-xs-12">
+													<li class="mui-table-view-cell mui-ellipsis" v-text="item.title"></li>
+													<li class="mui-table-view-cell mui-ellipsis" v-text="item.content"></li>
+													<li @tap="detail(item)" class="mui-table-view-cell" style="color:#e6a03c">
+														查看全部
+													</li>
+													<li class="mui-table-view-cell mui-ellipsis" @tap="detail(item)">
+														<div class="mui-row">
+															<div v-if="item.type == 'photo'" v-for="photo in item.photos" class="mui-col-sm-4 mui-col-xs-4">
+																<img :src="photo" />
+															</div>
+														</div>
+													</li>
+													<li class="mui-table-view-cell mui-ellipsis">
+														<div class="mui-row">
+															<div v-if="item.type == 'video'" class="mui-col-sm-12 mui-col-xs-12">
+																<video style="width:100%;max-height: 250px;" :src="item.video" draggable="false" controls="false" :poster="item.video + '?vframe/jpg/offset/2'"></video>
+															</div>
+														</div>
+													</li>
+												</div>
+											</div>
+										</div>
+										<div class="mui-row">
+											<div class="mui-col-sm-4 mui-col-xs-4" @tap="like(item)">
+												<li class="mui-table-view-cell">
+													<template v-if="item.liked">
+														<img src="images/1X/061.png" />
+													</template>
+													<template v-else>
+														<img src="images/1X/060.png" />
+													</template>
+													点赞(
+													<span v-text="item.likeCount"></span>)
+												</li>
+											</div>
+											<div class="mui-col-sm-4 mui-col-xs-4" @tap="message(item)">
+												<li class="mui-table-view-cell">
+													<img src="images/1X/062.png" /> 留言(
+													<span v-text="item.commentCount"></span>)
+												</li>
+											</div>
+											<div class="mui-col-sm-4 mui-col-xs-4">
+												<li class="mui-table-view-cell" @tap="del(item)">
+													<img src="images/1X/108.png" />删除
+												</li>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+	<script src="js/vue.min.js"></script>
+	<script src="js/mui.min.js?version=201801202115"></script>
+	<script src="js/common.js?version=201801202115"></script>
+	<script type="text/javascript">
+		Vue.filter('formatLatelyTime', formatLatelyTime);
+		var app = new Vue({
+			el: '#app',
+			data: {
+				pageIndex: 1,
+				pageSize: 8,
+				items: [],
+			},
+			methods: {
+				loadData: function (type) {
+					var _this = this;
+					ajax(api('/my/post'), {
+						data: {
+							pageIndex: _this.pageIndex,
+							pageSize: _this.pageSize
+						},
+						dataType: 'json',
+						success: function (data) {
+							if (type === 1) {
+								_this.items = data.objects;
+							} else {
+								for (var i = 0, len = data.objects.length; i < len; i++)
+									_this.items.push(data.objects[i]);
+							}
+
+							//结束下拉刷新
+							mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh(!data.hasNext);
+						}
+					});
+				},
+				detail: function (item) {
+					forward('yfg://m.native.com/visitor/postDetail', item);
+				},
+				like: function (item) {
+					ajax(api('/posts/' + item.id + '/likes'), {
+						type: 'POST',
+						dataType: 'json',
+						success: function (data) {
+							item.liked = !item.liked;
+							item.likeCount = data.likeCount;
+							mui.toast(data.message);
+						}
+					});
+				},
+				message: function (item) {
+					forward('yfg://m.native.com/visitor/postDetail', item);
+				},
+				del: function (item) {
+					var _this = this;
+					mui.confirm('确定删除该帖子？', '提示', ['取消', '确定'], function (e) {
+						if (e.index != 0) {
+							ajax(api('/my/post/' + item.id), {
+								type: 'DELETE',
+								dataType: 'json',
+								success: function (data) {
+									mui.toast(data.message);
+									_this.items.forEach((value, index) => {
+										if (value.id == item.id) {
+											_this.items.splice(index, 1);
+										}
+									});
+									if (window.Gold) {
+										Gold.broadcast('refreshLogin', 'deletePublish');
+									}
+								}
+							});
+						}
+					});
+				}
+			},
+			mounted: function () {
+				var _this = this;
+				mui.init({
+					pullRefresh: {
+						container: '#pullrefresh',
+						down: {
+							auto: true,
+							// style: 'circle',
+							// offset: '0px',
+							callback: function () {
+								_this.pageIndex = 1;
+								mui('#pullrefresh').pullRefresh().refresh(true);
+								_this.loadData(1);
+							}
+						},
+						up: {
+							contentrefresh: '正在加载...',
+							callback: function () {
+								_this.pageIndex++;
+								_this.loadData(2);
+							}
+						}
+					}
+				});
+			}
+		});
+	</script>
+
+</body>
+
+</html>

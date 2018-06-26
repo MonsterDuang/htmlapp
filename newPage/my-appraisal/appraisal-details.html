@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/mui.min.css" rel="stylesheet"/>
+    <title>鉴定详情</title>
+    <style>
+        .mui-bar {
+            height: 70px;
+            padding-top: 20px;
+            text-align: center;
+            color: #000;
+        }
+        .mui-bar .mui-title {
+            color: rgb(53,53,53);
+            margin-top: 5px;
+        }
+        .mui-bar-nav~.mui-content {
+            padding:80px 0 55px 0;
+        }
+        [v-cloak] {
+            display: none;
+        }
+        .headC{
+            background: white;
+            padding:8px 10px 3px 10px;
+        }
+        .headC div{
+            float: left;
+        }
+        .headC div:nth-child(1){
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+        .headC div:nth-child(1) img{
+            width: 100%;
+        }
+        .headC div p{
+            margin: 0;
+            padding-left: 8px;
+        }
+        .headC div p:nth-child(1){
+            font-size: 15px;
+            color: #333;
+        }
+        .images{
+            padding:0 10px 10px 10px;
+            background: white;
+            /*box-shadow: 0 1px 2px rgba(0,0,0,0.1);*/
+        }
+        .images .imagesD{
+            background: rgb(245,245,245);
+            padding: 8px;
+        }
+        .images .imagesD p{
+            margin: 0;
+        }
+        .images .imagesD img{
+            width: 30%;
+            margin: 0 1.6%;
+            float: left;
+        }
+        .evaluateResult{
+            margin: 8px 0;
+            padding:6px 10px;
+            background: white;
+        }
+        .evaluateResultD{
+            height: 45px;
+            line-height: 45px;
+        }
+        .evaluateResultD img:nth-child(1){
+            height: 45px;
+            width: 45px;
+            vertical-align:middle;
+        }
+        .spanS{
+            display: inline-block;
+            margin:0 10px 0 5px;
+            color: rgb(51,51,51);
+        }
+        .evaluateResultD img:nth-child(3){
+            margin-top:7.5px;
+            float: right;
+        }
+        .evaluateC{
+            background: white;
+            padding: 10px;
+        }
+        .evaluateC div{
+            float: left;
+        }
+        .evaluateC div:nth-child(1){
+            width: 16%;
+            text-align: center;
+        }
+        .evaluateC div:nth-child(1) img{
+            width: 80%;
+        }
+        .evaluateC div:nth-child(2){
+            margin-left: 2%;
+            width: 82%;
+            border-bottom: 1px solid rgb(241,241,241);
+        }
+        .evaluateC div:nth-child(2) p{
+            margin: 0;
+        }
+        .evaluateC div:nth-child(2) p:nth-child(1){
+            font-size: 15px;
+            color: black;
+        }
+        .evaluateC div:nth-child(2) p:nth-child(2){
+            font-size: 13px;
+            color: #666;
+        }
+        .evaluateC div:nth-child(2) p:nth-child(3) span{
+            float: left;
+        }
+        .evaluateC div:nth-child(2) p:nth-child(3) span:nth-child(2){
+            float: right;
+        }
+        .appraisal{
+            position: fixed;
+            z-index: 100;
+            bottom: 0;
+            height: 46px;
+            line-height: 45px;
+            width: 100%;
+            background: white;
+            text-align: center;
+            /*box-shadow: 0 1px 6px #ccc;*/
+        }
+        .appraisal input {
+            background: rgb(245,245,245);
+            border: none;
+            width: 70%;
+            border-radius: 30px;
+            height: 35px;
+            margin-top:3px;
+            padding: 0;
+            padding-left: 8px;
+        }
+        .appraisal span{
+            display: inline-block;
+            border-radius: 30px;
+            margin-top: 5px;
+            height: 35px;
+            line-height: 35px;
+            width: 75px;
+            background: rgb(255,169,61);
+            color: white;
+            font-size: 15px;
+        }
+
+        .timeC{
+            background: white;
+            padding-top: 12px;
+        }
+        .timeC>div{
+            height: 55px;
+            line-height: 55px;
+            background: rgb(245,245,245);
+            color: rgb(102,102,102);
+            border-radius: 3px;
+            padding: 12.5px 15px;
+            position: relative;
+        }
+        .timeC>div>img{
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: 0;
+            top: 0;
+        }
+        .timeC>div>span{
+            position: absolute;
+            top: 0;
+            right: 18px;
+            font-size: 15px;
+        }
+        .timeC>div>div{
+            position: absolute;
+            width: 75%;
+            height: 30px;
+            background: rgb(255,169,61);
+            border-radius:0 30px 30px 30px;
+            padding-left: 15px;
+        }
+        .timeC>div>div span{
+            display: block;
+            height: 25px;
+            width: 20px;
+            margin-top: 2px;
+            background: url("../../images/new3x/IDF_icon_Voice3@3x-1.png")center center no-repeat;
+            background-size: cover;
+            animation: am 1s linear infinite;
+        }
+
+        @keyframes am {
+            0%{
+                background: url("../../images/new3x/IDF_icon_Voice3@3x-1.png")center center no-repeat;
+                background-size: cover;
+            }
+            50%{
+                background: url("../../images/new3x/IDF_icon_Voice3@3x-2.png")center center no-repeat;
+                background-size: cover;
+            }
+            100%{
+                background: url("../../images/new3x/IDF_icon_Voice3@3x-3.png")center center no-repeat;
+                background-size: cover;
+            }
+        }
+        .box-B{
+            /*box-shadow: 0 1px 2px rgba(0,0,0,.1);*/
+        }
+
+    </style>
+</head>
+<body>
+<header class="mui-bar mui-bar-nav">
+    <a class="mui-icon mui-icon-left-nav mui-pull-left" style="color:rgb(53,53,53)" href="javascript:back()"></a>
+    <h1 class="mui-title">鉴定详情</h1>
+</header>
+<div id="app" class="mui-content" v-cloak>
+<div class="headC mui-clearfix">
+    <div><img src="../../images/new1x/icon-moren.png" alt=""></div>
+    <div>
+        <p>小红</p>
+        <p>2018-3-22 14:30</p>
+    </div>
+</div>
+
+<div class="images">
+    <div class="imagesD">
+        <p>辛苦老师看一下真假年代，为什么真为什么假，市场估值，谢谢</p>
+        <div class="mui-clearfix">
+            <img v-for="item in 6" src="../../images/new2x/icon-moren.png" alt="">
+        </div>
+    </div>
+</div>
+
+<div class="evaluateResult box-B">
+    <div class="evaluateResultD">
+        <img src="../../images/new1x/icon-moren.png" alt="">
+        <div class="spanS">吕国福</div>
+        <img src="../../images/new1x/mine_img_True.png" alt="">
+    </div>
+
+    <div style="background: rgb(245,245,245)">
+
+        <div class="timeC" v-show="voiceS">
+            <div>
+                <div @tap="playV()" :style="playStyle">
+                    <span v-show="videoImg"></span>
+                    <div v-show="!videoImg" style="width:20px;height:25px;margin-top:2px;background:url('../../images/new3x/IDF_icon_Voice3@3x-3.png');background-size: cover"></div>
+                </div>
+                <span>{{videoTiem_s}}</span>
+                <!--<img @tap.stop="delFn()" src="../../images/new2x/icon_delete2@2x.png" alt="">-->
+            </div>
+        </div>
+        <p style="padding:0 5px 5px 15px">*专家评价，仅供参考，不做其他用途*</p>
+
+    </div>
+
+</div>
+<div class="evaluateC mui-clearfix box-B" v-for='item in 5'>
+    <div><img src="../../images/new1x/icon-moren.png" alt=""></div>
+    <div>
+        <p>小明 回复 <span style="color:rgb(255,169,61)">小红</span></p>
+        <p>大师鉴定结果如何，鉴定费贵吗，大师鉴定结果如何，鉴定费贵吗，大师鉴定结果如何，鉴定费贵吗，大师鉴定结果如何，鉴定费贵吗</p>
+        <p>
+            <span>2018-3-18 14:30</span>
+            <span>评论</span>
+        </p>
+    </div>
+</div>
+<div class="appraisal">
+    <input type="text"> <span>评论</span>
+</div>
+</div>
+</body>
+<script src="../../js/vue.min.js"></script>
+<script src="../../js/mui.min.js?version=201801202115"></script>
+<script src="../../js/common.js?version=201801202115"></script>
+<script>
+
+    var params = NewgetUrlParams_app()
+
+    function callBackFn(state) {
+
+        var St,time,Timer;
+        if(state.indexOf("|")>-1){
+            St = state.split("|")[0];
+            time = state.split("|")[1]-0;
+        }else {
+            St = state;
+        }
+        app.$data.videoImg = false;
+
+        switch (St){
+            case "0":
+                mui.toast("播放异常")
+                break;
+            case "1":
+                app.$data.videoTiem = time;
+                app.$data.videoTiem_s = timeFormat(time);
+                app.$data.videoImg = true;
+                app.$data.index = 2;
+                Timer = setInterval(()=> {
+                    app.$data.videoTiem==0?
+                        clearInterval(Timer):
+                        app.$data.videoTiem--;
+                },1000)
+                break;
+            case "2":
+                app.$data.index = 3;
+                clearInterval(Timer)
+                break;
+            case "3":
+                app.$data.index = 2;
+                Timer = setInterval(()=> {
+                    app.$data.videoTiem==0?
+                        clearInterval(Timer):
+                        app.$data.videoTiem--;
+                },1000)
+                app.$data.videoImg = true;
+                break;
+            case "4":
+                clearInterval(Timer);
+                app.$data.index = 1;
+                app.$data.videoTiem = time;
+                app.$data.videoImg = false;
+                break;
+        }
+
+    }
+
+    var app = new Vue({
+        el:'#app',
+        data:{
+            voiceS:true,
+            playStyle:'',
+            videoImg:false,
+            videoTiem_s:'',
+            videoTiem:'',
+            audioUrl:'',
+            index:1,
+        },
+        mounted(){
+
+        },
+        watch:{
+            "videoTiem"(){
+                var self = this
+                self.videoTiem_s = timeFormat(self.videoTiem)
+            }
+        },
+        methods:{
+            getList(){
+                var obj = {
+
+                }
+                ajax(api(_Api.mydetails),{
+                    dataType: 'json',
+                    type:'GET',
+                    data:obj,
+                    success(data) {
+
+                    }})
+            },
+            playV(){
+                var self = this;
+                self.VoiceFn(self.index)
+            },
+            VoiceFn(index){
+                var self = this
+                if(window.Voice){
+
+                    self.index==2?self.videoImg=false:self.videoImg=true;
+
+                    window.Voice.playVoice(JSON.stringify({
+                        playState:index,
+                        voiceUrl:self.audioUrl
+                    }),"callBackFn")
+
+                }
+            },
+        },
+    })
+
+</script>
+</html>

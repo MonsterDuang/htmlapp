@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>全部分类</title>
+    <link href="css/mui.min.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <style>
+        .mui-bar {
+            background: url(images/1X/110.png);
+            background-size: contain;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-color: #e6a03c;
+            height: 70px;
+            padding-top: 20px;
+        }
+
+        .mui-bar .mui-title {
+            color: white;
+            margin-top: 5px;
+        }
+
+        .mui-bar-nav~.mui-content {
+            padding-top: 70px;
+            margin: 0 5px;
+        }
+
+        /*=====Search=====*/
+        .headC{
+            height: 50px;line-height: 50px;
+        }
+        .headC a{
+            margin-top: 13.5px;margin-left: 2px;
+        }
+        .inputC{
+            display: inline-block;width: 88%;margin: 0;
+        }
+        .inputC input{
+            height: 30px;border-radius: 8px;font-size: 12px;padding-left: 25px;
+        }
+        /*=====Search end=====*/
+
+        .bt_border{
+            border-bottom: 1px solid rgb(153,153,153);
+            margin: 10px 0px;
+            position: relative;
+        }
+        .bt_border span{
+            position: absolute;
+            background: rgb(239,239,244);
+            width: 90px;
+            height: 25px;
+            line-height: 25px;
+            left: 50%;
+            bottom: -15px;
+            margin-left: -45px;
+            text-align: center;
+        }
+        .classify_content{
+            margin-top: 25px;
+        }
+        .classify_content .classify_list{
+            width: 25%;
+            height: 90px;
+            float: left;
+        }
+        .classify_content .classify_list div{
+            width: 75%;
+            height: 75%;
+            border-radius: 50%;
+            margin: 0 auto;
+            background: blue;
+        }
+        .classify_content .classify_list p{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<header class="mui-bar mui-bar-nav">
+    <a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+    <h1 class="mui-title">全部分类</h1>
+</header>
+<div class='mui-content' id="app">
+
+    <div class="headC">
+        <a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+        <div class="inputC mui-clearfix">
+            <input type="text" placeholder="输入分类或专家名">
+        </div>
+    </div>
+
+    <div class="bt_border">
+        <span>全部分类</span>
+    </div>
+
+    <div class="classify_content">
+        <div class="classify_list" v-for="item in 14">
+            <div><img src="" alt=""> </div>
+            <p>文本</p>
+        </div>
+    </div>
+
+</div>
+
+</body>
+<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+<script src="js/vue.min.js"></script>
+<script src="js/mui.js?version=201801202115"></script>
+<script src="js/common.js?version=201801202115"></script>
+<script>
+    new Vue({
+        el:'#app',
+        data:{
+
+        },
+        methods:{
+            searchFn:function () {
+                
+            }
+        },
+        created:function () {
+
+        },
+        mounted:function () {
+
+        }
+    })
+</script>
+</html>

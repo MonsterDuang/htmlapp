@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>绑定银行卡</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" href="css/mui.min.css">
+	<link href="css/mui.picker.css" rel="stylesheet" />
+	<link href="css/mui.poppicker.css" rel="stylesheet" />
+</head>
+
+<body>
+
+	<style>
+		li {
+			list-style: none;
+		}
+
+		a {
+			color: white;
+		}
+
+		input,
+		select,
+		textarea {
+			font-size: 12px;
+		}
+
+		.mui-bar {
+			background: url(images/1X/110.png);
+			background-size: contain;
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+			background-color: #e6a03c;
+			height: 70px;
+			padding-top: 20px;
+		}
+
+		.mui-bar .mui-title {
+			color: white;
+			margin-top: 5px;
+		}
+
+		.mui-bar-nav~.mui-content {
+			padding-top: 70px;
+		}
+
+		.mui-card {
+			margin: 0;
+		}
+
+		.mui-input-row {
+			font-size: 12px;
+			height: 35px;
+			line-height: 35px;
+		}
+
+		.mui-input-row label {
+			color: black;
+			width: 25%;
+			padding: 12px 5px 8px 15px;
+		}
+
+		input[type=text] {
+			height: 35px;
+			padding: 5px;
+		}
+
+		.mui-input-group {
+			padding-top: 5px;
+		}
+
+		.mui-input-row label~input {
+			width: 75%;
+		}
+
+		.wallet-button {
+			padding: 20px 20px;
+		}
+
+		.wallet-button button {
+			width: 100%;
+			height: 40px;
+			font-size: 18px;
+			background-color: #C0C0C0;
+			border: 1px solid #C0C0C0;
+		}
+
+		.wallet-button button.active {
+			width: 100%;
+			height: 40px;
+			font-size: 18px;
+			background-color: #ff6464;
+		}
+
+		.mui-input-group .mui-button-row {
+			height: auto;
+		}
+
+		.mui-input-group .mui-input-row {
+			height: auto;
+		}
+
+		.mui-table-view-cell {
+			padding: 0;
+			margin-left: 15px;
+		}
+	</style>
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+		<h1 class="mui-title">绑定银行卡</h1>
+	</header>
+	<div class="mui-content" id="app">
+
+		<!-- <form class="mui-input-group"> -->
+		<div class="mui-input-row">
+			<label>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</label>
+			<input type="text" class="mui-input-clear" maxlength="8" placeholder="请填写您绑定银行卡的姓名" v-model="bankcard.name">
+		</div>
+		<div class="mui-input-row">
+			<label>电话号码：</label>
+			<input type="text" class="mui-input-clear" maxlength="11" placeholder="请填写您的预留号码" v-model="bankcard.phone">
+		</div>
+		<div class="mui-input-row">
+			<label>银行卡号：</label>
+			<input type="text" class="mui-input-clear" maxlength="19" placeholder="请填写您的银行卡号" v-model="bankcard.cardNo">
+		</div>
+		<div class="mui-input-row">
+			<!-- <label>开户银行：</label>
+				<input type="text" class="mui-input-clear" placeholder="请填写您的开户银行" v-model="bankcard.openingBankCode"> -->
+			<li class="mui-table-view-cell" id="showCardPicker">开户银行：
+				<span id="showCardPickerResult" class="mui-badge mui-badge-inverted" style="padding-right: 15px;"></span>
+				<span class="mui-navigate-right"></span>
+			</li>
+		</div>
+		<div class="mui-button-row">
+
+			<div class="wallet-button">
+				<template v-if="bankcard.name!=undefined && bankcard.phone!=undefined && bankcard.cardNo!=undefined && bankcard.openingBankCode!=undefined">
+					<button @tap="bind()" class="mui-btn mui-btn-danger active">绑定</button>
+				</template>
+				<template v-else>
+					<button @tap="bind()" class="mui-btn mui-btn-danger">绑定</button>
+				</template>
+			</div>
+		</div>
+		<!-- </form> -->
+
+	</div>
+	</div>
+	<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+	<script src="js/vue.min.js"></script>
+	<script src="js/mui.min.js?version=201801202115"></script>
+	<script src="js/common.js?version=201801202115"></script>
+	<script src="js/mui.picker.js?version=201801202115"></script>
+	<script src="js/mui.poppicker.js?version=201801202115"></script>
+	<script type="text/javascript">
+		var app = new Vue({
+			el: '#app',
+			data: {
+				bankcard: {}
+			},
+			methods: {
+				bind: function () {
+					var _this = this;
+					if (!_this.bankcard.name || _this.bankcard.name.length < 2) {
+						mui.toast('请填写您正确的绑定银行卡姓名');
+						return;
+					}
+					var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+					if (!_this.bankcard.phone || !myreg.test(_this.bankcard.phone)) {
+						mui.toast('请填写您正确的手机号码');
+						return;
+					}
+					if (!_this.bankcard.cardNo || _this.bankcard.cardNo.length < 11) {
+						mui.toast('请填写您正确的银行卡号');
+						return;
+					}
+					if (!_this.bankcard.openingBankCode) {
+						mui.toast('请选择开户银行');
+						return;
+					}
+					ajax(api('/my/receipts-account/bank'), {
+						autoProcessError: false,
+						type: 'POST',
+						data: {
+							name: _this.bankcard.name,
+							phone: _this.bankcard.phone,
+							cardNo: _this.bankcard.cardNo,
+							openingBank: _this.bankcard.openingBank,
+							openingBankCode: _this.bankcard.openingBankCode,
+						},
+						dataType: 'json',
+						success: function (data) {
+							if (data) {
+								mui.toast(data.message);
+							}
+						},
+						error: function (xhr, type, errerThrown) {
+							var data = JSON.parse(xhr.responseText);
+							if (xhr.status == 422) {
+								mui.toast((data.pop()).message);
+							}
+						}
+					});
+				},
+			},
+			mounted: function () {
+				var _this = this;
+				var cardPicker = new mui.PopPicker();
+				ajax(api('/my/receipts-account/support-banks'), {
+					dataType: 'json',
+					success: function (data) {
+						var tmpData = [];
+						data && data.forEach((val, index) => {
+							tmpData.push({
+								value: val.code,
+								text: val.name
+							});
+							cardPicker.setData(tmpData);
+						});
+					}
+				});
+
+				var showCardPicker = document.getElementById('showCardPicker');
+				var showCardPickerResult = document.getElementById('showCardPickerResult');
+				showCardPicker.addEventListener('tap', function (event) {
+					cardPicker.show(function (items) {
+						showCardPickerResult.innerText = (items[0] || {}).text;
+						Vue.set(_this.bankcard, 'openingBank', (items[0] || {}).text);
+						Vue.set(_this.bankcard, 'openingBankCode', (items[0] || {}).value);
+					});
+				}, false);
+			}
+		});
+	</script>
+
+</body>
+
+</html>

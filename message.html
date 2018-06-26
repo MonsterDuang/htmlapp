@@ -1,0 +1,221 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>消息</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link href="css/mui.min.css" rel="stylesheet" />
+	<style>
+		header a {
+			color: white;
+		}
+
+		.mui-bar {
+			background: url(images/1X/110.png);
+			background-size: contain;
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+			background-color: #e6a03c;
+			height: 70px;
+			padding-top: 20px;
+		}
+
+		.mui-bar .mui-title {
+			color: white;
+			margin-top: 5px;
+		}
+
+		.mui-bar-nav~.mui-content {
+			padding-top: 65px;
+		}
+
+		.mui-pull-caption {
+			font-size: 12px;
+		}
+
+		.mui-card {
+			margin: 10px 5px;
+		}
+
+		.mui-bar-nav~.mui-content .mui-pull-top-pocket {
+			top: 64px;
+		}
+
+		.mui-card-content {
+			font-size: 12px;
+		}
+
+		.mui-table-view .mui-table-view-cell:nth-child(3) {
+			padding: 5px 15px 10px 15px;
+		}
+
+		.mui-table-view-cell {
+			padding: 2px 15px 0px 15px;
+		}
+
+		.mui-table-view-cell:after {
+			height: 0;
+		}
+
+		.title {
+			font-size: 13px;
+		}
+
+		.empty-data {
+			margin-top: 100px;
+			/*margin: 0 auto;*/
+		}
+
+		.empty-data img {
+			width: 150px;
+			height: 150px;
+			margin: 0 auto;
+		}
+
+		.mutilineword {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 3;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="app">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+			<h1 class="mui-title">消息</h1>
+		</header>
+
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<div class="mui-content">
+					<template v-if="items.length>0">
+						<div class="mui-card" v-for="item in items" @tap="detail(item)">
+							<div class="mui-card-content">
+								<ul class="mui-table-view">
+									<li class="mui-table-view-cell mui-ellipsis">
+										<template v-if="!item.readed">
+											<span class="title" style="font-weight:bold;" v-text="item.title"></span>
+										</template>
+										<template v-else>
+											<span class="title" v-text="item.title"></span>
+										</template>
+									</li>
+									<li class="mui-table-view-cell">
+										<span v-text="messageAt(item)"></span>
+										<!-- {{item.createdAt | dateTime('yyyy-MM-dd hh:mm')}} -->
+									</li>
+									<li class="mui-table-view-cell mui-media">
+										<img class="mui-media-object mui-pull-left" :src="item.cover">
+										<div class="mui-media-body mutilineword" v-text="item.content"></div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</template>
+					<template v-else>
+						<div class="empty-data" style="text-align: center;">
+							<div>
+								<img src="images/1X/073.png" style="width: 60px; height: 60px;" />
+								<p>您没有收到消息！</p>
+							</div>
+						</div>
+					</template>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+	<script src="js/vue.min.js"></script>
+	<script src="js/mui.min.js?version=201801202115"></script>
+	<script src="js/common.js?version=201801202115"></script>
+	<script>
+		Vue.filter('dateTime', dateTime);
+		var app = new Vue({
+			el: '#app',
+			data: {
+				pageIndex: 1,
+				pageSize: 8,
+				items: []
+			},
+			methods: {
+				loadData: function (type) {
+					var _this = this;
+					ajax(api('/message'), {
+						data: {
+							pageIndex: _this.pageIndex,
+							pageSize: _this.pageSize
+						},
+						dataType: 'json',
+						success: function (data) {
+							if (type === 1) {
+								_this.items = data.objects;
+							} else {
+								for (var i = 0, len = data.objects.length; i < len; i++)
+									_this.items.push(data.objects[i]);
+							}
+
+							//结束下拉刷新
+							mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+							/*结束上拉加载，并根据情况切换“下拉显示更多数据”，以及“没有更多数据了”。
+							执行endPullupToRefresh()方法，结束转雪花进度条的“正在加载...”过程,若还有更多数据，
+							则传入false; 否则传入true，之后滚动条滚动到底时*/
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh(!data.hasNext);
+						}
+					});
+				},
+				detail: function (item) {
+					var _this = this;
+					ajax(api('/my/message/' + item.id + '/read'), {
+						autoProcessError: false,
+						type: 'POST',
+						dataType: 'json',
+						success: function (data) {
+							item.readed = true;
+							var uri = item.uri || './message-detail.html?id=' + item.id;
+							forward(uri);
+						},
+						error: function (xhr, type, errerThrown) {
+							var data = JSON.parse(xhr.responseText);
+							mui.toast((data.pop()).message);
+						}
+					});
+				},
+				messageAt: function (message) {
+					return message.createdAt ? dateTime(message.createdAt) : '';
+				},
+			},
+			mounted: function () {
+				var _this = this;
+				mui.init({
+					pullRefresh: {
+						container: '#pullrefresh',
+						down: {
+							auto: true,
+							callback: function () {
+								_this.pageIndex = 1;
+								mui('#pullrefresh').pullRefresh().refresh(true);
+								_this.loadData(1);
+							}
+						},
+						up: {
+							contentrefresh: '正在加载...',
+							callback: function () {
+								_this.pageIndex++;
+								_this.loadData(2);
+							}
+						}
+					}
+				});
+			}
+		});
+	</script>
+</body>
+
+</html>

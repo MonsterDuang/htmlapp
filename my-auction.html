@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>我的拍卖</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" href="css/mui.min.css">
+	<link href="css/mui.picker.css" rel="stylesheet" />
+	<link href="css/mui.poppicker.css" rel="stylesheet" />
+	<style>
+		a {
+			color: white;
+		}
+
+		.mui-bar {
+			background: url(images/1X/110.png);
+			background-size: contain;
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+			background-color: #e6a03c;
+			height: 70px;
+			padding-top: 20px;
+		}
+
+		p {
+			font-size: 12px;
+		}
+
+		.mui-bar .mui-title {
+			color: white;
+			margin-top: 5px;
+		}
+
+		.mui-bar-nav~.mui-content {
+			padding-top: 70px;
+		}
+
+		.mui-slider-indicator {
+			background-color: white;
+		}
+
+		.mui-slider-indicator>a {
+			color: #C0C0C0;
+		}
+
+		.mui-slider-indicator>a:hover,
+		.mui-slider-indicator>a:active {
+			color: #C0C0C0;
+		}
+
+		.mui-segmented-control.mui-segmented-control-inverted .mui-control-item {
+			font-size: 13px;
+		}
+
+		.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+			color: #F0AD4E;
+			border-bottom: 2px solid #F0AD4E;
+		}
+
+		.mui-pull-bottom-pocket {
+			position: absolute;
+		}
+
+		.mui-bar-nav~.mui-content .mui-pull-top-pocket {
+			top: 0
+		}
+
+		.mui-pull-caption {
+			font-size: 12px;
+		}
+
+		.mui-scroll-wrapper {
+			top: 10px;
+			bottom: 100px;
+		}
+
+		.mui-control-content {
+			min-height: 650px;
+		}
+
+		.mui-card-header:after,
+		.mui-card-footer:before,
+		.mui-table-view-cell:after {
+			background-color: #ffffff;
+		}
+
+		.mui-media-body {
+			float: left;
+			width: 80%;
+		}
+
+		.right {
+			float: right;
+			width: 20%;
+			right: 5px;
+		}
+
+		.right button {
+			width: 60px;
+			background-color: #e6a03c;
+			color: white;
+			border: 0;
+			border-radius: 5px;
+		}
+
+		.right .active {
+			background-color: green;
+		}
+
+		.mui-media-body .head-img {
+			height: 30px;
+			width: 30px;
+			float: left;
+			border-radius: 15px;
+			overflow: hidden;
+			margin-right: 10px;
+		}
+
+		.mui-media-body img {
+			width: 30px;
+			height: 30px;
+		}
+
+		.mui-slider {
+			padding-left: 10px;
+		}
+
+		.mui-card {
+			margin: 0 0px 10px 0px;
+		}
+
+		.mui-slider .mui-slider-group .mui-slider-item {
+			margin-right: 5px;
+			width: 100px;
+		}
+
+		.mui-slider .mui-slider-group .mui-slider-item img {
+			width: 100px;
+			height: 100px;
+		}
+
+		.mui-media-body a {
+			color: black;
+		}
+
+		.mui-card-header.mui-card-media .mui-media-body,
+		.mui-card-header.mui-card-media .mui-media-body span {
+			font-size: 12px;
+		}
+
+		.mui-card-header.mui-card-media .mui-media-body {
+			margin-left: 0;
+		}
+
+		.mui-card-header,
+		.mui-card-content,
+		.mui-card-footer {
+			min-height: 21px;
+			font-size: 12px;
+		}
+
+		.mui-card-content img {
+			float: left;
+			margin-left: 10px;
+			width: 105px;
+			height: 105px;
+		}
+
+		.mui-card-footer,
+		.mui-card-header {
+			padding: 5px 15px;
+		}
+
+		.item-head-text-orange {
+			color: #f25d07;
+		}
+
+		.item-head-text-green {
+			color: #22ac38;
+		}
+
+		.mui-card-footer .item-remark-text {
+			color: #b2d6da;
+		}
+
+		.mui-card-footer .item-price-label-text {
+			color: black;
+		}
+
+		.mui-card-footer .item-price-label-text span:first-child {
+			color: red;
+		}
+
+		.mui-card-footer .item-rule-label-text {
+			color: #e6a03c;
+			width: 70px;
+			float: left;
+			min-height: 30px;
+			max-height: 100px;
+		}
+
+		.mui-card-footer .item-rule-text {
+			min-height: 30px;
+			max-height: 100px;
+			overflow-y: hidden;
+		}
+
+		.mutilineword {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 5;
+		}
+
+		.empty-data {
+			margin-top: 100px;
+		}
+
+		.empty-data img {
+			width: 150px;
+			height: 150px;
+			margin: 0 auto;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="app">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+			<h1 class="mui-title">我的拍卖</h1>
+		</header>
+		<div class="mui-content">
+			<div>
+				<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted mui-segmented-control-primary">
+					<a class="mui-control-item" :class="{' mui-active':tab=='1'}" @tap="switchTab(1)">
+						我的出价
+					</a>
+					<a class="mui-control-item" :class="{' mui-active':tab=='2' && status==''}" @tap="switchTab(2)">
+						我的竞拍
+					</a>
+					<a class="mui-control-item" :class="{' mui-active':status=='wait-shipping'}" @tap="switchStatus('wait-shipping')">
+						被拍下
+					</a>
+					<a class="mui-control-item" :class="{' mui-active':status=='wait-receiving'}" @tap="switchStatus('wait-receiving')">
+						待收货
+					</a>
+					<a class="mui-control-item" :class="{' mui-active':status=='refunding'}" @tap="switchStatus('refunding')">
+						退换货
+					</a>
+					<a class="mui-control-item" :class="{' mui-active':status=='completed'}" @tap="switchStatus('completed')">
+						已完成
+					</a>
+				</div>
+				<div class="mui-control-content mui-active">
+					<div id="pullrefresh" class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+
+							<template v-if="tab==1">
+								<template v-if="items.length>0">
+									<template v-for="item in items" :key="item.id">
+										<div @tap="detail(item)" class="mui-card" style="display: none" :style="{ display: !!item ? 'block' : 'none' }">
+											<div class="mui-card-header mui-card-media" style="height: 55px;">
+												<div class="mui-media-body">
+													<div class="head-img">
+														<img :src="item.user.avatar" />
+													</div>
+													<span v-text="item.title" style="font-size:15px;"></span>
+													<template v-if="item.auctionStatus == 'ing'">
+														<p>
+															<span class="item-head-text-orange" :time="item.auctionEndAt">拍卖中</span>
+															<span style="padding-left: 10px;">离拍卖结束还剩：
+																<span v-if="substractTime('',item.auctionEndAt).days>0">
+																	<span class="item-head-text-orange">{{substractTime('',item.auctionEndAt).days}}</span>天</span>
+																<span v-if="substractTime('',item.auctionEndAt).hours>0">
+																	<span class="item-head-text-orange">{{substractTime('',item.auctionEndAt).hours}}</span>时</span>
+																<span v-if="substractTime('',item.auctionEndAt).minutes>0">
+																	<span class="item-head-text-orange">{{substractTime('',item.auctionEndAt).minutes}}</span>分</span>
+																<span v-if="substractTime('',item.auctionEndAt).seconds>0">
+																	<span class="item-head-text-orange">{{substractTime('',item.auctionEndAt).seconds}}</span>秒</span>
+														</p>
+													</template>
+													<template v-else-if="item.auctionStatus == 'not-started'">
+														<p>
+															<span class="item-head-text-green" :time="item.auctionStartAt">未开场</span>
+															<span style="padding-left: 10px;">离拍卖开始还剩：
+																<span v-if="substractTime('',item.auctionStartAt).days>0">
+																	<span class="item-head-text-green">{{substractTime('',item.auctionStartAt).days}}</span>天</span>
+																<span v-if="substractTime('',item.auctionStartAt).hours>0">
+																	<span class="item-head-text-green">{{substractTime('',item.auctionStartAt).hours}}</span>时</span>
+																<span v-if="substractTime('',item.auctionStartAt).minutes>0">
+																	<span class="item-head-text-green">{{substractTime('',item.auctionStartAt).minutes}}</span>分</span>
+																<span v-if="substractTime('',item.auctionStartAt).seconds>0">
+																	<span class="item-head-text-green">{{substractTime('',item.auctionStartAt).seconds}}</span>秒</span>
+														</p>
+													</template>
+													<template v-else>
+														<p>
+															<span class="item-head-text-green">已结束</span>
+														</p>
+													</template>
+												</div>
+											</div>
+											<div class="mui-card-content">
+												<div v-for="(photo,key) in item.photos.slice(0,3)">
+													<img :src="photo" data-preview-src="" :data-preview-group="item.id">
+												</div>
+												<div style="clear:both;"></div>
+												<div class="mui-card-footer">
+													<span class="item-remark-text">底价¥{{item.floorPrice}}</span>
+													<span class="item-remark-text">保证金¥{{item.marginMoney}}</span>
+													<span class="item-remark-text">加价幅度({{item.raisePriceRange}})</span>
+													<span class="item-remark-text">浏览({{item.pv}})</span>
+												</div>
+												<div class="mui-card-footer">
+													<span class="item-price-label-text">最新出价：
+														<span v-text="'¥'+((item.latestBid && item.latestBid.bid) || item.floorPrice)"></span>
+													</span>
+												</div>
+											</div>
+											<div class="mui-card-footer">
+												<div>
+													<div class="item-rule-label-text">拍品描述：</div>
+													<div class="item-rule-text mutilineword" v-html="formatDescription(item.description)"></div>
+													<div style=" clear: both;"></div>
+												</div>
+											</div>
+										</div>
+									</template>
+								</template>
+								<template v-else>
+									<div class="empty-data" style="text-align: center;">
+										<div>
+											<img src="images/1X/073.png" style="width: 60px; height: 60px;" />
+											<p>还木有参与任何竞拍哦！</p>
+										</div>
+									</div>
+								</template>
+							</template>
+							<template v-else-if="tab==2 && status==''">
+								<template v-if="items.length>0">
+									<template v-for="item in items" :key="item.id">
+										<div class="mui-card" style="display: none" :style="{ display: !!item ? 'block' : 'none' }">
+											<div class="mui-card-header mui-card-media">
+												<div class="mui-media-body left">
+													<div class="head-img">
+														<img :src="item.user.avatar" />
+													</div>
+													<span v-text="item.title" style="font-size:15px;"></span>
+													<template v-if="item.auctionStatus == 'ing'">
+														<p>
+															<span class="item-head-text-orange" :time="item.auctionEndAt">拍卖中</span>
+															<span style="padding-left: 10px;">离拍卖结束还剩：
+																<span v-if="substractTime('',item.auctionEndAt).days>0">
+																	<span class="item-head-text-orange">{{substractTime('',item.auctionEndAt).days}}</span>天</span>
+																<span v-if="substractTime('',item.auctionEndAt).hours>0">
+																	<span class="item-head-text-orange">{{substractTime('',item.auctionEndAt).hours}}</span>时</span>
+																<span v-if="substractTime('',item.auctionEndAt).minutes>0">
+																	<span class="item-head-text-orange">{{substractTime('',item.auctionEndAt).minutes}}</span>分</span>
+																<span v-if="substractTime('',item.auctionEndAt).seconds>0">
+																	<span class="item-head-text-orange">{{substractTime('',item.auctionEndAt).seconds}}</span>秒</span>
+														</p>
+													</template>
+													<template v-else-if="item.auctionStatus == 'not-started'">
+														<p>
+															<span class="item-head-text-green" :time="item.auctionStartAt">未开场</span>
+															<span style="padding-left: 10px;">离拍卖开始还剩：
+																<span v-if="substractTime('',item.auctionStartAt).days>0">
+																	<span class="item-head-text-green">{{substractTime('',item.auctionStartAt).days}}</span>天</span>
+																<span v-if="substractTime('',item.auctionStartAt).hours>0">
+																	<span class="item-head-text-green">{{substractTime('',item.auctionStartAt).hours}}</span>时</span>
+																<span v-if="substractTime('',item.auctionStartAt).minutes>0">
+																	<span class="item-head-text-green">{{substractTime('',item.auctionStartAt).minutes}}</span>分</span>
+																<span v-if="substractTime('',item.auctionStartAt).seconds>0">
+																	<span class="item-head-text-green">{{substractTime('',item.auctionStartAt).seconds}}</span>秒</span>
+														</p>
+													</template>
+													<template v-else>
+														<p>
+															<span class="item-head-text-green">已结束</span>
+														</p>
+													</template>
+												</div>
+												<div class="right">
+													<button :class="{'active':item.isSoldOut}" @tap="soldOut(item,!item.isSoldOut)" v-text="item.isSoldOut?'上架':'下架'">上架</button>
+												</div>
+												<div style="clear:both;"></div>
+											</div>
+											<div class="mui-card-content" @tap="detail(item)">
+												<div v-for="(photo,key) in item.photos.slice(0,3)">
+													<img :src="photo" data-preview-src="" :data-preview-group="item.id">
+												</div>
+												<div style="clear:both;"></div>
+												<div class="mui-card-footer">
+													<span class="item-remark-text">底价¥{{item.floorPrice}}</span>
+													<span class="item-remark-text">保证金¥{{item.marginMoney}}</span>
+													<span class="item-remark-text">加价幅度({{item.raisePriceRange}})</span>
+													<span class="item-remark-text">浏览({{item.pv}})</span>
+												</div>
+												<div class="mui-card-footer">
+													<span class="item-price-label-text">最新出价：
+														<span v-text="'¥'+((item.lastTradingPrice || item.latestBid && item.latestBid.bid) || item.floorPrice)"></span>
+													</span>
+												</div>
+											</div>
+											<div class="mui-card-footer">
+												<div>
+													<div class="item-rule-label-text">拍品描述：</div>
+													<div class="item-rule-text mutilineword" v-html="formatDescription(item.description)"></div>
+													<div style=" clear: both;"></div>
+												</div>
+											</div>
+										</div>
+									</template>
+								</template>
+								<template v-else>
+									<div class="empty-data" style="text-align: center;">
+										<div>
+											<img src="images/1X/073.png" style="width: 60px; height: 60px;" />
+											<p>还木有发起任何拍卖哦！</p>
+										</div>
+									</div>
+								</template>
+							</template>
+							<template v-else>
+								<template v-if="items.length>0">
+									<template v-for="item in items" :key="item.id">
+										<div class="mui-card" style="display: none" :style="{ display: !!item ? 'block' : 'none' }">
+											<div class="mui-card-header mui-card-media">
+												<div class="mui-media-body left">
+													<div class="head-img">
+														<!-- <template v-if="user.id==item.seller.id"> -->
+														<img :src="item.buyer.avatar" />
+														<!-- </template> -->
+														<!-- <template v-else>
+															<img :src="item.seller.avatar" />
+														</template> -->
+													</div>
+													<span v-text="item.auctionGoods.title" style="font-size:15px;"></span>
+													<template v-if="item.auctionGoods.auctionStatus == 'ing'">
+														<p>
+															<span class="item-head-text-orange" :time="item.auctionGoods.auctionEndAt">拍卖中</span>
+															<span style="padding-left: 10px;">离拍卖结束还剩：
+																<span v-if="substractTime('',item.auctionGoods.auctionEndAt).days>0">
+																	<span class="item-head-text-orange">{{substractTime('',item.auctionGoods.auctionEndAt).days}}</span>天</span>
+																<span v-if="substractTime('',item.auctionGoods.auctionEndAt).hours>0">
+																	<span class="item-head-text-orange">{{substractTime('',item.auctionGoods.auctionEndAt).hours}}</span>时</span>
+																<span v-if="substractTime('',item.auctionGoods.auctionEndAt).minutes>0">
+																	<span class="item-head-text-orange">{{substractTime('',item.auctionGoods.auctionEndAt).minutes}}</span>分</span>
+																<span v-if="substractTime('',item.auctionGoods.auctionEndAt).seconds>0">
+																	<span class="item-head-text-orange">{{substractTime('',item.auctionGoods.auctionEndAt).seconds}}</span>秒</span>
+														</p>
+													</template>
+													<template v-else-if="item.auctionGoods.auctionStatus == 'not-started'">
+														<p>
+															<span class="item-head-text-green" :time="item.auctionStartAt">未开场</span>
+															<span style="padding-left: 10px;">离拍卖开始还剩：
+																<span v-if="substractTime('',item.auctionGoods.auctionStartAt).days>0">
+																	<span class="item-head-text-green">{{substractTime('',item.auctionGoods.auctionStartAt).days}}</span>天</span>
+																<span v-if="substractTime('',item.auctionGoods.auctionStartAt).hours>0">
+																	<span class="item-head-text-green">{{substractTime('',item.auctionGoods.auctionStartAt).hours}}</span>时</span>
+																<span v-if="substractTime('',item.auctionGoods.auctionStartAt).minutes>0">
+																	<span class="item-head-text-green">{{substractTime('',item.auctionGoods.auctionStartAt).minutes}}</span>分</span>
+																<span v-if="substractTime('',item.auctionGoods.auctionStartAt).seconds>0">
+																	<span class="item-head-text-green">{{substractTime('',item.auctionGoods.auctionStartAt).seconds}}</span>秒</span>
+														</p>
+													</template>
+													<template v-else>
+														<p>
+															<span class="item-head-text-green">已结束</span>
+														</p>
+													</template>
+												</div>
+												<!-- <div class="right">
+													<button :class="{'active':item.isSoldOut}" @tap="soldOut(item,!item.isSoldOut)" v-text="item.isSoldOut?'上架':'下架'">上架</button>
+												</div> -->
+												<div style="clear:both;"></div>
+											</div>
+											<div class="mui-card-content" @tap="detail(item)">
+												<div v-for="(photo,key) in item.auctionGoods.photos.slice(0,3)">
+													<img :src="photo" data-preview-src="" :data-preview-group="item.id">
+												</div>
+												<div style="clear:both;"></div>
+												<div class="mui-card-footer">
+													<span class="item-remark-text">底价¥{{item.auctionGoods.floorPrice}}</span>
+													<span class="item-remark-text">保证金¥{{item.auctionGoods.marginMoney}}</span>
+													<span class="item-remark-text">加价幅度({{item.auctionGoods.raisePriceRange}})</span>
+													<span class="item-remark-text">浏览({{item.auctionGoods.pv}})</span>
+												</div>
+												<div class="mui-card-footer">
+													<span class="item-price-label-text">最新出价：
+														<span v-text="'¥'+item.auctionGoods.lastTradingPrice"></span>
+													</span>
+												</div>
+											</div>
+											<div class="mui-card-footer">
+												<div>
+													<div class="item-rule-label-text">拍品描述：</div>
+													<div class="item-rule-text mutilineword" v-html="formatDescription(item.auctionGoods.description)"></div>
+													<div style=" clear: both;"></div>
+												</div>
+											</div>
+										</div>
+									</template>
+								</template>
+								<template v-else>
+									<div class="empty-data" style="text-align: center;">
+										<div>
+											<img src="images/1X/073.png" style="width: 60px; height: 60px;" />
+											<p>还木有发起任何拍卖哦！</p>
+										</div>
+									</div>
+								</template>
+							</template>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+	<script src="js/vue.min.js"></script>
+	<script src="js/mui.min.js?version=201801202115"></script>
+	<script src="js/common.js?version=201801202115"></script>
+	<script type="text/javascript">
+		function editPrice(val) {
+			var obj = JSON.parse(val);
+			app.items.forEach((value, index) => {
+				if (value.id == obj.id) {
+					if (value.latestBid) {
+						value.latestBid.bid = obj.bid;
+					} else {
+						value.latestBid = { bid: obj.bid };
+					}
+				}
+			});
+		}
+		var app = new Vue({
+			el: '#app',
+			data: {
+				user: {},
+				tab: 1,
+				status: '',
+				pageIndex: 1,
+				pageSize: 8,
+				items: []
+			},
+			computed: {
+			},
+			methods: {
+				loadData: function (type) {
+					var _this = this;
+					var requestUrl = '/my/auction-goods/auction';
+					var requestData = {
+						pageIndex: _this.pageIndex,
+						pageSize: _this.pageSize
+					};
+					if (_this.tab == 2) {
+						requestUrl = '/my/auction-goods';
+						if (_this.status != '') {
+							requestData.status = _this.status;
+							requestUrl = '/my/order/auction-goods';
+						}
+					}
+					ajax(api(requestUrl), {
+						data: requestData,
+						dataType: 'json',
+						success: function (data) {
+							if (type === 1) {
+								_this.items = data.objects;
+							} else {
+								for (var i = 0, len = data.objects.length; i < len; i++)
+									_this.items.push(data.objects[i]);
+							}
+
+							//结束下拉刷新
+							mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+							mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().endPullupToRefresh(!data.hasNext);
+						}
+					});
+				},
+				switchTab: function (val) {
+				    var self = this
+                    self.tab = val;
+                    self.status = '';
+                    self.loadData(1);
+				},
+				switchStatus: function (status) {
+                    var self = this
+                    self.tab = 2;
+                    self.status = status;
+                    self.loadData(1);
+				},
+				soldOut: function (item, val) {
+					var _this = this;
+					var url = val ? '/auction-goods/' + item.id + '/sold-out' : '/auction-goods/' + item.id + '/sold';
+					ajax(api(url), {
+						autoProcessError: false,
+						type: 'POST',
+						dataType: 'json',
+						success: function (data) {
+							mui.toast(data.message);
+							_this.items.forEach((value, index) => {
+								if (value.id == item.id) {
+									value.isSoldOut = !value.isSoldOut;
+								}
+							});
+						},
+						error: function (xhr, type, errerThrown) {
+							var data = JSON.parse(xhr.responseText);
+							mui.toast((data.pop()).message);
+						}
+					});
+				},
+				formatDescription: function (item) {
+					return item ? item.replace(new RegExp('\n', 'gm'), '<br/>') : '';
+				},
+				detail: function (item) {
+					if (this.status == '')
+						forward('auction-detail.html?id=' + item.id);
+					else
+						forward('my-order-detail.html?id=' + item.id);
+				}
+			},
+			mounted: function () {
+				var _this = this;
+				ajax(api('/my'), {
+					dataType: 'json',
+					success: function (data) {
+						_this.user = data.user;
+
+						mui.init({
+							pullRefresh: {
+								container: '#pullrefresh',
+								down: {
+									auto: true,
+									callback: function () {
+										_this.pageIndex = 1;
+										// mui('#pullrefresh').pullRefresh().refresh(true);
+										_this.loadData(1);
+									}
+								},
+								up: {
+									contentrefresh: '正在加载...',
+									callback: function () {
+										_this.pageIndex++;
+										_this.loadData(2);
+									}
+								}
+							}
+						});
+					}
+				});
+			}
+		});
+	</script>
+
+</body>
+
+</html>

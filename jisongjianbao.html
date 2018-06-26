@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>寄送鉴宝</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link href="https://cdn.bootcss.com/mui/3.7.1/css/mui.min.css" rel="stylesheet">
+	<style>
+		body {
+			color: #C0C0C0;
+		}
+
+		header a {
+			color: white;
+		}
+
+		.mui-bar {
+			background: url(images/1X/110.png);
+			background-size: contain;
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+			background-color: #e6a03c;
+			height: 70px;
+			padding-top: 20px;
+		}
+
+		.mui-bar .mui-title {
+			color: white;
+			margin-top: 5px;
+		}
+
+		.mui-bar-nav~.mui-content {
+			padding-top: 70px;
+		}
+
+		.mui-content>.mui-card:first-child {
+			margin-top: 0;
+		}
+
+		.mui-card {
+			margin: 0 0px 10px 0px;
+		}
+
+		.mui-card li:first-child {
+			color: #F0AD4E;
+		}
+
+		.mui-table-view {
+			font-size: 12px;
+			padding-bottom: 5px;
+		}
+
+		.mui-table-view-cell {
+			overflow-y: hidden;
+		}
+
+		.mui-table-view-cell:after {
+			background-color: #ffffff;
+		}
+
+		.mui-table-view-cell span {
+			color: #C0C0C0;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="app">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+			<h1 class="mui-title">寄送鉴宝</h1>
+		</header>
+
+		<div class="mui-content">
+			<div class="mui-card">
+				<div class="mui-card-content">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell">免责申明：</li>
+						<li class="mui-table-view-cell">
+							<span v-html="jisongjianbao.disclaimer"></span>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="mui-card">
+				<div class="mui-card-content">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell">服务内容：</li>
+						<li class="mui-table-view-cell">
+							<span v-html="jisongjianbao.service"></span>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="mui-card">
+				<div class="mui-card-content">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell">收货地址：</li>
+						<li class="mui-table-view-cell">
+							<span v-text="jisongjianbao.address"></span>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="mui-card">
+				<div class="mui-card-content">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell">服务电话：
+							<span v-text="jisongjianbao.phone"></span>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+	<script src="js/vue.min.js"></script>
+	<script src="js/mui.min.js?version=201801202115"></script>
+	<script src="js/common.js?version=201801202115"></script>
+	<script>
+		var app = new Vue({
+			el: '#app',
+			data: {
+				jisongjianbao: {}
+			},
+			methods: {
+				loadData: function (type) {
+					var _this = this;
+					ajax(api('/p/jisongjianbao'), {
+						dataType: 'json',
+						success: function (data) {
+							_this.jisongjianbao = data;
+							_this.jisongjianbao.disclaimer = _this.jisongjianbao.disclaimer.replace(new RegExp('\n', 'gm'), '<br/>');
+							_this.jisongjianbao.service = _this.jisongjianbao.service.replace(new RegExp('\n', 'gm'), '<br/>');
+						}
+					});
+				}
+			},
+			mounted: function () {
+				var _this = this;
+				//阻尼系数
+				var deceleration = mui.os.ios ? 0.003 : 0.0009;
+				mui('.mui-scroll-wrapper').scroll({
+					bounce: false,
+					indicators: true, //是否显示滚动条
+					deceleration: deceleration
+				});
+				mui.init();
+				_this.loadData();
+			}
+		});
+	</script>
+</body>
+
+</html>

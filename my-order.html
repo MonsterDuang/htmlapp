@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>我的订单</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" href="css/mui.min.css">
+</head>
+
+<body>
+
+	<style>
+		p {
+			font-size: 12px;
+		}
+
+		li {
+			list-style: none;
+		}
+
+		a {
+			color: white;
+		}
+
+		.mui-bar {
+			background: url(images/1X/110.png);
+			background-size: contain;
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+			background-color: #e6a03c;
+			height: 70px;
+			padding-top: 20px;
+		}
+
+		.mui-bar .mui-title {
+			color: white;
+			margin-top: 5px;
+		}
+
+		.mui-bar-nav~.mui-content {
+			padding-top: 70px;
+		}
+
+		.mui-slider-indicator {
+			background-color: white;
+		}
+
+		.mui-slider-indicator>a {
+			color: #C0C0C0;
+		}
+
+		.mui-slider-indicator>a:hover,
+		.mui-slider-indicator>a:active {
+			color: #C0C0C0;
+		}
+
+		.mui-segmented-control.mui-segmented-control-inverted .mui-control-item {
+			font-size: 13px;
+		}
+
+		.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+			color: #F0AD4E;
+			border-bottom: 2px solid #F0AD4E;
+		}
+
+		.mui-control-content {
+			min-height: 650px;
+		}
+
+		.mui-control-content .mui-loading {
+			margin-top: 5px;
+		}
+
+		.mui-card .mui-table-view .mui-table-view-cell:first-child {
+			height: 110px;
+		}
+
+		.mui-scroll-wrapper {
+			margin-bottom: 100px;
+		}
+
+		.mui-card {
+			margin: 10px 0px 10px 0px;
+		}
+
+		.mui-card-content {
+			font-size: 12px;
+		}
+
+		.mui-card .mui-table-view-cell {
+			padding: 5px 15px 5px 10px;
+		}
+
+		.mui-card-header>div,
+		.reply>div {
+			font-size: 12px;
+			line-height: 30px;
+			height: 30px;
+		}
+
+		.mui-card-header .head-img {
+			height: 30px;
+			width: 30px;
+			float: left;
+			border-radius: 15px;
+			overflow: hidden;
+		}
+
+		.mui-card-header .head-img img {
+			height: 32px;
+			width: 32px;
+			margin: -1px;
+		}
+
+		.mui-card-header .head-img-text-left {
+			width: 120px;
+			max-width: 120px;
+			padding-left: 10px;
+			float: left;
+			color: #50a2aa;
+			text-align: left;
+		}
+
+		.mui-card-header .head-img-text-right {
+			text-align: right;
+			color: #ff6464;
+			overflow: hidden;
+		}
+
+		.mui-table-view-cell {
+			border: 0;
+		}
+
+		.order-item-product {
+			margin: 5px 10px;
+			padding: 5px;
+		}
+
+		.order-item-product div {
+			margin-top: 15px;
+			padding-left: 10px;
+			float: left;
+		}
+
+		.order-item-product span {
+			display: block;
+		}
+
+		.order-item-product span:nth-child(2) {
+			margin-top: 10px;
+			color: #ff6464;
+		}
+
+		.order-item-button {
+			margin: 10px;
+			text-align: right;
+		}
+
+		.order-item-button button {
+			font-size: 12px;
+			border: 1px solid #C0C0C0;
+			color: black;
+		}
+
+		.order-item-button .active {
+			border: 1px solid #ff6464;
+			color: #ff6464;
+		}
+
+		.empty-data {
+			margin-top: 100px;
+		}
+
+		.empty-data img {
+			width: 150px;
+			height: 150px;
+			margin: 0 auto;
+		}
+
+		.mui-pull-caption {
+			font-size: 12px;
+		}
+
+		.mui-bar-nav~.mui-content .mui-pull-top-pocket {
+			top: 0;
+		}
+	</style>
+	<div id="app" v-cloak>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+			<h1 class="mui-title">我的订单</h1>
+		</header>
+		<div class="mui-content">
+			<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted mui-segmented-control-primary">
+				<a class="mui-control-item" :class="{' mui-active':status=='nopay'}" @tap="switchStatus('nopay')">
+					待付款
+				</a>
+				<a class="mui-control-item" :class="{' mui-active':status=='wait-shipping'}" @tap="switchStatus('wait-shipping')">
+					待发货
+				</a>
+				<a class="mui-control-item" :class="{' mui-active':status=='wait-receiving'}" @tap="switchStatus('wait-receiving')">
+					待收货
+				</a>
+				<a class="mui-control-item" :class="{' mui-active':status=='refunding'}" @tap="switchStatus('refunding')">
+					退货/换货
+				</a>
+				<a class="mui-control-item" :class="{' mui-active':status=='completed'}" @tap="switchStatus('completed')">
+					已完成
+				</a>
+			</div>
+
+			<div class="mui-slider-item mui-control-content mui-active">
+				<div id="pullrefresh" class="mui-scroll-wrapper">
+					<div>
+						<template v-if="orderItems.length>0">
+							<div class="mui-card" v-for="orderItem in orderItems" style="display: none" :style="{ display: !!orderItem ? 'block' : 'none' }">
+								<div class="mui-card-header mui-card-media">
+									<div>
+										<!-- <template v-if="user.type == 'shop'">
+											<div class="head-img">
+												<img :src="orderItem.buyer.avatar" />
+											</div>
+											<div class="head-img-text-left">{{orderItem.buyer.nickname}}</div>
+										</template>-->
+										<template v-if="orderItem.shop">
+											<div class="head-img" @tap="shop(orderItem)">
+												<img :src="orderItem.shop.logo" />
+											</div>
+											<div class="head-img-text-left mui-ellipsis" @tap="shop(orderItem)">{{orderItem.shop.name}}</div>
+										</template>
+										<template v-else>
+											<div class="head-img">
+												<img :src="orderItem.seller.avatar" />
+											</div>
+											<div class="head-img-text-left mui-ellipsis">{{orderItem.seller.nickname}}</div>
+										</template>
+
+										<div class="head-img-text-right" v-text="'订单号:'+orderItem.no">待付款</div>
+										<div style=" clear: both;"></div>
+									</div>
+								</div>
+								<div class="mui-card-content">
+									<ul class="mui-table-view">
+										<!--多个可以循环-->
+										<li class="mui-table-view-cell mui-media order-item-product">
+											<a @tap="detail(orderItem)">
+												<template v-if="orderItem.goods">
+													<img class="mui-pull-left" :src="orderItem.goods.photos[0]" style="width: 100px; height: 100px;">
+													<div>
+														<span class="mui-ellipsis" style="max-width: 200px;">{{orderItem.goods.name}}</span>
+														<span>¥{{orderItem.goods.price | formatCurrency}}</span>
+														<span>X{{orderItem.quantity}}</span>
+													</div>
+												</template>
+												<template v-else>
+													<img class="mui-pull-left" :src="orderItem.auctionGoods.photos[0]" style="width: 100px; height: 100px;">
+													<div>
+														<span class="mui-ellipsis" style="max-width: 200px;">{{orderItem.auctionGoods.title}}</span>
+														<span>¥{{orderItem.auctionGoods.lastTradingPrice | formatCurrency}}</span>
+														<span>X{{orderItem.quantity}}</span>
+													</div>
+												</template>
+												<div style=" clear: both;"></div>
+											</a>
+										</li>
+
+									</ul>
+								</div>
+								<div class="order-item-button">
+									<template v-if="status == 'nopay'">
+										<button @tap="cancel(orderItem)">取消订单</button>
+										<button @tap="pay(orderItem)" class="active">立即支付</button>
+									</template>
+									<template v-else-if="status == 'wait-shipping'">
+										<!-- <button @tap="confirmShipping(orderItem)">提醒发货</button> -->
+										<template v-if="orderItem.goods && !orderItem.shop">
+
+										</template>
+										<template v-else>
+											<button @tap="refund(orderItem)">退货/退款</button>
+										</template>
+									</template>
+									<template v-else-if="status == 'wait-receiving'">
+										<button @tap="confirmShipping(orderItem)">确认收货</button>
+										<!-- <button @tap="refund(orderItem)">退货/退款</button> -->
+									</template>
+									<template v-else-if="status == 'refunding'">
+										<!-- <button>提醒发货</button> -->
+										<button @tap="buyAgain(orderItem)" class="active">再次购买</button>
+									</template>
+									<template v-else="status == 'completed'">
+										<template v-if="orderItem.goods && !orderItem.shop">
+
+										</template>
+										<template v-else-if="orderItem.refundAt">
+
+										</template>
+										<template v-else>
+											<button @tap="refund(orderItem)">退货/退款</button>
+										</template>
+										<button @tap="buyAgain(orderItem)" class="active">再次购买</button>
+										<button @tap="del(orderItem)">删除订单</button>
+									</template>
+								</div>
+							</div>
+						</template>
+						<template v-else>
+							<div class="empty-data" style="text-align: center;">
+								<div>
+									<img src="images/1X/073.png" style="width: 60px; height: 60px;" />
+									<p>您还木有订单哦！</p>
+								</div>
+							</div>
+						</template>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+	<script src="js/vue.min.js"></script>
+	<script src="js/mui.min.js?version=201801202115"></script>
+	<script src="js/common.js?version=201801202115"></script>
+	<script type="text/javascript">
+		Vue.filter('formatCurrency', formatCurrency);
+
+		function refreshOrderList(param) {
+			mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().pulldownLoading();
+		}
+
+		var params = getUrlParams();
+		var param_status = params['status'];
+		var app = new Vue({
+			el: '#app',
+			data: {
+				status: !param_status ? 'nopay' : param_status,
+				pageIndex: 1,
+				pageSize: 8,
+				user: {},
+				orderItems: [],
+				// orderItems: [{
+				// 	goods: {
+				// 		photos: []
+				// 	},
+				// 	seller: { avatar: '' },
+				// }]
+			},
+			methods: {
+				loadData: function (type) {
+					if (type === 1) {
+						// mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().refresh(true);
+						mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().scrollTo(0, 0, 100);
+					}
+					var _this = this;
+
+					ajax(api("/my/order"), {
+						data: {
+							pageIndex: _this.pageIndex,
+							pageSize: _this.pageSize,
+							status: _this.status
+						},
+						dataType: 'json',
+						success: function (data) {
+							if (type === 1) {
+								_this.orderItems = data.objects;
+							} else {
+								for (var i = 0, len = data.objects.length; i < len; i++)
+									_this.orderItems.push(data.objects[i]);
+							}
+
+							mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+							mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().endPullupToRefresh(!data.hasNext);
+						}
+					});
+				},
+				switchStatus: function (status) {
+				    var self = this
+                    self.status = status;
+                    self.loadData(1);
+				},
+				shop: function (orderItem) {
+					forward('shop.html?id=' + orderItem.shop.id);
+				},
+				detail: function (orderItem) {
+					forward('my-order-detail.html?id=' + orderItem.id);
+				},
+				buyAgain: function (orderItem) {
+					if (orderItem.goods) {
+						forward('product-detail.html?id=' + orderItem.goods.id)
+					} else
+						forward('auction-detail.html?id=' + orderItem.auctionGoods.id)
+				},
+				cancel: function (item) {
+					var _this = this;
+					mui.confirm('确认取消订单?', '提示', ['取消', '确定'], function (e) {
+						if (e.index != 0) {
+							ajax(api('/my/order/' + item.id + '/cancel'),{
+								type: 'POST',
+								dataType: 'json',
+								success: function (data) {
+									_this.orderItems.forEach((val, index) => {
+										if (val.id == item.id) {
+											_this.orderItems.splice(index, 1);
+										}
+									});
+									if (window.Gold) {
+										Gold.broadcast('refreshLogin', 'cancelOrder');
+									}
+									setTimeout(() => {
+										mui.toast('取消成功');
+									}, 1000);
+								}
+							});
+						}
+					});
+				},
+				pay: function (item) {
+					// if (item.goods)
+					forward('my-order-detail.html?id=' + item.id);
+					// else
+					// 	forward('my-order-detail.html?id=' + item.id);
+				},
+				refund: function (item) {
+					forward('refund.html?id=' + item.id);
+				},
+				confirmShipping: function (item) {
+					var _this = this;
+					mui.confirm('确认收货？', '提示', ['取消', '确定'], function (e) {
+						if (e.index != 0) {
+							ajax(api('/my/order/' + item.id + '/confirm'), {
+								type: 'POST',
+								dataType: 'json',
+								success: function (data) {
+									_this.orderItems.forEach((val, index) => {
+										if (val.id == item.id) {
+											_this.orderItems.splice(index, 1);
+										}
+									});
+									if (window.Gold) {
+										Gold.broadcast('refreshLogin', 'confirmReceiveShipping');
+									}
+									setTimeout(() => {
+										mui.toast('确认收货成功!');
+									}, 1000);
+								}
+							});
+						}
+					});
+				},
+				del: function (item) {
+					var _this = this;
+					mui.confirm('确认删除订单？', '提示', ['取消', '确定'], function (e) {
+						if (e.index != 0) {
+							ajax(api('/my/order/' + item.id), {
+								type: 'DELETE',
+								dataType: 'json',
+								success: function (data) {
+									_this.orderItems.forEach((val, index) => {
+										if (val.id == item.id) {
+											_this.orderItems.splice(index, 1);
+										}
+									});
+									if (window.Gold) {
+										Gold.broadcast('refreshLogin', 'deleteOrder');
+									}
+									setTimeout(() => {
+										mui.toast('删除成功');
+									}, 1000);
+								}
+							});
+						}
+					});
+				}
+			},
+			mounted: function () {
+				var _this = this;
+				ajax(api('/my'), {
+					dataType: 'json',
+					success: function (data) {
+						_this.user = data.user;
+						mui.init({
+							pullRefresh: {
+								container: '#pullrefresh',
+								down: {
+									auto: true,
+									callback: function () {
+										_this.pageIndex = 1;
+										_this.loadData(1);
+									}
+								},
+								up: {
+									contentrefresh: '正在加载...',
+									callback: function () {
+										_this.pageIndex++;
+										_this.loadData(2);
+									}
+								}
+							}
+						});
+					}
+				});
+			}
+		});
+	</script>
+
+</body>
+
+</html>

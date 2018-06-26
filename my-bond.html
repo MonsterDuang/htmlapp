@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>保证金</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" href="css/mui.min.css">
+	<style>
+		li {
+			list-style: none;
+		}
+
+		a {
+			color: white;
+		}
+
+		.mui-bar {
+			background: url(images/1X/110.png);
+			background-size: contain;
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+			background-color: #e6a03c;
+			height: 70px;
+			padding-top: 20px;
+		}
+
+		.mui-title {
+			color: white;
+		}
+
+		.mui-bar-nav~.mui-content {
+			padding-top: 70px;
+		}
+
+		.mui-slider-indicator {
+			background-color: white;
+		}
+
+		.mui-slider-indicator>a {
+			color: #C0C0C0;
+		}
+
+		.mui-slider-indicator>a:hover,
+		.mui-slider-indicator>a:active {
+			color: #C0C0C0;
+		}
+
+		.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+			color: #F0AD4E;
+		}
+
+		.mui-control-content {
+			min-height: 650px;
+		}
+
+		.mui-card {
+			margin: 20px 20px;
+			color: black;
+		}
+
+		.mui-card-content {
+			font-size: 12px;
+		}
+
+		.wallet-icon-layer {
+			font-size: 14px;
+			margin-top: 40px;
+			text-align: center;
+		}
+
+		.wallet-icon-layer div:nth-child(2),
+		.wallet-icon-layer div:nth-child(3) {
+			height: 25px;
+			line-height: 25px;
+		}
+
+		.wallet-icon-layer div:last-child {
+			color: black;
+			font-size: 18px;
+		}
+
+		.number-container {
+			color: #ff6464;
+			margin: 30px 0;
+			font-size: 24px;
+		}
+	</style>
+</head>
+
+<body>
+
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+		<h1 class="mui-title">保证金</h1>
+	</header>
+	<div class="mui-content" id="app">
+		<div class="wallet-icon-layer">
+			<div class="wallet-icon">
+				<img src="images/1X/095.png" style="width: 60px; height: 60px;" />
+			</div>
+			<div>我的资产</div>
+			<div><span>¥</span><span v-text="$options.filters.formatCurrency(bond.waitRefund+bond.waitDeduct)"></span></div>
+		</div>
+
+		<div class="mui-card">
+			<div class="mui-card-content">
+				<ul class="mui-table-view" style="text-align: center;">
+					<li class="mui-table-view-cell" style="margin: 0 auto;">
+						待退款(元)
+					</li>
+					<li class="mui-table-view-cell">
+						<div class="number-container" v-text="$options.filters.formatCurrency(bond.waitRefund)"></div>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="mui-card">
+			<div class="mui-card-content">
+				<ul class="mui-table-view" style="text-align: center;">
+					<li class="mui-table-view-cell" style="margin: 0 auto;">
+						待扣除(元)
+					</li>
+					<li class="mui-table-view-cell">
+						<div class="number-container" v-text="$options.filters.formatCurrency(bond.waitDeduct)"></div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+	<script src="js/vue.min.js"></script>
+	<script src="js/mui.min.js?version=201801202115"></script>
+	<script src="js/common.js?version=201801202115"></script>
+	<script type="text/javascript">
+		Vue.filter('formatCurrency', formatCurrency)
+		var app = new Vue({
+			el: '#app',
+			data: {
+				bond: {}
+			},
+			methods: {
+				loadData: function () {
+					var _this = this;
+
+					ajax(api('/my/wallet/marginMoney'), {
+						dataType: 'json',
+						success: function (data) {
+							_this.bond = data;
+						}
+					});
+				}
+			},
+			mounted: function () {
+				this.loadData();
+			}
+		});
+	</script>
+
+</body>
+
+</html>

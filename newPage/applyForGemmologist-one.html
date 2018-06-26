@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>申请成为鉴定师</title>
+    <link href="../css/mui.min.css" rel="stylesheet" />
+    <link href="../css/mui.picker.css" rel="stylesheet" />
+    <link href="../css/mui.poppicker.css" rel="stylesheet" />
+    <style>
+        .mui-bar {
+            height: 70px;
+            padding-top: 20px;
+            text-align: center;
+            color: #000;
+        }
+        .mui-bar span{
+            position: absolute;
+            width: 90px;
+            height: 40px;
+            left: 5px;
+            z-index: 100;
+        }
+        [v-cloak] {
+            display: none;
+        }
+        .mui-bar .mui-title {
+            color: rgb(53,53,53);
+            margin-top: 5px;
+        }
+
+        .mui-bar-nav~.mui-content {
+            padding: 70px 0 60px 0;
+        }
+
+        .header_{
+            color: white;
+            text-align: center;
+            font-size: 14px;
+            height: 60px;
+            line-height: 40px;
+            position: relative;
+            background: url("../images/new1x/bg-jiandingshi.png");
+            background-size: cover;
+        }
+        .header_N,
+        .header_T{
+            position: absolute;
+            width: 96%;
+            height: 60px;
+            left: 50%;
+            top: 50%;
+            margin-left: -48%;
+        }
+        .header_T{
+            z-index: 2;
+            line-height: 60px;
+            color: #000;
+        }
+        .solid_{
+            height:1px;width:84%;background:rgb(204,204,204);position: absolute;top:50%;left:8%;z-index:3;
+        }
+        .solid_ li{
+            height: 29px;
+            width: 29px;
+            position: absolute;
+            top: -15px;
+            left: -2px;
+            margin: 0;
+            background: white;
+        }
+        .solid_ li span{
+            display: block;
+            color: white;
+            height: 23px;
+            width: 23px;
+            line-height: 23px;
+            text-align: center;
+            background: url("../images/new1x/icon-Grey.png");
+            background-size: cover;
+            margin: 3px auto;
+        }
+        .solid_ li:nth-child(2){
+            left: 33.4%;
+            margin-left: -14px;
+        }
+        .solid_ li:nth-child(3){
+            left: 66.666%;
+            margin-left: -15px;
+        }
+        .solid_ li:nth-child(4){
+            left: 100%;
+            margin-left: -27px;
+        }
+
+        .info_{
+            margin-top: 32px;
+            font-size: 12px;
+            margin-left: 6%;
+            color: rgb(161,161,161);
+        }
+        .logo_img{
+            color: #333;
+            font-size: 14px;
+            height: 60px;
+            line-height: 60px;
+            padding-left: 6%;
+            background: white;
+            margin: 12px 0;
+            position: relative;
+        }
+        .logo_img img{
+            position: absolute;
+            height: 40px;
+            right: 20px;
+            top: 7px;
+        }
+        .text_{
+            height: 45px;
+            line-height: 45px;
+            padding-left: 6%;
+            background: white;
+            margin-top: 10px;
+            font-size: 14px;
+            position: relative;
+        }
+        .text_ div,
+        .text_ input{
+            float: left;
+        }
+        .text_ input{
+            width: 60%;
+            margin: 2.5px 0;
+            border: none;
+        }
+
+        .mui-table-view-cell>.mui-badge {
+            left: 0;
+        }
+        li{
+            list-style: none;
+            height: 30px;
+            line-height: 30px;
+            margin-left: 10px;
+        }
+        ._next{
+            width:90%;
+            height:40px;
+            line-height:40px;
+            text-align:center;
+            position:fixed;
+            bottom:10px;
+            left: 5%;
+            color:white;
+            z-index: 100;
+            border-radius: 44px;
+            font-size: 15px;
+        }
+        #showCityPickerResult{
+            margin-right: 15px;
+            margin-top: 2px;
+        }
+        .mui-navigate-right::after{
+            right: 0;
+        }
+
+        .mui-table-view-cell{
+            margin: 0;
+            padding: 0;
+            font-size: 12px;
+            line-height: 12px;
+            padding-top: 10px;
+            height: 40px;
+            line-height: 23px;
+        }
+        .masking{
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            position: fixed;
+            top: 0;
+            z-index: 101;
+        }
+        .masking .maskingD{
+            width: 60%;
+            height: 100px;
+            background: white;
+            margin: 55% auto;
+            text-align: center;
+            position: relative;
+        }
+        .masking .maskingD p{
+            font-size: 15px;
+            padding-top: 25px;
+            color: #000;
+        }
+        .masking .maskingD div{
+            position: absolute;
+            width: 100%;
+            bottom: 15%;
+            color: #8f8f94;
+            font-size: 13px;
+        }
+        .masking .maskingD div span{
+            display: block;
+            float: left;
+            width: 50%;
+            text-align: center;
+        }
+        .box_B{
+            /*box-shadow: 0 1px 2px rgba(0,0,0,.1);*/
+        }
+    </style>
+</head>
+<body>
+<div id="app" v-cloak>
+
+<header class="mui-bar mui-bar-nav">
+    <!--<a class="mui-icon mui-icon-left-nav mui-pull-left" style="color:rgb(53,53,53)" href="../mine.html"></a>-->
+    <a class="mui-icon mui-icon-left-nav mui-pull-left" style="color:rgb(53,53,53)"></a>
+    <!--href="javascript:back()"-->
+    <h1 class="mui-title">申请成为鉴定师</h1>
+    <span @tap="returnFn()"></span>
+</header>
+    <div class="mui-content">
+    <div class="header_">
+        <span>轻松几步，成为鉴定师</span>
+        <img class="header_N" src="../images/new1x/bg-touying.png" alt="">
+        <div class="header_T">
+            <div class="solid_">
+                <li><span style='background: url("../images/new1x/icon-orange.png");background-size:cover;'>1</span></li>
+                <li><span>2</span></li>
+                <li><span>3</span></li>
+                <li><span>4</span></li>
+            </div>
+        </div>
+    </div>
+    <div class="info_">按要求填写您的身份信息</div>
+    <div @tap="actionsheetPop" class="logo_img box_B">上传头像(必须是本人) <img id='head-img1' :src="item.logo_img" alt=""></div>
+    <div class="text_ box_B"><div>真实姓名 :</div> <input @blur="nameBlur()" v-model='item.name' type="text"></div>
+        <!--maxlength="11"-->
+    <div class="text_ box_B"><div>手机号码 :</div> <input @blur="phoneBlur()" v-model='item.phone' type="number"></div>
+
+    <div class="text_ box_B"><div>选择地区</div>
+        <div style="position:absolute;right:15px;font-size:12px;color:#666;" id="showCityPicker">
+            <div ref="showC" id="showCityPickerResult">{{select_}}</div>
+            <span class="mui-navigate-right"></span>
+        </div>
+    </div>
+
+    <div id="actionsheet" class="mui-popover mui-popover-action mui-popover-bottom">
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell">
+                <a @tap="uploadFromPhotograph">拍照</a>
+            </li>
+            <li class="mui-table-view-cell">
+                <a @tap="uploadFromAlbum">从相册选择</a>
+            </li>
+        </ul>
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell">
+                <a @tap="cancelUpload()">
+                    <b>取消</b>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div id="but" @tap="forward('./applyForGemmologist-two.html')" :style="bgColor" class="_next">下一步</div>
+    <div v-show='isshow' class="masking" @tap="showFn()">
+        <div class='maskingD' @tap.stop="BG()">
+            <p>是否放弃编辑内容</p>
+            <div class="mui-clearfix">
+                <span @tap="editorFn()">编辑</span>
+                <span @tap="quitFn()">退出</span>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+</body>
+<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+<script src="../js/jQuery-2.1.4.min.js"></script>
+<script src="../js/vue.min.js"></script>
+<script src="../js/mui.min.js?version=201801202115"></script>
+<script src="../js/cityData.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/mui.picker.js?version=201801202115"></script>
+<script src="../js/mui.poppicker.js?version=201801202115"></script>
+<!--<script src="../js/common.js?version=201801202115"></script>-->
+<script src="../js/common.js"></script>
+<script>
+    // document.onkeydown=function(){
+    //     if (event.keyCode == 13){
+    //         alert('回车键.');
+    //     }
+    //     else{
+    //
+    //     }
+    // }
+     window.onresize = function () {
+         var h = $(window).height();
+         //console.log(h+','+window.screen.availHeight)
+         var u = navigator.userAgent;
+         if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
+             if(h <= window.screen.availHeight/1.5){
+                 $('#but').css({'position':'absoult',"margin-top":"-.5rem",'display':'none'});
+             }else{
+                 $('#but').css({'position':'fixed','display':'block'});
+             }
+         }
+
+     }
+
+
+     $('input').on('focus',function(){
+         $('#but').hide();
+     })
+
+     $('input').on('blur',function(){
+         $('#but').show();
+     })
+
+
+    function getPhoto_callback(data, status) {
+        if (status != 'cancel') {
+            var uploadObj = {
+                isURI: true,
+                photos: new Array(data)
+            }
+            QNUpload.uploadImage(JSON.stringify(uploadObj),'uploadPhoto_callback');
+        }
+    }
+
+    function uploadPhoto_callback(data,status) {
+        // app.$data.user.avatarKey = data;
+        app.$data.item.logo_img = qiniuPath+data;
+        var I = app.$data.nextColor.indexOf("D");
+        I>-1?true:app.$data.nextColor.push("D")
+
+        // document.getElementById('head-img1').src = path;
+        mui('#actionsheet').popover('toggle');
+    }
+
+    function interceptNativeBackkey(data) {
+        var _App = app.$data.item
+        if(_App.phone||_App.name||_App.loginImg||_App.address.province){
+
+            app.$data.isshow=!app.$data.isshow;
+
+        }else {
+            backTop()
+        }
+    }
+
+    function cb(){}
+
+    var app = new Vue({
+        el:'#app',
+        data:{
+            item: {
+                name: '',
+                phone: '',
+                zipCode: '',
+                isDefault: false,
+                address: {},
+                logo_img:'../images/new2x/icon-moren.png'
+            },
+            // logo_img:'../images/new2x/icon-moren.png',
+            select_:'请选择',
+            bgColor:'background:rgb(204,204,204)',
+            nextColor:[],
+            innerT_H:"",
+            isshow:false,
+        },
+        watch:{
+            "nextColor"(newV){
+                var self = this
+                newV.length===4?
+                    self.bgColor="background:rgb(250,169,61)":
+                    self.bgColor="background:rgb(204,204,204)";
+            },
+            "innerT_H"() {
+                var self = this,iF = self.nextColor.indexOf("C")
+                iF<0?self.nextColor.push("C"):true
+            },
+            "item.phone"(newV) {
+                var self = this,If = self.nextColor.indexOf("B");
+                newV.length>11?
+                    self.item.phone=newV.slice(0,11):true;
+                var phlength = self.item.phone.length;
+                if(phlength!==11){
+                        If>-1?self.nextColor.splice(If,1):true;
+                }else{
+                    if(/^1[3|4|5|7|8][0-9]\d{4,8}$/.test(self.item.phone)){
+                        If<0?self.nextColor.push("B"):true;
+                    }
+                }
+            },
+            "item.name"() {
+                var self = this,iF = self.nextColor.indexOf("A")
+                if(!self.item.name||self.item.name.length===1){
+                    iF>-1?self.nextColor.splice(iF,1):true;
+                }else {
+                    iF<0?self.nextColor.push("A"):true;
+                }
+            },
+            // "item.logo_img"(newV){
+            //     var br = newV!=="../images/new2x/icon-moren.png",self=this,I
+            //     I = self.nextColor.indexOf("D")
+            //     I>-1&&br?true:self.nextColor.push("D")
+            // }
+        },
+        methods:{
+            BG(){},
+            showFn(){
+                this.isshow = false
+            },
+            returnFn(){
+                var self = this;
+                if( self.item.phone||self.item.name){
+                    self.isshow=!self.isshow
+                }else {
+                    backTop()
+                }
+            },
+            editorFn(){
+                var self = this;
+                self.isshow=!self.isshow;
+            },
+            quitFn(){
+                backTop()
+            },
+            actionsheetPop: function () {
+                mui('#actionsheet').popover('toggle');
+            },
+            uploadFromPhotograph: function () {//拍照
+                if (window.Photo) {
+                    var obj = {
+                        source: 1,
+                        type: 'png',
+                        returnType: 'uri',
+                        edit: true,
+                        // 张数
+                        photoNumber:1
+                    };
+                    window.Photo.getPhoto(JSON.stringify(obj), 'getPhoto_callback');
+                }
+            },
+            uploadFromAlbum: function () {//从相册选择
+                if (window.Photo) {
+                    var obj = {
+                        source: 2,
+                        type: 'png',
+                        // returnType: 'uri',
+                        edit: true,
+                        photoNumber:1
+                    };
+                    window.Photo.getPhoto(JSON.stringify(obj), 'getPhoto_callback');
+                }
+            },
+            // 取消相册选择
+            cancelUpload: function () {
+                mui('#actionsheet').popover('toggle');
+            },
+            nameBlur() {
+                var self = this,iF = self.nextColor.indexOf("A")
+                if(!self.item.name||self.item.name.length==1){
+                    mui.toast('请输入有效用户名')
+                    iF>-1?self.nextColor.splice(iF,1):true;
+                }else {
+                    iF<0?self.nextColor.push("A"):true;
+                }
+            },
+            phoneBlur() {
+                var self =this,Lt=self.item.phone.length,If=self.nextColor.indexOf("B")
+                if(!(/^1[3|4|5|7|8][0-9]\d{4,8}$/.test(self.item.phone))||Lt!==11){
+                    mui.toast('请输入有效手机号码')
+                    If>-1?self.nextColor.splice(If,1):true;
+                }else if(Lt===11){
+                    If<0?self.nextColor.push("B"):true;
+                }
+            },
+            formatAddress(item) {
+                if(item.address.province){
+                    return item.address.province + ' ' + item.address.city + ' ' + item.address.region
+                }else{
+                    return '';
+                }
+            },
+            forward(url) {
+                var self = this.item,Lt=self.phone,Na=self.name,Ad=self.address,path=qiniuPath
+                if(!Na){
+                    mui.toast('请输入用户名')
+                }else if(!Lt){
+                    mui.toast('请输入手机号码')
+                }else if(!Ad.province){
+                    mui.toast('请选择地区')
+                }else if(self.logo_img==="../images/new2x/icon-moren.png"){
+                    mui.toast('请上传头像')
+                }else{
+                    if(this.nextColor.length===4){
+                        if(self.logo_img.indexOf(path)>-1){
+                           self.logo_img = self.logo_img.replace(path,"")
+                        }
+                        if(window.Page){window.Page.setwebParams(JSON.stringify(self),"cb")}
+                        forward(url+"?id=fromOne");
+                    }
+                }
+            },
+            // getStorage(key){
+            //     return sessionStorage.getItem(key)
+            // },
+            // setStorage(key,Val){
+            //     sessionStorage.setItem(key,JSON.stringify(Val))
+            // },
+            // rmStorage(key){
+            //     sessionStorage.removeItem(key)
+            // }
+        },
+        mounted() {
+            var self = this
+            // self.rmStorage("info")
+            var cityPicker = new mui.PopPicker({
+                layer: 3
+            });
+            cityPicker.setData(cityData);
+            var showCityPicker = document.getElementById('showCityPicker');
+            var showCityPickerResult = document.getElementById('showCityPickerResult');
+            showCityPicker.addEventListener('tap', function (event) {
+                cityPicker.show(function (items) {
+                    showCityPickerResult.innerText = (items[0] || {}).text + " " + (items[1] || {}).text + " " + (items[2] || {}).text;
+                    if(!self.item){
+                        self.item = { address:{} };
+                    }
+                    self.item.address.province = (items[0] || {}).text;
+                    self.item.address.city = (items[1] || {}).text;
+                    self.item.address.region = (items[2] || {}).text;
+                    self.innerT_H = self.$refs.showC.innerHTML
+                });
+            }, false);
+        }
+    })
+
+</script>
+</html>

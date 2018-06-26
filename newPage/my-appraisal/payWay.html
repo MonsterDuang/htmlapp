@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/mui.min.css" rel="stylesheet" />
+    <title>支付</title>
+    <style>
+        .mui-card{
+            margin: 10px 0;
+        }
+        .mui-bar {
+            height: 70px;
+            padding-top: 20px;
+            text-align: center;
+            color: #000;
+        }
+        [v-cloak] {
+            display: none;
+        }
+        .mui-bar .mui-title {
+            color: rgb(53,53,53);
+            margin-top: 5px;
+        }
+
+        .mui-bar-nav~.mui-content {
+            padding:70px 0 0 0;
+        }
+        .pay_C{
+            width:90%;
+            height:40px;
+            line-height:40px;
+            text-align:center;
+            position:fixed;
+            bottom:10px;
+            left: 5%;
+            color:white;
+            z-index: 100;
+            border-radius: 44px;
+            background: rgb(255,169,61);
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+<div id='app' v-cloak>
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-icon mui-icon-left-nav mui-pull-left" style="color:rgb(53,53,53)" href="javascript:back()"></a>
+        <h1 class="mui-title">支付</h1>
+    </header>
+
+<div class='mui-content'>
+    <div class="mui-card">
+        <div class="mui-card-header">请选择支付方式</div>
+        <div class="mui-card-content pay">
+            <ul class="mui-table-view mui-table-view-radio">
+                <li class="mui-table-view-cell mui-media mui-selected" @tap="switchType('wechat')">
+                    <a href="javascript:;" class="mui-navigate-right">
+                        <img class="mui-pull-left" src="../../images/1X/054.png">
+                        <div class="mui-media-body" style="padding-left:15px">
+                            <span>微信</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="mui-table-view-cell mui-media" @tap="switchType('alipay')">
+                    <a href="javascript:;" class="mui-navigate-right">
+                        <img class="mui-pull-left" src="../../images/1X/055.png">
+                        <div class="mui-media-body" style="padding-left:15px">
+                            <span>支付宝</span>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+    <div class='pay_C'>支付</div>
+</div>
+</body>
+<script src="../../js/vue.min.js"></script>
+<script src="../../js/mui.min.js?version=201801202115"></script>
+<script src="../../js/common.js?version=201801202115"></script>
+<script>
+    function pay_callback(code, msg) {
+        if (code == 0) {//支付成功
+            if (window.Gold) {
+                Gold.broadcast('refreshLogin', 'payOrder');
+            }
+            forward('my-appraisal.html');
+        } else {
+            mui.toast('取消支付');
+        }
+    }
+
+    var app = new Vue({
+        el:'#app',
+        data:{
+            payType:"wechat"
+        },
+        watch:{
+
+        },
+        methods:{
+            switchType(type){
+                this.payType = type
+                console.log(type);
+            },
+            Pay(){
+                var self = this
+                //调用native支付组件
+                var paymentObj = { type: self.payType == 'wechat' ? 'wx' : 'alipay', };
+                if (env.isIos) {
+                    if (self.payType == 'wechat') {
+                        paymentObj.payment = item.payment.order;
+                    } else {
+                        paymentObj.sign = encodeURIComponent(item.payment.order.data.sign);
+                    }
+                } else {
+                    paymentObj.payment = item.payment.order;
+                }
+
+                if (window.Pay)
+                    Pay.payment(JSON.stringify(paymentObj), 'pay_callback');
+            }
+        },
+        mounted(){
+
+        }
+    })
+</script>
+</html>

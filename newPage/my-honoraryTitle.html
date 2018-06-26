@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>我的荣誉称号</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link href="../css/mui.min.css" rel="stylesheet" />
+    <style>
+        /*=============head_common=============*/
+        .mui-bar {
+            color: #000;
+            height: 70px;
+            padding-top: 20px;
+            text-align: center;
+        }
+
+        .mui-bar .mui-title {
+            color: rgb(53,53,53);
+            margin-top: 5px;
+        }
+
+        .mui-bar-nav~.mui-content {
+            margin: 26px 0 50px 0;
+        }
+
+        .mui-bar .confirm{
+            position: absolute;
+            font-size: 14px;
+            right: 12px;
+            bottom: 14px;
+        }
+
+        textarea{
+            border: none;
+            font-size: 15px;
+            padding: 0;
+            padding: 12px;
+        }
+
+        .illustrate{
+            color: #333;
+            margin-top: -8px;
+            background: white;
+            height: 45px;
+            line-height: 45px;
+            padding-left: 12px;
+            font-size: 14px;
+            border-bottom:1px solid rgb(229,229,229);
+        }
+
+        .example{
+            width: 100%;
+            padding: 12px;
+            background: white;
+        }
+
+        .example img{
+            width: 100%;
+        }
+        .backC{
+            position: absolute;
+            height: 30px;
+            width: 50px;
+            top: 27px;
+            left: 10px;
+            z-index: 100;
+        }
+        [v-cloak] {
+            display: none;
+        }
+        .masking{
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,.5);
+            top: 0;
+            left: 0;
+            z-index: 101;
+        }
+        .masking div{
+            position: absolute;
+            background: white;
+            width: 200px;
+            height: 100px;
+            text-align: center;
+            top: 25%;
+            left: 50%;
+            margin-left: -100px;
+            padding-top: 30px;
+        }
+        .masking div p:nth-child(2) span{
+            display: block;
+            float: left;
+            width: 50%;
+            margin-top: 5px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div id="app" v-cloak>
+
+    <div class="masking" v-if="maskingShow">
+        <div>
+            <p>是否放弃编辑内容？</p>
+            <p>
+                <span @tap="exitFn()">退出</span>
+                <span @tap="editorFn()">编辑</span>
+            </p>
+        </div>
+    </div>
+
+<header class="mui-bar mui-bar-nav">
+    <!--<span class="backC" @tap="backFn()"></span>-->
+    <a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()" style="color:rgb(53,53,53)"></a>
+    <h1 class="mui-title">我的荣誉称号</h1>
+    <span class="confirm" @tap="confirmFn()">确定</span>
+</header>
+
+<div class="mui-content">
+    <textarea v-model="textareaV" cols="30" rows="6" placeholder="请输入您认为最高或者最好的称号"></textarea>
+    <div class="illustrate">荣誉称号显示说明</div>
+    <!--示例-->
+    <div class="example">
+        <img src="../images/new1x/img-shuoming.png" alt="">
+    </div>
+</div>
+
+</div>
+
+</body>
+<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+<script src="../js/vue.min.js"></script>
+<script src="../js/mui.min.js?version=201801202115"></script>
+<script src="../js/common.js?version=201801202115"></script>
+<script>
+
+    function getPramsFromNative_one(V){
+        if(!V)return
+        var _info = JSON.parse(V)
+        if(_info){
+            _info.honoraryTitle = app.$data.textareaV
+            window.Page.setwebParams(JSON.stringify(_info),"cb")
+        }
+
+    }
+
+    function getPramsFromNative_two(V){
+        if(!V)return
+        var _info = JSON.parse(V)
+
+        if(_info){
+            _info.honoraryTitle_G9 = app.$data.textareaV
+            window.Page.setwebParams(JSON.stringify(_info),"cb")
+        }else {
+            var obj = {}
+            obj.honoraryTitle_G9 = app.$data.textareaV
+            window.Page.setwebParams(JSON.stringify(obj),"cb")
+        }
+
+    }
+
+    function getPramsFromNative_three(V){
+        if(!V)return
+        var _info = JSON.parse(V)
+
+        if (params === "S9" && _info) {
+
+            _info.honoraryTitle ? app.$data.textareaV = _info.honoraryTitle : true;
+
+        } else if (params === "G9" && _info) {
+
+            _info.honoraryTitle_G9 ? app.$data.textareaV = _info.honoraryTitle_G9 : true;
+
+        }
+
+    }
+    var params = NewgetUrlParams()
+    function cb() {}
+    var app = new Vue({
+        el:"#app",
+        data:{
+            textareaV:'',
+            maskingShow:false
+        },
+        watch:{
+            textareaV(newV){
+                console.log(newV);
+            }
+        },
+        methods:{
+            exitFn(){
+                back()
+            },
+            editorFn(){
+                this.maskingShow = false
+            },
+            confirmFn(){
+                var self = this
+                if(!self.textareaV||self.textareaV==" "){
+                    mui.toast("内容为空")
+                    return;
+                }
+                if(params==="S9"){
+                    // sessionStorage.setItem("honoraryTitle",self.textareaV)
+                    // alert(sessionStorage.getItem("honoraryTitle"))
+
+                    if(window.Page){
+                        //var getP =
+                            window.Page.getwebParams("","getPramsFromNative_one")
+                    }
+                    back()
+                    if (window.Gold) {
+                        Gold.broadcast('refreshList', 'editAddress');
+                    }
+                }else if(params==="G9"){
+                    // sessionStorage.setItem("honoraryTitle_G9",self.textareaV)
+
+                    if(window.Page){
+                        // var getP =
+                            window.Page.getwebParams("","getPramsFromNative_two")
+                        // if(getP){
+                        //     var _getP = JSON.parse(getP)
+                        //     _getP.honoraryTitle_G9 = self.textareaV
+                        //     window.Page.setWebParams(JSON.stringify(_getP),"cb")
+                        // }else {
+                        //     var obj = {}
+                        //     obj.honoraryTitle_G9 = self.textareaV
+                        //     window.Page.setWebParams(JSON.stringify(obj),"cb")
+                        // }
+                        var postData_s = {
+                            intro:'',//背景介绍
+                            honoraryname:self.textareaV,//荣誉称号
+                            speintroduce:'',//专长介绍
+                            acaresearch:'',//学术研究
+                            lifestyle:[],//生活风采
+                        }
+                        ajax(api('/auth/appraiser'), {
+                            data: postData_s,
+                            type: 'POST',
+                            dataType: 'json',
+                            success: function (data) {
+                                if(data.code==200){
+                                    back()
+                                    if (window.Gold) {
+                                        Gold.broadcast('refreshList', 'editAddress');
+                                    }
+                                }else{
+                                    mui.toast(data.message)
+                                }
+                            },
+                            error(){
+
+                            }
+                        });
+
+                    }
+                }
+            },
+            backFn(){
+                var self = this
+                if(self.textareaV&&self.textareaV!=" "){self.maskingShow = true}else {back()}
+                // history.go(-1)
+            },
+        },
+        mounted() {
+            var self = this, par
+            if (window.Page)window.Page.getwebParams("", "getPramsFromNative_three")
+
+            // if (params === "S9" && par) {
+            //
+            //     par.honoraryTitle ? self.textareaV = par.honoraryTitle : true;
+            //
+            // } else if (params === "G9" && par) {
+            //
+            //     par.honoraryTitle_G9 ? self.textareaV = par.honoraryTitle_G9 : true;
+            //
+            // }
+        }
+    })
+</script>
+</html>

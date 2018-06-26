@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>专家详情</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link href="css/mui.min.css" rel="stylesheet" />
+    <style>
+        .mui-bar {
+            background: url(images/1X/110.png);
+            background-size: contain;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-color: #e6a03c;
+            height: 70px;
+            padding-top: 20px;
+        }
+
+        .mui-bar .mui-title {
+            color: white;
+            margin-top: 5px;
+        }
+
+        .mui-bar-nav~.mui-content {
+            padding-top: 72px;
+        }
+
+        .E_header{
+            background: rgb(173,173,173);
+        }
+        .E_header .E_header_top{
+            height: 110px;
+        }
+        .E_header .E_header_top div{
+            float: left;
+        }
+        .E_header .E_header_top div:nth-child(1){
+            width: 24%;
+            height: 110px;
+        }
+        .E_header .E_header_top div:nth-child(1) div{
+            width: 80%;
+            height: 70px;
+            border-radius: 50%;
+            background: blue;
+            margin: 20px 10%;
+        }
+        .E_header .E_header_top div:nth-child(2){
+            width: 38%;
+            height: 110px;
+        }
+        .E_header .E_header_top div:nth-child(2) p{
+            margin: 0;
+            height: 36.666px;
+            line-height: 36.666px;
+            color: white;
+        }
+        .E_header .E_header_top div:nth-child(3){
+            width: 38%;
+            height: 110px;
+        }
+
+        .E_header .E_header_bottom div{
+            float: left;
+            width: 30.333333%;
+            text-align: center;
+            background: white;
+            margin: 5px 1.5%;
+            padding: 12px;
+        }
+        .E_nav{
+            margin: 5px 0;
+            padding: 8px;
+            width: 100%;
+            background: rgb(228,228,228);
+            text-align: center;
+            border-radius: 8px;
+        }
+        .E_nav div{
+            border: 1px solid rgb(204,204,204);
+            width: 40%;
+            float: left;
+            margin: 0 5%;
+            padding: 8px 0;
+        }
+        .E-details{
+            padding: 0 5px;
+        }
+        .E-details .E-details-d{
+            width: 100%;
+            height: 90px;
+            overflow-x: auto;
+        }
+        .E-details .E-details-W{
+            width: 720px;
+        }
+        .E-details .E-details-W div{
+            width: 88px;
+            height: 88px;
+            border: 1px solid red;
+            float: left;
+        }
+        .E-comment{
+            padding: 5px;
+        }
+        .E-comment .E-comment-d{
+            border-radius: 10px;
+            overflow: hidden;
+            background: rgb(238,238,238);
+        }
+        .E-comment .E-comment-d .E-comment-c{
+            height: 90px;
+        }
+        .E-comment .E-comment-d .E-comment-c div{
+            float: left;
+        }
+        .E-comment .E-comment-d .E-comment-c div:nth-child(1){
+            width: 20%;
+            height: 88px;
+        }
+        .E-comment .E-comment-d .E-comment-c div:nth-child(2){
+            width: 80%;
+            height: 88px;
+        }
+        .E-comment .E-comment-d .E-comment-c div:nth-child(1) span{
+            display: inline-block;
+            width: 80%;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+            margin: 15px 10%;
+        }
+        .E-comment .E-comment-d .E-comment-c div:nth-child(2) p{
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+<header class="mui-bar mui-bar-nav">
+    <a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+    <h1 class="mui-title">专家详情</h1>
+</header>
+<div class="mui-content" id="app">
+    <div class="E_header mui-clearfix">
+        <div class="E_header_top">
+            <div><div><img src="" alt=""></div></div>
+
+            <div>
+                <p>专家姓名</p>
+                <p>专家专长</p>
+                <p>职位或者称号</p>
+            </div>
+
+            <div>
+                <div style="font-size:14px;margin-left:35%;margin-top:20px;width:65px;text-align:center;height:28px;line-height:28px;background:white;border-radius:4px">关注</div>
+            </div>
+        </div>
+
+        <div class="E_header_bottom mui-clearfix">
+            <div>鉴定数量##</div>
+            <div>粉丝##</div>
+            <div>满意度##</div>
+        </div>
+    </div>
+
+    <div style="padding: 0 5px">
+        <div class="E_nav mui-clearfix">
+            <div>
+                <p style="font-size: 20px;font-weight: 700">申请鉴定</p>
+                <p>￥###</p>
+            </div>
+            <div>
+                <p style="font-size: 20px;font-weight: 700">寄送鉴定</p>
+                <p>￥###</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="E-details">
+        <p>专家详情</p>
+        <p>详情简略介绍</p>
+        <div class="E-details-d">
+            <div class="E-details-W">
+                <div v-for="item in 8"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="E-comment">
+        <div class="E-comment-d">
+            <div class="E-comment-c" v-for="item in 6">
+                <div>
+                    <span></span>
+                </div>
+                <div>
+                    <p>昵称 满意度</p>
+                    <p>用户评论，字数限制</p>
+                    <p>128...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+<script src="js/vue.min.js"></script>
+<script src="js/mui.js?version=201801202115"></script>
+<script src="js/common.js?version=201801202115"></script>
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            
+        },
+        methods:{
+
+        },
+        created:function () {
+            
+        },
+        mounted:function () {
+            
+        }
+    })
+</script>
+</html>

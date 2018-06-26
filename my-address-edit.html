@@ -1,0 +1,271 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>编辑地址</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <link href="css/mui.min.css" rel="stylesheet" />
+  <link href="css/mui.picker.css" rel="stylesheet" />
+  <link href="css/mui.poppicker.css" rel="stylesheet" />
+  <style>
+    body {
+      font-size: 12px;
+    }
+
+    header a {
+      color: white;
+    }
+
+    ul,
+    li {
+      list-style: none
+    }
+
+    .mui-bar {
+      background: url(images/1X/110.png);
+      background-size: contain;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      background-color: #e6a03c;
+      height: 70px;
+      padding-top: 20px;
+    }
+
+    .mui-bar .mui-title {
+      color: white;
+      margin-top: 5px;
+    }
+
+    .mui-bar-nav~.mui-content {
+      padding-top: 70px;
+    }
+
+    .mui-content>.mui-card:first-child {
+      margin-top: 0;
+    }
+
+    .mui-card {
+      margin: 0 0px 10px 0px;
+      font-size: 12px;
+    }
+
+    .mui-card-content {
+      font-size: 12px;
+    }
+
+    input {
+      font-size: 12px;
+    }
+
+    .mui-row div:first-child {
+      margin-top: 10px;
+      padding-left: 20px;
+    }
+
+    .mui-table-view-cell {
+      padding: 11px 0;
+    }
+
+    .mui-table-view-cell>.mui-badge {
+      left: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <header class="mui-bar mui-bar-nav">
+      <a class="mui-pull-left" href="javascript:back()" style="padding-top: 20px;">取消</a>
+      <h1 class="mui-title">编辑地址</h1>
+      <a class="mui-pull-right" @tap="save()" style="padding-top: 20px;">保存</a>
+    </header>
+
+    <div class="mui-content">
+      <div class="mui-card">
+        <div class="mui-card-content">
+          <div class="mui-row">
+            <div class="mui-col-sm-3 mui-col-xs-3">
+              姓名
+            </div>
+            <div class="mui-col-sm-9 mui-col-xs-9">
+              <!-- <li class="mui-table-view-cell"> -->
+              <input type="text" placeholder="姓名" v-model="item.name" maxlength="8" style="border:0;margin-bottom:5px;padding:0;">
+              <!-- </li> -->
+            </div>
+          </div>
+          <div class="mui-row">
+            <div class="mui-col-sm-3 mui-col-xs-3">
+              手机号码
+            </div>
+            <div class="mui-col-sm-9 mui-col-xs-9">
+              <!-- <li class="mui-table-view-cell"> -->
+              <input type="text" placeholder="手机号码" v-model="item.phone" maxlength="11" style="border:0;margin-bottom:5px;padding:0;">
+              <!-- </li> -->
+            </div>
+          </div>
+          <div class="mui-row">
+            <div class="mui-col-sm-3 mui-col-xs-3">
+              选择地区
+            </div>
+            <div class="mui-col-sm-9 mui-col-xs-9">
+              <li class="mui-table-view-cell" id="showCityPicker" style="margin-top: 10px;margin-bottom: 10px;">
+                <span id="showCityPickerResult" class="mui-badge mui-badge-inverted" style="padding-right: 15px;" v-text="formatAddress(item)">
+                </span>
+                <span class="mui-navigate-right"></span>
+              </li>
+            </div>
+          </div>
+          <div class="mui-row">
+            <div class="mui-col-sm-3 mui-col-xs-3">
+              详细地址
+            </div>
+            <div class="mui-col-sm-9 mui-col-xs-9">
+              <!-- <li class="mui-table-view-cell"> -->
+              <input type="text" placeholder="详细地址" v-model="item.address.street" maxlength="50" style="border:0;margin-bottom:5px;padding:0;">
+              <!-- </li> -->
+            </div>
+          </div>
+          <div class="mui-row">
+            <div class="mui-col-sm-3 mui-col-xs-3">
+              邮政编码
+            </div>
+            <div class="mui-col-sm-9 mui-col-xs-9">
+              <!-- <li class="mui-table-view-cell"> -->
+              <input type="text" placeholder="邮政编码" v-model="item.zipCode" maxlength="6" style="border:0;margin-bottom:5px;padding:0;">
+              <!-- </li> -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+  <script src="js/vue.min.js"></script>
+  <script src="js/mui.min.js?version=201801202115"></script>
+  <script src="js/cityData.js" type="text/javascript" charset="utf-8"></script>
+  <script src="js/mui.picker.js?version=201801202115"></script>
+  <script src="js/mui.poppicker.js?version=201801202115"></script>
+  <script src="js/common.js?version=201801202115"></script>
+  <script>
+    var params = getUrlParams();
+    var id = params['id'];
+    var app = new Vue({
+      el: '#app',
+      data: {
+        item: {
+          name: '',
+          phone: '',
+          zipCode: '',
+          isDefault: false,
+          address: {
+
+          }
+        }
+      },
+      methods: {
+        loadData: function () {
+          var _this = this;
+          if (id) {
+            ajax(api('/my/address-books/' + id),{
+              dataType: 'json',
+              success: function (data) {
+                  _this.item = data;
+              }
+            });
+          }
+        },
+        formatAddress: function (item) {
+          if (item.address.province) {
+            return item.address.province + ' ' + item.address.city + ' ' + item.address.region
+          } else {
+            return '';
+          }
+        },
+        save: function () {
+          var _this = this;
+            if (id) {
+            ajax(api('/my/address-books/' + id),{
+              autoProcessError: false,
+              data: {
+                name: _this.item.name,
+                phone: _this.item.phone,
+                zipCode: _this.item.zipCode,
+                isDefault: _this.item.isDefault,
+                address: _this.item.address,
+              },
+              headers: { 'Content-Type': 'application/json' },
+              type: 'PUT',
+              dataType: 'json',
+              success: function (data) {
+                mui.toast('保存成功');
+                setTimeout(function () {
+                  back();
+                }, 1000);
+              }, error: function (xhr, type, errerThrown) {
+                var data = JSON.parse(xhr.responseText);
+                if (xhr.status = 422) {
+                  mui.toast((data.pop()).message);
+                }
+              }
+            });
+          } else {
+            ajax(api('/my/address-books'), {
+              autoProcessError: false,
+              headers: { 'Content-Type': 'application/json' },
+              data: {
+                name: _this.item.name,
+                phone: _this.item.phone,
+                zipCode: _this.item.zipCode,
+                isDefault: _this.item.isDefault,
+                address: _this.item.address,
+              },
+              type: 'POST',
+              dataType: 'json',
+              success: function (data) {
+                mui.toast('保存成功');
+                if (window.Gold) {
+                  Gold.broadcast('refreshList', 'editAddress');
+                }
+                setTimeout(function () {
+                  back();
+                }, 1000);
+              }, error: function (xhr, type, errerThrown) {
+                var data = JSON.parse(xhr.responseText);
+                if (xhr.status = 422) {
+                  mui.toast((data.pop()).message);
+                }
+              }
+            });
+          }
+        }
+      },
+      mounted: function () {
+        this.loadData();
+        var cityPicker = new mui.PopPicker({
+          layer: 3
+        });
+        cityPicker.setData(cityData);
+        var showCityPicker = document.getElementById('showCityPicker');
+        var showCityPickerResult = document.getElementById('showCityPickerResult');
+        showCityPicker.addEventListener('tap', function (event) {
+          cityPicker.show(function (items) {
+            showCityPickerResult.innerText = (items[0] || {}).text + " " + (items[1] || {}).text + " " + (items[2] || {}).text;
+            if (!app.item) {
+              app.item = { address: {} };
+            }
+            app.item.address.province = (items[0] || {}).text;
+            app.item.address.city = (items[1] || {}).text;
+            app.item.address.region = (items[2] || {}).text;
+          });
+        }, false);
+      }
+    });
+  </script>
+</body>
+
+</html>

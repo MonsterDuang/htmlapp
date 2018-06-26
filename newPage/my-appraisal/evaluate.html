@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/mui.min.css" rel="stylesheet" />
+    <title>评价专家</title>
+    <style>
+        .mui-bar {
+            height: 70px;
+            padding-top: 20px;
+            text-align: center;
+            color: #000;
+        }
+
+        .mui-bar .mui-title {
+            color: rgb(53,53,53);
+            margin-top: 5px;
+        }
+        [v-cloak] {
+            display: none;
+        }
+        .mui-bar-nav~.mui-content {
+            padding:70px 0 60px 0;
+        }
+        .textareaC{
+            font-size: 14px;
+            margin: 0;
+            margin-top: 8px;
+        }
+        .evaluateC{
+            margin-top: 5px;
+            background: white;
+            padding: 10px;
+            font-size: 14px;
+            color: #333;
+            border-bottom: 1px solid rgb(229,229,229);
+        }
+        .evaluate_C{
+            background: white;
+            font-size: 14px;
+            color: #333;
+            padding: 10px;
+            text-align: center;
+            padding-top: 35px;
+            padding-bottom:20px;
+            /*box-shadow: 0px 1px 2px rgba(0,0,0,0.1);*/
+        }
+        .evaluate_C img{
+            margin: 0 3px;
+            width: 30px;
+            height: 30px;
+        }
+        .evaluate_C p{
+            margin-top: 5px;
+        }
+        .evaluate_C div{
+            width: 30px;
+            height: 30px;
+            background: rebeccapurple;
+            float: left;
+            margin-right: 2px;
+            background: url("../../images/new2x/mine_Satisfaction_Normal@2x.png");
+            background-size: cover;
+        }
+        .bgc{
+            background: url("../../images/new2x/mine_Satisfaction_Selected@2x.png");!important;
+            background-size: cover;
+        }
+        .submitC{
+            background: rgb(255,169,61);
+            position: fixed;
+            left: 5%;
+            bottom: 10px;
+            width: 90%;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            color: white;
+            border-radius: 44px;
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+<header class="mui-bar mui-bar-nav">
+    <a class="mui-icon mui-icon-left-nav mui-pull-left" style="color:rgb(53,53,53)" href="javascript:back()"></a>
+    <h1 class="mui-title">评价专家</h1>
+</header>
+<div id="app" class="mui-content" v-cloak>
+    <textarea placeholder="您对这次鉴定服务满意吗？说说您的想法" v-model='textarea' class="textareaC" cols="30" rows="8"></textarea>
+    <div class="evaluateC">评价该专家</div>
+    <div class="evaluate_C">
+        <img v-for="(item,index) in imgList" :src="item.path" @tap="selectImg(index)">
+        <p id="p1">{{attitude}}</p>
+    </div>
+    <div id="but" @tap='evaluate()' class="submitC">提交</div>
+</div>
+</body>
+<script src="../../js/jQuery-2.1.4.min.js"></script>
+<script src="../../js/vue.min.js"></script>
+<script src="../../js/mui.min.js?version=201801202115"></script>
+<script src="../../js/common.js?version=201801202115"></script>
+<script>
+
+    window.onresize = function () {
+
+        var h = $(window).height();
+        //console.log(h+','+window.screen.availHeight)
+        var u = navigator.userAgent;
+        if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
+            if(h <= window.screen.availHeight/1.5){
+                $('#but').css({'position':'absoult',"margin-top":"-.5rem",'display':'none'});
+            }else{
+                $('#but').css({'position':'fixed','display':'block'});
+
+            }
+        }
+
+    }
+    $('textarea').on('focus',function(){
+        $('#but').hide();
+    })
+    $('textarea').on('blur',function(){
+        $('#but').show();
+    })
+    var params = NewgetUrlParams();
+    var _params = params.split("&")
+    var imgPath = '../../images/new2x/mine_Satisfaction_Selected@2x.png'
+    var imgPath_ = '../../images/new2x/mine_Satisfaction_Normal@2x.png'
+    var app = new Vue({
+            el:"#app",
+            data:{
+                Next:'去支付',
+                textarea:'',
+                imgList:[
+                    {
+                        path:imgPath,
+                        style:"bgc"
+                    },
+                    {
+                        path:imgPath_,
+                        style:"bgc"
+                    },
+                    {
+                        path:imgPath_,
+                        style:"bgc"
+                    },
+                    {
+                        path:imgPath_,
+                        style:"bgc"
+                    },
+                    {
+                        path:imgPath_,
+                        style:"bgc"
+                    }
+                ],
+                attitudes:["很失望","不满意","一般","满意","非常满意"],
+                attitude:"很失望",
+            },
+            watch:{},
+            methods:{
+                evaluate(){
+                    var self = this;
+                    var I = self.attitudes.indexOf(self.attitude)-0;
+                    if(!self.textarea||self.textarea==" "){
+                        mui.toast("内容为空")
+                        return;
+                    }
+                    var obj = {
+                        content:self.textarea,
+                        star:I+1,
+                        tradeId:_params[1],
+                        appraiserId:_params[0],
+                    }
+                    ajax(api("/appraisal/assess"), {
+                            dataType: 'json',
+                            type: 'POST',
+                            data:obj,
+                            success(data) {
+                                if(data.code==200){
+                                    mui.toast(data.message)
+                                    setTimeout(function(){
+                                        back()
+                                        if (window.Gold) {
+                                            Gold.broadcast('refreshList', 'editAddress');
+                                        }
+                                    },300)
+                                }
+                            },
+                            error(){
+
+                            }
+                    })
+                },
+                selectImg(I){
+                    var self = this
+                    if(self.imgList[I].path===imgPath_){
+                        for(var i=0;i<self.imgList.length;i++){
+                            if(i>I) break;
+                            self.imgList[i].path=imgPath
+                        }
+                    }else {
+                        for(var i=4;i>0;i--){
+                            if(i>=I){
+                                self.imgList[i].path=imgPath_
+                            }
+                        }
+                    }
+                    self.attitudeFn()
+                },
+                attitudeFn(){
+                    var self = this
+                    for(var i=0;i<self.imgList.length;i++){
+                        if(self.imgList[i].path!==imgPath){
+                            self.attitude=self.attitudes[i-1]
+                            break;
+                        }else {
+                            self.attitude=self.attitudes[4]
+                        }
+                    }
+                },
+            },
+            mounted(){
+                var gallery = mui('.mui-slider');
+                gallery.slider({
+                    interval:1500
+                })
+            }
+        })
+</script>
+</html>

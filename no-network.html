@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>网络连接断开提醒</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link href="css/mui.min.css" rel="stylesheet" />
+	<style>
+		.mui-bar {
+			background: url(images/1X/110.png);
+			background-size: contain;
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+			background-color: #e6a03c;
+			height: 70px;
+			padding-top: 20px;
+		}
+
+		.mui-bar .mui-title {
+			color: white;
+			margin-top: 5px;
+		}
+
+		.mui-bar-nav~.mui-content {
+			padding-top: 70px;
+		}
+
+		header a {
+			color: white;
+		}
+
+		.mui-content>.mui-card:first-child {
+			margin-top: 0;
+		}
+
+		.mui-card {
+			margin: 0 0px 10px 0px;
+		}
+
+		.mui-card-content {
+			font-size: 12px;
+		}
+
+		.mui-table-view-cell {
+			min-height: 600px;
+		}
+
+		.no-network {
+			margin-top: 100px;
+		}
+
+		.no-network button {
+			margin-top: 10px;
+			border: 0;
+			border-radius: 5px;
+			width: 100px;
+			background-color: #e6a03c;
+			color: white;
+		}
+	</style>
+</head>
+
+<body>
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:history.back();"></a>
+		<h1 class="mui-title">网络连接断开提醒</h1>
+	</header>
+
+	<div class="mui-content" id="app">
+		<div class="mui-card">
+			<div class="mui-card-content">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<div>
+							<div class="no-network" style="text-align: center;">
+								当前网络不可用，请检查网络
+								<br/>
+								<button id="reload">点击刷新</button>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		function getUrlParams() {
+			var url = location.search; //获取url中"?"符后的字串
+			var obj = new Object();
+			if (url.indexOf("?") != -1) {
+				var str = url.substr(1);
+				strs = str.split("&");
+				for (var i = 0; i < strs.length; i++) {
+					obj[strs[i].split("=")[0]] = (strs[i].split("=")[1]);
+				}
+			}
+			return obj;
+		}
+
+		var params = getUrlParams();
+		var returnUrl = params['returnUrl'];
+
+		document.getElementById('reload').addEventListener('click', function () {
+			location.href = returnUrl;
+		})
+	</script>
+</body>
+
+</html>

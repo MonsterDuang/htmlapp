@@ -1,0 +1,1105 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>我的</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link href="css/mui.min.css" rel="stylesheet" />
+	<style>
+		li {
+			list-style: none;
+		}
+
+		.mui-content>.mui-card:first-child {
+			margin: 0;
+		}
+
+		.mui-content {
+			/* margin-bottom: 100px; */
+		}
+
+		/*.head {*/
+			/*margin: 0px;*/
+			/*height: 240px;*/
+			/*width: 100%;*/
+			/*background: url(images/new2x/mine_bg_personal@2xS.png) no-repeat center top;*/
+            /*background-size: cover;*/
+		/*}*/
+
+		/*=======Allen==revise===============*/
+		.head_{
+			position: relative;
+		}
+		.head_a{
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+		}
+		.icon_r{
+			position: absolute;
+			right: 3%;
+			top: 18%;
+		}
+		.icon_r img{
+			width:18px;
+			height: 18px;
+		}
+		.order{
+			border-top: 1px solid rgb(218,218,221);
+		}
+		.mui-table-view:before{
+			height: 0;
+		}
+		.order>.mui-card-content>.mui-row>div>li{
+			margin: 8px 0;
+		}
+		.mui-table-view:after{
+			display:none;
+		}
+		.mui-table-view{
+			z-index: 2;
+			margin-bottom: 10px;
+		}
+		.box-S{
+			/*box-shadow: 0 1px 2px rgba(0,0,0,.2);*/
+		}
+		.name_{
+			position: absolute;
+			top: 55%;
+			left: 50%;
+			margin-left: -45px;
+			width: 90px;
+			text-align: center;
+		}
+		.name_1{
+			position: absolute;
+			top: 65%;
+			width: 100%;
+			height: 60px;
+			padding-top: 10px;
+		}
+		.name_1 div{
+			float: left;
+			width: 49.7%;
+		}
+		.name_1 div p:nth-child(1){
+			font-size: 15px;
+			color: rgb(51,51,51);
+		}
+		.name_1 div p:nth-child(2){
+			font-size: 12px;
+		}
+		.name_1 span{
+			display: block;
+			height: 36px;
+			margin-top: 2px;
+			width: 1px;
+			background: rgb(204,204,204);
+			float: left;
+		}
+		.name_1 div p{
+			margin: 0;
+		}
+		.name_ span{
+			display: inline-block;
+			width: 90px;
+			text-align: center;
+		}
+		.img_head{
+			position: absolute;
+			width: 66px;
+			height: 66px;
+			top: 26%;
+			left: 50%;
+			margin-left: -33px;
+			border-radius: 50%;
+			border: 3px solid white;
+			overflow: hidden;
+			background: white;
+		}
+		.mui-card {
+			margin: 0 0 10px 0;
+			box-shadow: none;
+		}
+		/*=======Allen end==================*/
+
+		.head>.mui-card-content>div {
+			height: 30px;
+			line-height: 30px;
+		}
+
+		.head>.mui-card-content .settings {
+			position: absolute;
+			width: 30px;
+			height: 30px;
+			color: white;
+			right: 10px;
+			top: -20px;
+		}
+
+		.head>.mui-card-content>div:nth-child(2) {
+
+			text-align: center;
+			margin: 50px 0 10px 0;
+			height: 60px;
+			line-height: 60px;
+		}
+
+		.head>.mui-card-content>div:nth-child(3) span {
+			color: white;
+		}
+
+		.head>.mui-card-content>div:last-child span {
+			color: #ff6464;
+		}
+
+		.headimg img {
+			position: absolute;
+			width: 62px;
+			height: 62px;
+			/*top: 26%;*/
+			top: -1px;
+			left: 50%;
+			margin-left: -31px;
+		}
+
+		.order {
+			/*box-shadow: 0 1px 2px rgba(0,0,0,.3);*/
+			background-color: #f4f4f8;
+		}
+
+		.boxS_B{
+			/*box-shadow: 0 1px 2px rgba(0,0,0,.3);*/
+		}
+
+		.order>.mui-card-content {
+			/*margin: 5px 5px 5px 0;*/
+		}
+		.mui-row{
+			background: white;
+		}
+		.order>.mui-card-content>.mui-row>div {
+			text-align: center;
+		}
+
+		.order>.mui-card-content>.mui-row>div>li {
+			padding: 5px 0;
+			margin-left: 5px;
+			text-align: center;
+			background-color: white;
+		}
+
+		.order img {
+			height: 35px;
+			width: 35px;
+		}
+
+		.mui-card-content {
+			font-size: 12px;
+		}
+
+		.mui-table-view-cell {
+			padding: 8px 15px;
+		}
+
+		.mui-table-view-cell>.mui-badge {
+			right: 30px;
+		}
+
+		.mui-table-view-cell>a:not(.mui-btn) {
+			line-height: 30px;
+		}
+
+		.mui-table-view>li {
+			line-height: 30px;
+			font-size: 12px;
+		}
+
+		.mui-table-view-cell img {
+			width: 30px;
+			height: 30px;
+		}
+
+		.head-img {
+			margin: 0 auto;
+			height: 60px;
+			width: 60px;
+			border-radius: 30px;
+			overflow: hidden;
+			z-index: 99;
+		}
+
+		.mui-icon-person:before {
+			content: '';
+			background-image: url(images/1X/119.png);
+			height: 25px;
+			width: 25px;
+			background-size: 25px 25px;
+			position: absolute;
+			top: 70px;
+		}
+        .mui-table-view-cell img{
+            width: 20px;
+            height: 20px;
+            margin-top: 5px;
+        }
+		.mui-table-view-cell:after{
+			display: none;
+		}
+		.mui-table-view-cell{
+			padding: 8px 0 8px 15px;
+		}
+		.mui-navigate-right:after, .mui-push-left:after, .mui-push-right:after{
+			margin-right: 15px;
+		}
+		._information{
+			background: rgb(250,169,61);
+			position: absolute;
+			top: 45%;
+			right: 3.9%;
+			padding: 0px 13px;
+			font-size: 13px;
+			color: white;
+			border-radius: 44px 0 0 44px;
+		}
+		/*.mui-media-body::after{*/
+			/*content: "";*/
+			/*height: 1px;*/
+			/*background: #ccc;*/
+			/*width: 100%;*/
+		/*}*/
+		.span_s{
+			font-size: 12px;
+			width:16px;
+			text-align: center;
+			color: white;
+			height:16px;
+			line-height: 16px;
+			background:red;
+			border-radius:50%;
+			float:right;
+			margin-right:45px;
+			margin-top: 8px;
+		}
+		.head_span{
+			font-size: 12px;
+			width:16px;
+			text-align: center;
+			color: white;
+			height:16px;
+			line-height: 16px;
+			background:red;
+			border-radius:50%;
+			float:right;
+			margin-right:45px;
+			margin-top: 8px;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="app">
+		<div id="pullrefresh" class="mui-scroll-wrapper">
+			<!-- <div> -->
+			<div class="mui-content">
+				<!--head-->
+				<div class="mui-card head_">
+					<img src="images/new3x/mine_bg_personal@3xS.png" style="width: 100%" alt="">
+					<div class="mui-card-content mui-text-center head_a">
+						<template v-if="hasLogin">
+
+							<span class="_information">{{identity}}</span>
+
+							<a @tap="forward('setting.html')" class="settings">
+								<div class="icon_r">
+									<!--mui-icon mui-icon-gear -->
+									<img src="images/new3x/mine_icon_Settings@3x.png" alt="">
+									<!--<span class="mui-badge mui-badge-success" v-show="false" style="top: 5px;width: 5px;height: 5px;margin-left: -10px;padding: 1px"></span>-->
+									<!--<span class="mui-badge mui-badge-success" v-show="!!appUpgrade.version" style="top: 5px;width: 5px;height: 5px;margin-left: -10px;padding: 1px"></span>-->
+								</div>
+							</a>
+
+							<div class="headimg">
+								<!--<div @tap="forward('profile.html')" class="head-img">-->
+								<div @tap="forward('newPage/my-appraisal/information.html')" class="head-img">
+									<span class="img_head">
+										<img :src="user.avatar">
+									</span>
+								</div>
+							</div>
+
+							<div class="name_">
+								<span>{{user.nickname}}</span>
+								<!--<template v-if="isAppraiser">-->
+									<!--<span class="mui-icon mui-icon-person"></span>-->
+								<!--</template>-->
+								<!--<span>个人</span>-->
+								<!--<span @tap="forward('./newPage/my-appraisal/help-appraisal.html')">test_X_3</span>-->
+							</div>
+
+							<div class="name_1 mui-clearfix">
+								<div @tap="forward('./newPage/my-appraisal/my-concern.html')">
+									<p>{{attenNum}}</p>
+									<p>关注</p>
+								</div>
+								<span></span>
+								<div @tap="forward('./newPage/my-appraisal/my-fans.html')">
+									<p>{{fansNum}}</p>
+									<p>粉丝</p>
+								</div>
+							</div>
+
+							<!--<div v-bind:class="[isUser ? 'mui-block':'mui-hidden']">-->
+								<!--<template v-if="hasAppraiserApply">-->
+									<!--<span style="font-size:14px;font-weight:bold;" @tap="forward('apply-ing.html?applyType=appraiser')">&nbsp;&nbsp;&nbsp;&nbsp;审核中...</span>-->
+								<!--</template>-->
+								<!--&lt;!&ndash; <template v-else>-->
+								<!--<span @tap="forward('yfg://m.native.com/visitor/becomeExpert')" style="font-size:14px;font-weight:bold;">成为鉴定师</span>-->
+								<!--</template> &ndash;&gt;-->
+
+							<!--</div>-->
+
+						</template>
+						<template v-else>
+
+
+							<a @tap="login()" class="settings">
+								<!--mui-icon mui-icon-gear-->
+								<div class="icon_r"><img src="images/new3x/mine_icon_Settings@3x.png" alt=""></div>
+							</a>
+
+							<div class="headimg">
+								<a @tap="login()">
+									<span class='img_head'>
+										<img src="images/1X/031.png">
+									</span>
+								</a>
+							</div>
+
+							<div class="name_">
+								<span @tap="login()">请登录</span>
+							</div>
+
+							<!--<div class="name_1 mui-clearfix">-->
+								<!--<div>-->
+									<!--<p>2018</p>-->
+									<!--<p>关注</p>-->
+								<!--</div>-->
+								<!--<span></span>-->
+								<!--<div>-->
+									<!--<p>2019</p>-->
+									<!--<p>粉丝</p>-->
+								<!--</div>-->
+							<!--</div>-->
+
+						</template>
+					</div>
+				</div>
+				<!--已登录-->
+				<template v-if="hasLogin">
+					<ul class="mui-table-view boxS_B">
+						<li class="mui-table-view-cell mui-media">
+							<a @tap="forward('my-order.html')" class="mui-navigate-right">
+								<img class="mui-pull-left" src="images/new3x/mine_icon_Order@3x.png">
+								<div class="mui-media-body" style="padding-left:15px">
+									<span>我的订单</span>
+								</div>
+							</a>
+							<!--<span class="mui-badge mui-badge-danger">22</span>-->
+						</li>
+						<div class="mui-card order">
+							<div class="mui-card-content">
+								<div class="mui-row">
+									<div class="mui-col-sm-3 mui-col-xs-3">
+										<li class="mui-table-view-cell mui-media" @tap="forward('my-order.html?status=nopay')">
+											<img src="images/new3x/mine_icon_pay@3x.png">
+											<div class="mui-media-body" style="padding-left: 5px">
+												<span class="mui-badge mui-badge-inverted" style="white-space: nowrap;">待付款 <span class="mui-badge mui-badge-warning mui-badge-inverted">({{filterStatus('nopay')}})</span>
+												</span>
+											</div>
+										</li>
+									</div>
+									<div class="mui-col-sm-3 mui-col-xs-3" @tap="forward('my-order.html?status=wait-shipping')">
+										<li class="mui-table-view-cell mui-media">
+											<img class="" src="images/new3x/mine_icon_Delivery@3x.png">
+											<div class="mui-media-body" style="padding-left: 5px">
+												<span class="mui-badge mui-badge-inverted" style="white-space: nowrap;">待发货 <span class="mui-badge mui-badge-warning mui-badge-inverted">({{filterStatus('wait-shipping')}})</span>
+												</span>
+											</div>
+										</li>
+									</div>
+									<div class="mui-col-sm-3 mui-col-xs-3" @tap="forward('my-order.html?status=wait-receiving')">
+										<li class="mui-table-view-cell mui-media">
+											<img class="" src="images/new3x/mine_icon_Receive@3x.png">
+											<div class="mui-media-body" style="padding-left: 5px">
+												<span class="mui-badge mui-badge-inverted" style="white-space: nowrap;">待收货 <span class="mui-badge mui-badge-warning mui-badge-inverted">({{filterStatus('wait-receiving')}})</span>
+												</span>
+											</div>
+										</li>
+									</div>
+									<div class="mui-col-sm-3 mui-col-xs-3" @tap="forward('my-order.html?status=refunding')">
+										<li class="mui-table-view-cell mui-media">
+											<img class="" src="images/new3x/mine_icon_Return@3x.png">
+											<div class="mui-media-body" style="padding-left: 5px">
+												<span class="mui-badge mui-badge-inverted" style="white-space: nowrap;">退款/货 <span class="mui-badge mui-badge-warning mui-badge-inverted">({{filterStatus('refunding')}})</span>
+												</span>
+											</div>
+										</li>
+									</div>
+								</div>
+							</div>
+						</div>
+					</ul>
+					<ul class="mui-table-view boxS_B">
+						<li v-if="applyAppraiserStatus=='noapply'" class="mui-table-view-cell mui-media">
+
+							<template v-if="hasMerchantApply">
+								<a class="mui-navigate-right">
+									<img class="mui-pull-left" src="images/new3x/mine_icon_Store@3x.png">
+									<div class="mui-media-body" style="margin-left:35px;">
+										<span>我的店铺</span>
+									</div>
+								</a>
+								<span class="mui-badge mui-badge-danger" @tap="foward('apply-ing.html?applyType=merchant')">审核中</span>
+							</template>
+
+							<template v-else>
+								<a @tap="myshop()" class="mui-navigate-right">
+									<img class="mui-pull-left" src="images/new3x/mine_icon_Store@3x.png">
+									<div class="mui-media-body" style="margin-left:35px;">
+										<span>我的店铺</span>
+									</div>
+								</a>
+								<!-- <span class="mui-badge mui-badge-danger"></span> -->
+							</template>
+
+						</li>
+
+						<span v-if="applyAppraiserStatus=='noapply'" style="margin-left:50px;display: block;height: 1px;background: rgb(221,221,221);width: 100%;"></span>
+						<!--=====Allen newly increased=====-->
+						<!--v-if="applyAppraiserStatus=='noapply'"-->
+						<li v-if="applyAppraiserStatus!='agree'" class='mui-table-view-cell'>
+							<a @tap="forward('./newPage/applyForGemmologist-one.html')" class="mui-navigate-right">
+								<img class="mui-pull-left" src="images/new3x/mine_icon_Appraiser@3x.png">
+								<div class="mui-media-body" style="margin-left:35px;">
+									<span>成为鉴定师</span>
+									<!--v-if="applyAppraiserStatus=='reviewed'"-->
+									<span v-if="applyAppraiserStatus=='reviewed'" style='float: right;margin-right: 45px;color: red;margin-top: 1px'>审核中</span>
+								</div>
+							</a>
+						</li>
+						<span v-if="applyAppraiserStatus!='agree'" style="margin-left:50px;display: block;height: 1px;background:rgb(221,221,221);width: 100%;"></span>
+
+                        <li class='mui-table-view-cell'>
+							<a @tap="forward('./newPage/my-appraisal/my-appraisal.html')" class="mui-navigate-right">
+								<img class="mui-pull-left" src="images/new3x/mine_icon_Identification@3x.png">
+								<div class="mui-media-body" style="margin-left:35px;">
+									<span>我的鉴定</span>
+									<span class="head_span" v-if="userNoReadNum">{{userNoReadNum}}</span>
+								</div>
+							</a>
+						</li>
+
+						<span v-if="applyAppraiserStatus=='agree'" style="margin-left:50px;display: block;height: 1px;background: rgb(221,221,221);width: 100%;"></span>
+
+						<li v-if="applyAppraiserStatus=='agree'" class='mui-table-view-cell'>
+							<a @tap="forward('./newPage/my-appraisal/Gemmologist-order.html')" class="mui-navigate-right">
+								<img class="mui-pull-left" src="images/new3x/mine_icon_Order2@3x.png">
+								<div class="mui-media-body" style="margin-left:35px;">
+									<span>鉴定师订单</span>
+									<span class="span_s" v-if="appraiserNoReadNum">{{appraiserNoReadNum}}</span>
+								</div>
+							</a>
+						</li>
+
+						<!--=====Allen end=====-->
+					</ul>
+					<ul class="mui-table-view boxS_B">
+
+						<li class="mui-table-view-cell mui-media">
+							<a @tap="forward('my-wallet.html')" class="mui-navigate-right">
+								<img class="mui-pull-left" src="images/new3x/mine_icon_wallet@3x.png">
+								<div class="mui-media-body" style="margin-left:35px;">
+									<span>我的钱包</span>
+								</div>
+							</a>
+							<!--<span class="mui-badge mui-badge-danger">22</span>-->
+						</li>
+						<span style="margin-left:50px;display: block;height: 1px;background: rgb(221,221,221);width: 100%;"></span>
+						<li class="mui-table-view-cell">
+							<a @tap="forward('my-bond.html')" class="mui-navigate-right">
+								<img class="mui-pull-left" src="images/new3x/mine_icon_Deposit@3x.png">
+								<div class="mui-media-body" style="margin-left:35px;">
+									<span>我的保证金</span>
+								</div>
+							</a>
+							<!--<span class="mui-badge mui-badge-danger">22</span>-->
+						</li>
+						<span style="margin-left:50px;display: block;height: 1px;background: rgb(221,221,221);width: 100%;"></span>
+						<li class="mui-table-view-cell mui-media">
+							<a @tap="forward('my-auction.html')" class="mui-navigate-right">
+								<img class="mui-pull-left" src="images/new3x/mine_icon_Auction@3x.png">
+								<div class="mui-media-body" style="margin-left:35px;">
+									<span>我的拍卖</span>
+								</div>
+							</a>
+							<!--<span class="mui-badge mui-badge-danger">22</span>-->
+						</li>
+					</ul>
+					<!--<div class="mui-card">-->
+						<!--<div class="mui-card-content">-->
+							<ul class="mui-table-view boxS_B">
+
+								<!--<li class="mui-table-view-cell mui-media">-->
+									<!--<template v-if="isAppraiser">-->
+										<!--<a @tap="forward('my-kampo-a.html')" class="mui-navigate-right">-->
+											<!--<img class="mui-pull-left" src="images/new3x/mine_icon_Identification@3x.png">-->
+											<!--<div class="mui-media-body" style="margin-left:35px;">-->
+												<!--<span>我的鉴定</span>-->
+											<!--</div>-->
+										<!--</a>-->
+										<!--<span class="mui-badge mui-badge-danger" v-show="!!unAppraisalCount" v-text="unAppraisalCount"></span>-->
+									<!--</template>-->
+									<!--<template v-else>-->
+										<!--<a @tap="forward('yfg://m.native.com/visitor/becomeExpert')" class="mui-navigate-right">-->
+											<!--<img class="mui-pull-left" src="images/new3x/mine_icon_Identification@3x.png">-->
+											<!--<div class="mui-media-body" style="margin-left:35px;">-->
+												<!--<span>我的鉴定</span>-->
+											<!--</div>-->
+										<!--</a>-->
+										<!--&lt;!&ndash;<span class="mui-badge mui-badge-danger">22</span>&ndash;&gt;-->
+									<!--</template>-->
+								<!--</li>-->
+								<!--<span style="margin-left:50px;display: block;height: 1px;background: rgb(221,221,221);width: 100%;"></span>-->
+								<li class="mui-table-view-cell mui-media">
+									<a @tap="forward('my-publish.html')" class="mui-navigate-right">
+										<img class="mui-pull-left" src="images/new3x/mine_icon_Post@3x.png">
+										<div class="mui-media-body" style="margin-left:35px;">
+											<span>我的帖子</span>
+										</div>
+									</a>
+									<!--<span class="mui-badge mui-badge-danger">22</span>-->
+								</li>
+								<span style="margin-left:50px;display: block;height: 1px;background: rgb(221,221,221);width: 100%;"></span>
+								<li class="mui-table-view-cell mui-media">
+									<a @tap="forward('my-sale.html')" class="mui-navigate-right">
+										<img class="mui-pull-left" src="images/new3x/mine_icon_Sale@3x.png">
+										<div class="mui-media-body" style="margin-left:35px;">
+											<span>我的寄售</span>
+										</div>
+									</a>
+									<!--<span class="mui-badge mui-badge-danger">22</span>-->
+								</li>
+
+							</ul>
+						<!--</div>-->
+					<!--</div>-->
+				</template>
+				<!--未登录-->
+				<template v-else>
+					<ul class="mui-table-view boxS_B">
+
+						<li class="mui-table-view-cell mui-media">
+							<a @tap="login()" class="mui-navigate-right">
+								<img class="mui-pull-left" src="images/new3x/mine_icon_Order@3x.png">
+								<div class="mui-media-body" style="padding-left:15px">
+									<span>我的订单</span>
+								</div>
+							</a>
+						</li>
+
+						<div class="mui-card order">
+							<div class="mui-card-content">
+								<div class="mui-row">
+									<div class="mui-col-sm-3 mui-col-xs-3">
+										<li class="mui-table-view-cell mui-media" @tap="login()">
+											<img src="images/new3x/mine_icon_pay@3x.png">
+											<div class="mui-media-body">
+												<span class="mui-badge mui-badge-inverted" style="white-space: nowrap;">待付款(0)</span>
+											</div>
+										</li>
+									</div>
+									<div class="mui-col-sm-3 mui-col-xs-3" @tap="login()">
+										<li class="mui-table-view-cell mui-media">
+											<img class="" src="images/new3x/mine_icon_Delivery@3x.png">
+											<div class="mui-media-body">
+												<span class="mui-badge mui-badge-inverted" style="white-space: nowrap;">待发货(0)</span>
+											</div>
+										</li>
+									</div>
+									<div class="mui-col-sm-3 mui-col-xs-3" @tap="login()">
+										<li class="mui-table-view-cell mui-media">
+											<img class="" src="images/new3x/mine_icon_Receive@3x.png">
+											<div class="mui-media-body">
+												<span class="mui-badge mui-badge-inverted" style="white-space: nowrap;">待收货(0)
+													<!-- <span class="mui-badge mui-badge-warning mui-badge-inverted">(0)</span> -->
+												</span>
+											</div>
+										</li>
+									</div>
+									<div class="mui-col-sm-3 mui-col-xs-3" @tap="login()">
+										<li class="mui-table-view-cell mui-media">
+											<img class="" src="images/new3x/mine_icon_Return@3x.png">
+											<div class="mui-media-body">
+												<span class="mui-badge mui-badge-inverted" style="white-space: nowrap;">退款/货(0)</span>
+											</div>
+										</li>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</ul>
+
+					<ul class="mui-table-view boxS_B">
+						<li class="mui-table-view-cell mui-media">
+							<a @tap="login()" class="mui-navigate-right">
+								<img class="mui-pull-left" src="images/new3x/mine_icon_Store@3x.png">
+								<div class="mui-media-body" style="margin-left:35px;">
+									<span>我的店铺</span>
+								</div>
+							</a>
+						</li>
+						<!--<span style="margin-left:50px;display: block;height: 1px;background: rgb(221,221,221);width: 100%;"></span>-->
+						<!--=====Allen newly increased=====-->
+						<!--<li class="mui-table-view-cell mui-media">-->
+							<!--<a @tap="forward('./newPage/applyForGemmologist-one.html')" class="mui-navigate-right">-->
+								<!--<img class="mui-pull-left" src="images/new3x/mine_icon_Appraiser@3x.png">-->
+								<!--<div class="mui-media-body" style="margin-left:35px;">-->
+									<!--<span>成为鉴定师</span>-->
+								<!--</div>-->
+							<!--</a>-->
+						<!--</li>-->
+						<!--=====Allen end=====-->
+					</ul>
+
+					<ul class="mui-table-view boxS_B">
+
+						<li class="mui-table-view-cell mui-media">
+							<a @tap="login()" class="mui-navigate-right">
+								<img class="mui-pull-left" src="images/new3x/mine_icon_wallet@3x.png">
+								<div class="mui-media-body" style="margin-left:35px;">
+									<span>我的钱包</span>
+								</div>
+							</a>
+						</li>
+						<span style="margin-left:50px;display: block;height: 1px;background: rgb(221,221,221);width: 100%;"></span>
+						<li class="mui-table-view-cell">
+							<a @tap="login()" class="mui-navigate-right">
+								<img class="mui-pull-left" src="images/new3x/mine_icon_Deposit@3x.png">
+								<div class="mui-media-body" style="margin-left:35px;">
+									<span>我的保证金</span>
+								</div>
+							</a>
+						</li>
+						<span style="margin-left:50px;display: block;height: 1px;background: rgb(221,221,221);width: 100%;"></span>
+						<li class="mui-table-view-cell mui-media">
+							<a @tap="login()" class="mui-navigate-right">
+								<img class="mui-pull-left" src="images/new3x/mine_icon_Auction@3x.png">
+								<div class="mui-media-body" style="margin-left:35px;">
+									<span>我的拍卖</span>
+								</div>
+							</a>
+						</li>
+
+					</ul>
+					<!--<span class='box-S'>-->
+					<!--<div class="mui-card">-->
+						<!--<div class="mui-card-content">-->
+							<ul class="mui-table-view boxS_B">
+
+								<li class="mui-table-view-cell mui-media">
+									<a @tap="login()" class="mui-navigate-right">
+										<img class="mui-pull-left" src="images/new3x/mine_icon_Identification@3x.png">
+										<div class="mui-media-body" style="margin-left:35px;">
+											<span>我的鉴定</span>
+										</div>
+									</a>
+								</li>
+								<span style="margin-left:50px;display: block;height: 1px;background: rgb(221,221,221);width: 100%;"></span>
+								<li class="mui-table-view-cell mui-media">
+									<a @tap="login()" class="mui-navigate-right">
+										<img class="mui-pull-left" src="images/new3x/mine_icon_Post@3x.png">
+										<div class="mui-media-body" style="margin-left:35px;">
+											<span>我的帖子</span>
+										</div>
+									</a>
+								</li>
+								<span style="margin-left:50px;display: block;height: 1px;background: rgb(221,221,221);width: 100%;"></span>
+								<li class="mui-table-view-cell mui-media">
+									<a @tap="login()" class="mui-navigate-right">
+										<img class="mui-pull-left" src="images/new3x/mine_icon_Sale@3x.png">
+										<div class="mui-media-body" style="margin-left:35px;">
+											<span>我的寄售</span>
+										</div>
+									</a>
+								</li>
+
+							</ul>
+						<!--</div>-->
+					<!--</div>-->
+					<!--</span>-->
+				</template>
+				<ul class="mui-table-view boxS_B">
+
+					<li class="mui-table-view-cell">
+						<a @tap="forward('about.html')" class="mui-navigate-right">
+							<img class="mui-pull-left" src="images/new3x/mine_icon_about@3x.png">
+							<div class="mui-media-body" style="margin-left:35px;">
+								<span>关于我们</span>
+							</div>
+						</a>
+						<!--<span class="mui-badge mui-badge-danger">22</span>-->
+					</li>
+					<span style="margin-left:50px;display: block;height: 1px;background: rgb(221,221,221);width: 100%;"></span>
+					<li class="mui-table-view-cell mui-media" @tap="tel(contactNumber)">
+						<a class="mui-navigate-right">
+							<img class="mui-pull-left" src="images/new3x/mine_icon_contact@3x.png">
+							<div class="mui-media-body" style="margin-left:35px;">
+								<span>联系我们</span>
+							</div>
+						</a>
+						<span class="mui-badge mui-badge-inverted" style="color:#c0c0c0;" v-text="contactNumber"></span>
+					</li>
+
+				</ul>
+
+			</div>
+		</div>
+	</div>
+	<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+	<script src="js/vue.min.js"></script>
+	<script src="js/mui.min.js?version=201801202115"></script>
+	<script src="js/common.js?version=201801202115"></script>
+	<script type="text/javascript">
+        function resolvePath(relativePath) {
+            var basePath = location.href;
+            var regx = /^.+?:\/\/\/?/;
+            var regxRes = regx.exec(basePath);
+            var prefix = regxRes ? regxRes[0] : '';
+            var path = basePath.substring(prefix.length, basePath.length);
+            var pathDir = path.substring(0, path.lastIndexOf('/'));
+
+            var temp = pathDir + '/' + relativePath;
+
+            var parts = temp.split('/'),
+                res = [];
+            for (var i = 0; i < parts.length; i++) {
+                var p = parts[i];
+                if (!p || p === '.') {
+                    continue;
+                }
+                if (p == '..') {
+                    if (res.length) {
+                        res.pop();
+                    } else {
+                        res.push('..');
+                    }
+                } else {
+                    res.push(p);
+                }
+            }
+
+            var resolvedAbsolute = res.join('/');
+            return prefix + resolvedAbsolute;
+        };
+
+        function forward(uri, params) {
+            var to;
+            if (/http/.test(uri) || /yfg:/.test(uri)) {
+                to = uri;
+            } else {
+                to = resolvePath(uri);
+            }
+            if (window.Page) {
+                if (!params) {
+                    window.Page.forward(JSON.stringify({
+                        url: to
+                    }));
+                } else {
+                    window.Page.forward(JSON.stringify({
+                        url: to,
+                        nparams: JSON.stringify(params)
+                    }));
+                }
+
+            } else {
+                location.href = to;
+            }
+        }
+
+        function refreshList() {
+            location.reload();
+        }
+		var app = new Vue({
+			el: '#app',
+			data: {
+				user: {
+				    avatar:"images/1X/031.png"
+				},
+				orderCount: [],
+				unAppraisalCount:0,
+				appUpgrade: {},
+				isAppraiser: false,
+				isShop: false,
+				isUser: false,
+				hasLogin: false,
+				contactNumber: '',
+				hasMerchantApply: false,
+				hasAppraiserApply: false,
+                identity:'',
+                fansNum:0,
+                attenNum:0,
+                applyAppraiserStatus:'',
+                focusText:'',
+                appraiserNoReadNum:'',
+                userNoReadNum:'',
+			},
+			methods: {
+                UNREADcomment(){
+                    var self = this;
+                    if(!self.hasLogin)return;
+                    ajax(api("/my/comment-noread"),{
+                        dataType: 'json',
+                        // autoProcessError: false,
+                        type:'GET',
+                        success(data) {
+							if(data.code==200){
+                                if(data.appraiserNoReadNum!=0){
+                                    self.appraiserNoReadNum = JSON.stringify(data.appraiserNoReadNum)
+                                    if (window.Gold && window.Gold.showRedDotToMy){
+                                        Gold.showRedDotToMy();
+                                    }
+								}else{
+                                    self.appraiserNoReadNum = '';
+                                    if (window.Gold)Gold.hideRedDotToMy();
+								}
+								if(data.userNoReadNum!=0){
+                                    self.userNoReadNum = JSON.stringify(data.userNoReadNum)
+                                    if (window.Gold && window.Gold.showRedDotToMy){
+                                        Gold.showRedDotToMy();
+                                    }
+								}else{
+                                    self.userNoReadNum = '';
+                                    if (window.Gold)Gold.hideRedDotToMy();
+								}
+							}else{
+                                if (window.Gold)Gold.hideRedDotToMy();
+							}
+							// if(data.code==200&&data.appraiserNoReadNum!=0){
+                             //
+							// }else if(data.code==200&&data.userNoReadNum!=0){
+                             //    alert("我的鉴定")
+							// 	alert(data.userNoReadNum)
+                             //
+							// }else{
+                             //    if (window.Gold)Gold.hideRedDotToMy();
+							// }
+                        },
+                        error(){
+                        }
+                    })
+                },
+				loadData: function () {
+					var _this = this;
+                    ajax(api('/my'),{
+						dataType: 'json',
+						autoProcessError: false,
+                        success: function (data) {
+							// applyAppraiserStatus
+                            //reviewed 审核  noapply 默认 agree 通过
+                            _this.user = data.user;
+							_this.isUser = data.user.type == 'user';
+							_this.isShop = data.user.type == 'shop';
+							_this.isAppraiser = data.user.type == 'appraiser';
+							_this.hasLogin = true;
+							_this.fansNum = data.fansNum;
+							_this.attenNum = data.attenNum;
+							_this.applyAppraiserStatus = data.applyAppraiserStatus;
+
+							switch(data.user.type){
+                                case "appraiser":
+                                    _this.identity = "鉴定师"
+                                    break;
+                                case "shop":
+                                    _this.identity = "商户"
+                                    break;
+                                case "user":
+                                    _this.identity = "个人"
+                                    break;
+                            }
+
+							ajax(api('/my/order/groupbycount'),{
+								dataType: 'json',
+								autoProcessError: false,
+								success: function (data) {
+									_this.orderCount = data;
+								}
+							});
+
+							if (!_this.isShop) {
+								//查询我的店铺申请状态
+								ajax(api('/my/apply/shop'), {
+									dataType: 'json',
+									success: function (data) {
+										if (data != null) {
+											_this.hasMerchantApply = true;
+										}
+									}
+								});
+							} else {
+								_this.hasMerchantApply = false;
+							}
+
+							if (!_this.isAppraiser) {
+								//查询我的鉴定师申请状态
+								ajax(api('/my/apply/appraiser'), {
+									dataType: 'json',
+									success: function (data) {
+										if (data != null) {
+											_this.hasAppraiserApply = true;
+										}
+									}
+								});
+							} else {
+								_this.hasAppraiserApply = false;
+							}
+
+							// if (_this.isAppraiser) {
+							// 	//查询我的鉴定红点
+							// 	ajax(api('/my/appraisal/did-not-count'),{
+							// 		dataType: 'json',
+							// 		success: function (data) {
+							// 			if (data != null) {
+							// 				_this.unAppraisalCount = data;//未鉴定数量
+							// 				if (window.Gold && window.Gold.showRedDotToMy) {
+							// 					if (_this.unAppraisalCount > 0) {
+							// 						Gold.showRedDotToMy();
+							// 					} else {
+							// 						Gold.hideRedDotToMy();
+							// 					}
+							// 				}
+							// 			}
+							// 		}
+							// 	});
+							// }
+                            if(_this.hasLogin){
+                                _this.UNREADcomment()
+                            }else{
+                                if (window.Gold) {
+                                    Gold.hideRedDotToMy();
+                                }
+                            }
+							mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+							mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
+							mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().disablePullupToRefresh();
+						},
+						error: function (xhr, type, errerThrown) {
+							var data = JSON.parse(xhr.responseText);
+                            if (xhr.status == 401) {
+								// mui.toast((data.pop()).message);
+								mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+								mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
+								mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().disablePullupToRefresh();
+								_this.hasLogin = false;
+							}
+						}
+					});
+
+
+					//查询联系我们
+					ajax(api('/p/contact-number'), {
+						success: function (data) {
+							_this.contactNumber = data;
+						}
+					});
+
+					//是否存在新版本
+					if (env.appVersion) {
+						ajax(api('/app/upgrade'), {
+							data: {
+								platform: env.isAndroid ? 'Android' : 'iOs',
+								version: env.appVersion
+							},
+							dataType: 'json',
+							success: function (data) {
+								if (data) {
+									_this.appUpgrade = data;
+								}
+							}
+						});
+					}
+				},
+				filterStatus: function (status) {
+					var tmp = this.orderCount.find(function (obj) {
+						return obj._id == status;
+					});
+					return tmp ? tmp.count : 0;
+				},
+				forward: function (url) {
+				    if(url=="./newPage/applyForGemmologist-one.html"&&this.applyAppraiserStatus=="reviewed"){
+				        mui.toast("请耐心等待1-3个工作日审查")
+                        return;
+					}
+					forward(url);
+				},
+				login: function () {
+					forward('yfg://m.native.com/visitor/login');
+				},
+				myshop: function () {
+				    var self = this;
+					if (self.isShop) {
+						forward('my-shop.html');
+					} else {
+						if (self.hasMerchantApply) {
+							mui.toast('您的申请正在审核中，请耐心等待...');
+						}
+						forward('yfg://m.native.com/visitor/registerMerchant');
+					}
+				},
+				tel: function (tel) {
+					location.href = 'tel:' + tel;
+				}
+			},
+			mounted: function () {
+				var _this = this;
+                _this.loadData();
+				mui.init({
+					swipeBack: true,
+					pullRefresh: {
+						container: '#pullrefresh',
+						down: {
+							// auto:true,
+							callback: function () {
+								_this.loadData();
+                            }
+						},
+						up: {
+							contentrefresh: '',
+							callback: function () { }
+						}
+					}
+				});
+			}
+		});
+
+		function refreshLogin(param) {
+            mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().pulldownLoading();
+		}
+
+		function onPageComeBack() {
+			mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().pulldownLoading();
+		}
+
+		function onPageLeave() {
+            mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().pulldownLoading();
+		}
+	</script>
+</body>
+
+</html>

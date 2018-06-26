@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>捡漏</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link href="https://cdn.bootcss.com/mui/3.7.1/css/mui.min.css" rel="stylesheet">
+	<style>
+		a {
+			color: white;
+		}
+
+		.mui-bar {
+			background: url(images/1X/110.png);
+			background-size: contain;
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+			background-color: #e6a03c;
+			height: 70px;
+			padding-top: 20px;
+		}
+
+		.mui-bar .mui-title {
+			color: white;
+			margin-top: 5px;
+		}
+
+		.mui-bar-nav~.mui-content {
+			padding-top: 70px;
+		}
+
+		.mui-segmented-control {
+			background-color: white;
+			font-size: 13px;
+		}
+
+		.mui-segmented-control.mui-segmented-control-inverted {
+			box-shadow: 0 1px 2px rgba(0, 0, 0, 0)
+		}
+
+		.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+			color: #F0AD4E;
+			border-bottom: 2px solid #F0AD4E;
+		}
+
+		.mui-control-content {
+			min-height: 600px;
+		}
+
+		.mui-row {
+			margin: 0;
+			padding: 0;
+			font-size: 12px;
+			color: black;
+		}
+
+		.mui-row img {
+			width: 100%;
+		}
+
+		.mui-row span {
+			color: #ff6464;
+		}
+
+		.mui-row .mui-table-view-cell {
+			padding: 5px;
+			text-align: left;
+		}
+
+		.mui-card-content {
+			font-size: 12px;
+		}
+
+		.empty-data {
+			margin-top: 100px;
+		}
+
+		.empty-data img {
+			width: 150px;
+			height: 150px;
+			margin: 0 auto;
+		}
+
+		.mui-bar-nav~.mui-content .mui-pull-top-pocket {
+			top: 0
+		}
+
+		.mui-pull-caption {
+			font-size: 12px;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="app">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+			<h1 class="mui-title">捡漏</h1>
+			<a class="mui-icon mui-icon-search mui-pull-right" href="javascript:forward('search-tag.html')"></a>
+		</header>
+		<div class="mui-content">
+			<div style="margin-bottom: 5px;">
+				<div id="segmentedControl" class="mui-segmented-control mui-segmented-control-inverted mui-segmented-control-primary">
+					<template v-for="(item, index) in categories">
+						<a :id="item.id" class="mui-control-item" :class="{'mui-active': category.id === item.id}" :data-index="index" href="#content1"
+						 @tap="switchCategory(item)">{{item.name}}</a>
+					</template>
+				</div>
+			</div>
+			<div>
+				<div id="item1" class="mui-control-content mui-active">
+					<div>
+						<div id="segmentedControl" class="mui-segmented-control mui-segmented-control-inverted mui-segmented-control-primary">
+							<a class="mui-control-item" :class="{'mui-active': sort === '-vol'}" @tap="volSort">
+								综合
+							</a>
+							<a class="mui-control-item" :class="{'mui-active': sort === 'price'}" @tap="priceSort">
+								价格
+								<img src="images/1X/051.png" style="width: 10px; height: 10px;" />
+							</a>
+						</div>
+					</div>
+					<div id="pullrefresh" class="mui-content mui-scroll-wrapper" style="top: 40px;">
+						<div class="mui-scroll">
+							<div class="mui-card" style="margin: 10px 0">
+								<div class="mui-card-content">
+									<ul class="mui-row">
+										<template v-if="items.length>0">
+											<template v-for="item in items" :key="item.id">
+												<div class="mui-col-sm-6 mui-col-xs-6" style="display: none" :style="{ display: !!item ? 'block' : 'none' }">
+													<li class="mui-table-view-cell" @tap="detail(item)">
+														<div>
+															<img :src="item.photos[item.photos.length-1]+'-convert180'" />
+															<div class="mui-ellipsis">{{item.name}}</div>
+															<div>
+																<span>¥{{item.price}}</span>
+															</div>
+														</div>
+													</li>
+												</div>
+											</template>
+										</template>
+										<template v-else>
+											<div class="empty-data" style="text-align: center;">
+												<div>
+													<img src="images/1X/073.png" style="width: 60px; height: 60px;" />
+													<p>还没有捡漏宝贝哦！</p>
+												</div>
+											</div>
+										</template>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+	<script src="js/vue.min.js"></script>
+	<script src="https://cdn.bootcss.com/lodash.js/4.17.4/lodash.min.js?version=201801202115"></script>
+	<script src="js/mui.min.js?version=201801202115"></script>
+	<script src="js/common.js?version=201801202115"></script>
+	<script>
+		var app = new Vue({
+			el: '#app',
+			data: {
+				pageIndex: 1,
+				pageSize: 8,
+				items: [],
+				sort: '-vol',
+				category: '',
+				categories: []
+			},
+			methods: {
+				volSort: function () {
+				    var self = this
+                    self.sort = '-vol';
+                    self.loadData(1);
+				},
+				priceSort: function () {
+				    var self = this
+                    self.sort = 'price';
+                    self.loadData(1);
+				},
+				loadData: function (type) {
+					if (type === 1) {
+						mui('#pullrefresh').pullRefresh().refresh(true);
+						mui('#pullrefresh').pullRefresh().scrollTo(0, 0, 100);
+					}
+
+					var _this = this;
+
+					var data = {
+						pageIndex: _this.pageIndex,
+						pageSize: _this.pageSize,
+						category: _this.category.id,
+						sort: _this.sort
+					};
+					if (_this.shop) {
+						data.shop = _this.shop;
+					}
+
+					ajax(api('/goods/pick'), {
+						data: data,
+						dataType: 'json',
+						success: function (data) {
+							if (type === 1) {
+								_this.items = data.objects;
+							} else {
+								for (var i = 0, len = data.objects.length; i < len; i++)
+									_this.items.push(data.objects[i]);
+							}
+
+							//结束下拉刷新
+							mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+							/*结束上拉加载，并根据情况切换“下拉显示更多数据”，以及“没有更多数据了”。
+							执行endPullupToRefresh()方法，结束转雪花进度条的“正在加载...”过程,若还有更多数据，
+							则传入false; 否则传入true，之后滚动条滚动到底时*/
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh(!data.hasNext);
+						}
+					});
+				},
+				detail: function (item) {
+					forward('product-detail.html?id=' + item.id);
+				},
+				switchCategory: function (item) {
+				    var self = this
+                    self.pageIndex = 1;
+                    self.category = item;
+                    self.loadData(1);
+				}
+			},
+			mounted: function () {
+				var _this = this;
+				mui.init({
+					swipeBack: true,
+					pullRefresh: {
+						container: '#pullrefresh',
+						down: {
+							callback: function () {
+								_this.pageIndex = 1;
+								_this.loadData(1);
+							}
+						},
+						up: {
+							contentrefresh: '正在加载...',
+							callback: function () {
+								_this.pageIndex++;
+								_this.loadData(2);
+							}
+						}
+					}
+				});
+
+				mui.ajax(api('/categories/pure'), {
+					success: function (data) {
+						_this.categories = data;
+
+						_this.category = _this.categories[0];
+						_this.loadData(1);
+					}
+				});
+			}
+		});
+	</script>
+
+</body>
+
+</html>

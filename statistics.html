@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>收入统计</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" href="css/mui.min.css">
+</head>
+
+<body>
+
+	<style>
+		li {
+			list-style: none;
+		}
+
+		a {
+			color: white;
+		}
+
+		.mui-bar {
+			background: url(images/1X/110.png);
+			background-size: contain;
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+			background-color: #e6a03c;
+			height: 70px;
+			padding-top: 20px;
+		}
+
+		.mui-bar .mui-title {
+			color: white;
+			margin-top: 5px;
+		}
+
+		.mui-bar-nav~.mui-content {
+			padding-top: 70px;
+		}
+
+		.mui-slider-indicator.mui-segmented-control {
+			background-color: white;
+		}
+
+		.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+			color: #F0AD4E;
+			border-bottom: 2px solid #F0AD4E;
+		}
+
+		.mui-control-content {
+			min-height: 650px;
+		}
+
+		.mui-card {
+			margin: 20px 20px;
+			color: black;
+		}
+
+		.mui-card-content {
+			font-size: 12px;
+		}
+
+		.number-container {
+			color: #ff6464;
+			margin: 30px 0;
+			font-size: 24px;
+		}
+	</style>
+	<div id="app">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+			<h1 class="mui-title">收入统计</h1>
+		</header>
+		<div class="mui-content">
+			<div>
+				<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted mui-segmented-control-primary">
+					<a class="mui-control-item mui-active" href="#item1mobile">
+						订单统计
+					</a>
+					<a class="mui-control-item" href="#item2mobile">
+						收入统计
+					</a>
+				</div>
+				<div id="item1mobile" class="mui-control-content mui-active">
+					<div id="scroll1" class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<div class="mui-card">
+								<div class="mui-card-content">
+									<ul class="mui-table-view" style="text-align: center;">
+										<li class="mui-table-view-cell" style="margin: 0 auto;">
+											今日成交订单
+										</li>
+										<li class="mui-table-view-cell">
+											<div class="number-container">
+												¥<span v-text="$options.filters.formatCurrency(order.today)"></span>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+
+							<div class="mui-card">
+								<div class="mui-card-content">
+									<ul class="mui-table-view" style="text-align: center;">
+										<li class="mui-table-view-cell" style="margin: 0 auto;">
+											本月成交订单
+										</li>
+										<li class="mui-table-view-cell">
+											<div class="number-container">
+													¥<span v-text="$options.filters.formatCurrency(order.thisMonth)"></span>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+
+							<div class="mui-card">
+								<div class="mui-card-content">
+									<ul class="mui-table-view" style="text-align: center;">
+										<li class="mui-table-view-cell" style="margin: 0 auto;">
+											累计成交订单
+										</li>
+										<li class="mui-table-view-cell">
+											<div class="number-container">
+												¥<span v-text="$options.filters.formatCurrency(order.total)"></span>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div id="item2mobile" class="mui-control-content">
+					<div id="scroll2" class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+
+							<div class="mui-card">
+								<div class="mui-card-content">
+									<ul class="mui-table-view" style="text-align: center;">
+										<li class="mui-table-view-cell" style="margin: 0 auto;">
+											今日成交额
+										</li>
+										<li class="mui-table-view-cell">
+											<div class="number-container">
+													¥<span v-text="$options.filters.formatCurrency(income.today)"></span>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+
+							<div class="mui-card">
+								<div class="mui-card-content">
+									<ul class="mui-table-view" style="text-align: center;">
+										<li class="mui-table-view-cell" style="margin: 0 auto;">
+											本月成交额
+										</li>
+										<li class="mui-table-view-cell">
+											<div class="number-container">
+												¥<span v-text="$options.filters.formatCurrency(income.thisMonth)"></span>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+
+							<div class="mui-card">
+								<div class="mui-card-content">
+									<ul class="mui-table-view" style="text-align: center;">
+										<li class="mui-table-view-cell" style="margin: 0 auto;">
+											累计成交额
+										</li>
+										<li class="mui-table-view-cell">
+											<div class="number-container">
+												¥{{income.total | formatCurrency}}
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+	<script src="js/vue.min.js"></script>
+	<script src="js/mui.min.js?version=201801202115"></script>
+	<script src="js/common.js?version=201801202115"></script>
+	<script type="text/javascript">
+		Vue.filter('formatCurrency', formatCurrency);
+		var app = new Vue({
+			el: '#app',
+			data: {
+				order: {},
+				income: {}
+			},
+			methods: {
+				loadData: function () {
+					var _this = this;
+					ajax(api('/my/shop/statistics/order'), {
+						dataType: 'json',
+						success: function (data) {
+							_this.order = data;
+							alert(JSON.stringify(data))
+						}
+					});
+
+					ajax(api('/my/shop/statistics/income'), {
+						dataType: 'json',
+						success: function (data) {
+							_this.income = data;
+                            alert(JSON.stringify(data))
+						}
+					});
+				}
+			},
+			mounted: function () {
+				this.loadData();
+			}
+		});
+	</script>
+
+</body>
+
+</html>

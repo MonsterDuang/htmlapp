@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>宝贝详情</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css">
+	</head>
+
+	<body>
+
+		<style>
+			li {
+				list-style: none;
+			}
+			
+			a {
+				color: white;
+			}
+			
+			.mui-bar {
+				background: url(images/1X/110.png);
+				background-size: contain;
+				background-attachment: fixed;
+				background-repeat: no-repeat;
+				background-color: #e6a03c;
+				height: 70px;
+				padding-top: 20px;
+			}
+			
+			.mui-bar .mui-title {
+				color: white;
+				margin-top: 5px;
+			}
+			
+			.mui-bar-nav~.mui-content {
+				padding-top: 70px;
+				bottom: 50px;
+			}
+			
+			#slider img {
+				width: 100%;
+				height: 450px;
+			}
+			
+			.mui-table-view-cell,
+			.mui-table-view-cell p {
+				font-size: 12px;
+			}
+			
+			.auction-remark {
+				max-height: 120px;
+				color: black;
+				font-size: 13px;
+			}
+			
+			.auction-remark span {
+				margin: 5px 0;
+				display: block;
+				color: #ff6464;
+			}
+			
+			.auction-remark p {
+				margin-top: 5px;
+				color: #C0C0C0;
+			}
+			
+			.mui-table-view-cell:after {
+				/*background-color: white;*/
+			}
+			
+			.fixed-buttom {
+				position: fixed;
+				z-index: 999;
+				bottom: 0;
+				border: 1px;
+				background-color: white;
+				width: 100%;
+			}
+			
+			.fixed-buttom a {
+				text-align: center;
+			}
+			
+			.fixed-buttom .normal {
+				background-color: white;
+				color: #C0C0C0;
+			}
+			
+			.fixed-buttom .active {
+				background-color: #ff6464;
+				color: white;
+			}
+		</style>
+		<header class="mui-bar mui-bar-nav">
+				<a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+			<h1 class="mui-title">宝贝详情</h1>
+		</header>
+		<div class="mui-content">
+
+			<div id="slider" class="mui-slider">
+				<div class="mui-slider-group mui-slider-loop">
+					<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<a href="#">
+							<img src="images/temp/jianbao1.png">
+						</a>
+					</div>
+					<!-- 第一张 -->
+					<div class="mui-slider-item">
+						<a href="#">
+							<img src="images/temp/jianbao1.png">
+						</a>
+					</div>
+					<!-- 第二张 -->
+					<div class="mui-slider-item">
+						<a href="#">
+							<img src="images/temp/jianbao2.png">
+						</a>
+					</div>
+					<!-- 第三张 -->
+					<div class="mui-slider-item">
+						<a href="#">
+							<img src="images/temp/jianbao3.png">
+						</a>
+					</div>
+					<!-- 第四张 -->
+					<div class="mui-slider-item">
+						<a href="#">
+							<img src="images/temp/video.png">
+						</a>
+					</div>
+					<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<a href="#">
+							<img src="images/temp/video.png">
+						</a>
+					</div>
+				</div>
+				<div class="mui-slider-indicator">
+					<div class="mui-indicator mui-active"></div>
+					<div class="mui-indicator"></div>
+					<div class="mui-indicator"></div>
+					<div class="mui-indicator"></div>
+				</div>
+			</div>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell auction-remark">
+					宝贝名称<br />
+					<span>¥500.00</span>
+					<p>宝贝简介。。。宝贝简介。。。宝贝简介。。。宝贝简介。。。</p>
+				</li>
+				<li class="mui-table-view-cell">
+					购买人：超哥 13823280874
+					<p>收货地址：<span>广东省</span><span>深圳市</span><span>罗湖区</span><span>桂园街道</span><span>深南东路0766号</span></p>
+				</li>
+				<li class="mui-table-view-cell">
+					快递单号：88888888
+				</li>
+			</ul>
+
+		</div>
+
+		<div class="fixed-buttom">
+			<div class="mui-row">
+				<div class="mui-col-sm-12 mui-col-xs-12">
+					<li class="mui-table-view-cell">
+						<a href="javascript:;" class="active" style="color: white;">
+							删除订单
+						</a>
+					</li>
+				</div>
+			</div>
+		</div>
+		<script src="js/mui.min.js?version=201801202115"></script>
+		<script src="js/common.js?version=201801202115"></script>
+		<script>
+			(function($, doc) {
+				$.init({
+					swipeBack: true
+				});
+				$('.mui-scroll-wrapper').scroll({
+					indicators: true //是否显示滚动条
+				});
+			})(mui, document);
+		</script>
+
+	</body>
+
+</html>

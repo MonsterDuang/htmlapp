@@ -1,0 +1,247 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>拍卖会</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link href="css/mui.min.css" rel="stylesheet" />
+	<link href="css/mui.picker.css" rel="stylesheet" />
+	<link href="css/mui.poppicker.css" rel="stylesheet" />
+	<style>
+		a {
+			color: white;
+		}
+
+		ul,
+		li {
+			list-style: none;
+		}
+
+		.mui-bar {
+			background: url(images/1X/110.png);
+			background-size: contain;
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+			background-color: #e6a03c;
+			height: 70px;
+			padding-top: 20px;
+		}
+
+		.mui-bar .mui-title {
+			color: white;
+			margin-top: 5px;
+		}
+
+		.mui-bar-nav~.mui-content {
+			padding-top: 30px;
+		}
+
+		.mui-bar-nav~.mui-content .mui-pull-top-pocket {
+			top: 70px;
+		}
+
+		.mui-card-content {
+			font-size: 12px;
+		}
+
+		.mui-content>.mui-card:first-child {
+			margin-top: 0;
+		}
+
+		.mui-card {
+			margin: 10px 0 10px 0;
+			font-size: 12px;
+		}
+
+		video {
+			width: 100%;
+		}
+
+		.mui-card .mui-table-view .mui-table-view-cell:last-child,
+		.mui-card .mui-table-view .mui-table-view-divider:last-child {
+			border-radius: 0;
+		}
+
+		.mui-table-view span {
+			display: block;
+			float: left;
+			text-align: center;
+			width: 30px;
+			height: 25px;
+			line-height: 25px;
+			background-color: #e0e0e0;
+			margin-right: 10px;
+			border-radius: 2px;
+		}
+
+		.mui-table-view .active {
+			color: white;
+			background-color: #ff6464;
+		}
+
+		.mui-card-content .mui-table-view-cell {
+			padding: 0;
+		}
+
+		.mui-row {
+			color: #969696;
+		}
+
+		.mui-row img {
+			width: 10px;
+			height: 10px;
+			margin-right: 5px;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="app">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+			<h1 class="mui-title">拍卖会</h1>
+			<a class="mui-icon mui-icon-search mui-pull-right" href="javascript:forward('search-tag.html')"></a>
+		</header>
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<div class="mui-card" v-for="item in items">
+					<div class="mui-card-content">
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell">
+								<video :src="item.videos[item.playIndex]" draggable="false" controls="false" :poster="item.videos[item.playIndex] + '?vframe/jpg/offset/2'"></video>
+							</li>
+						</ul>
+					</div>
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell">
+							<template v-for="v in item.videos.length">
+								<span :class="{active: v == item.playIndex + 1}" @tap="item.playIndex = (v-1)">{{v}}</span>
+							</template>
+						</li>
+					</ul>
+					<div class="mui-row">
+						<div class="mui-col-sm-4 mui-col-xs-4">
+							<li class="mui-table-view-cell">
+								<span v-text="item.playCount">0</span>万次播放
+							</li>
+						</div>
+						<div class="mui-col-sm-4 mui-col-xs-4">
+							<li class="mui-table-view-cell" @tap="like(item)">
+								<img :src="item.liked ? 'images/1X/061.png' : 'images/1X/060.png'" />
+								点赞(<span v-text="item.likeCount">0</span>)
+							</li>
+						</div>
+						<div class="mui-col-sm-4 mui-col-xs-4">
+							<li class="mui-table-view-cell" @tap="detail(item)">
+								<img :src="item.commented ? 'images/1X/063.png' : 'images/1X/062.png'" />
+								留言(<span v-text="item.commentCount">0</span>)
+							</li>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+	<script src="js/vue.min.js"></script>
+	<script src="https://cdn.bootcss.com/lodash.js/4.17.4/lodash.min.js?version=201801202115"></script>
+	<script src="js/mui.min.js?version=201801202115"></script>
+	<script src="js/common.js?version=201801202115"></script>
+	<script>
+		Vue.filter('dateTime', dateTime);
+		var app = new Vue({
+			el: '#app',
+			data: {
+				pageIndex: 1,
+				pageSize: 8,
+				items: []
+			},
+			methods: {
+				loadData: function (type) {
+					if (type === 1) {
+						mui('#pullrefresh').pullRefresh().refresh(true);
+						mui('#pullrefresh').pullRefresh().scrollTo(0, 0, 100);
+					}
+
+					var _this = this;
+
+					var data = {
+						pageIndex: _this.pageIndex,
+						pageSize: _this.pageSize
+					};
+					if (_this.shop) {
+						data.shop = _this.shop;
+					}
+
+					ajax(api('/auction'), {
+						data: data,
+						dataType: 'json',
+						success: function (data) {
+							_.each(data.objects, function (item) {
+								item.playIndex = 0;
+							});
+							if (type === 1) {
+								_this.items = data.objects;
+							} else {
+								for (var i = 0, len = data.objects.length; i < len; i++)
+									_this.items.push(data.objects[i]);
+							}
+
+							//结束下拉刷新
+							mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+							/*结束上拉加载，并根据情况切换“下拉显示更多数据”，以及“没有更多数据了”。
+							执行endPullupToRefresh()方法，结束转雪花进度条的“正在加载...”过程,若还有更多数据，
+							则传入false; 否则传入true，之后滚动条滚动到底时*/
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh(!data.hasNext);
+						}
+					});
+				},
+				like: function (item) {
+					ajax(api('/auction/' + item.id + '/like'), {
+						type: 'POST',
+						success: function (data) {
+							item.liked = !item.liked;
+							item.likeCount = data.likeCount;
+						}
+					})
+				},
+				detail: function (item) {
+					forward('yfg://m.native.com/visitor/auctionDetail?id=' + item.id);
+				}
+			},
+			mounted: function () {
+				var _this = this;
+				mui.init({
+					swipeBack: true,
+					pullRefresh: {
+						container: '#pullrefresh',
+						down: {
+							auto: true,
+							callback: function () {
+								_this.pageIndex = 1;
+								_this.loadData(1);
+							}
+						},
+						up: {
+							contentrefresh: '正在加载...',
+							callback: function () {
+								_this.pageIndex++;
+								_this.loadData(2);
+							}
+						}
+					}
+				});
+				mui('.order-item-button').on('tap', 'button', function (e) {
+					if (e.target.name === 'refund') {
+						location.href = 'refund.html';
+					}
+				})
+			}
+		});
+	</script>
+</body>
+
+</html>

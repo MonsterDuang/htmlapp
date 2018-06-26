@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>我的钱包</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" href="css/mui.min.css">
+	<link href="css/mui.picker.css" rel="stylesheet" />
+	<link href="css/mui.poppicker.css" rel="stylesheet" />
+	<style>
+		li {
+			list-style: none;
+		}
+
+		a {
+			color: white;
+		}
+
+		.mui-bar {
+			background: url(images/1X/110.png);
+			background-size: contain;
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+			background-color: #e6a03c;
+			height: 70px;
+			padding-top: 20px;
+		}
+
+		.mui-bar .mui-title {
+			color: white;
+			margin-top: 5px;
+		}
+
+		.mui-bar-nav~.mui-content {
+			padding-top: 70px;
+		}
+
+		.mui-slider-indicator {
+			background-color: white;
+		}
+
+		.mui-slider-indicator>a {
+			color: #C0C0C0;
+		}
+
+		.mui-slider-indicator>a:hover,
+		.mui-slider-indicator>a:active {
+			color: #C0C0C0;
+		}
+
+		.mui-segmented-control.mui-segmented-control-inverted .mui-control-item {
+			font-size: 13px;
+		}
+
+		.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+			color: #F0AD4E;
+			border-bottom: 2px solid #F0AD4E;
+		}
+
+		.mui-control-content {
+			min-height: 650px;
+		}
+
+		.wallet-icon-layer {
+			margin-top: 40px;
+			text-align: center;
+		}
+
+		.wallet-icon-layer div:nth-child(2),
+		.wallet-icon-layer div:nth-child(3) {
+			height: 25px;
+			line-height: 25px;
+		}
+
+		.wallet-icon-layer div:last-child {
+			color: black;
+		}
+
+		.wallet-icon {
+			margin: 0 auto;
+		}
+
+		.mui-card {
+			margin: 10px 20px;
+		}
+
+		.mui-card-content {
+			font-size: 12px;
+		}
+
+		.wallet-left,
+		.wallet-right {
+			padding: 15px 0;
+			margin: 0 auto;
+		}
+
+		.wallet-left div,
+		.wallet-right div {
+			padding: 3px 0;
+		}
+
+		.wallet-left .rmb {
+			color: #ff6464;
+		}
+
+		.card {
+			border-top: 1px solid #e0e0e0;
+		}
+
+		.card span {
+			margin-right: 10px;
+		}
+
+		.card a,
+		.card a:hover,
+		.card a:visited {
+			color: black;
+		}
+
+		.wallet-button {
+			margin: 30px 20px;
+		}
+
+		.wallet-button .active {
+			border: 1px solid #dd524d;
+			width: 100%;
+			height: 50px;
+			font-size: 18px;
+			background-color: #ff6464;
+		}
+
+		.wallet-button .normal {
+			border: 1px solid #cccccc;
+			width: 100%;
+			height: 50px;
+			font-size: 18px;
+			background-color: #c0c0c0;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="app">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+			<h1 class="mui-title">我的钱包</h1>
+		</header>
+		<div class="mui-content">
+			<div>
+				<template v-if="user.type == 'appraiser'">
+					<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted mui-segmented-control-primary">
+						<a class="mui-control-item mui-active" href="#item1mobile" @tap="changeTab(1)">
+							寄售钱包
+						</a>
+						<a class="mui-control-item" href="#item2mobile" @tap="changeTab(2)">
+							鉴定钱包
+						</a>
+					</div>
+				</template>
+				<div id="item1mobile" class="mui-control-content mui-active">
+					<div id="scroll1" class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<div class="wallet-icon-layer">
+								<div class="wallet-icon">
+									<img src="images/1X/095.png" style="width: 60px; height: 60px;" />
+								</div>
+								<div>我的资产</div>
+								<div>
+									<span>¥</span>
+									<span v-text="$options.filters.formatCurrency(saleWallet.assets)"></span>
+								</div>
+							</div>
+							<div class="mui-card">
+								<div class="mui-card-content">
+									<div class="mui-row">
+										<div class="mui-col-sm-6 mui-col-xs-6">
+											<li class="mui-table-view-cell" style="text-align: center;">
+												<div class="wallet-left">
+													<div>可提现</div>
+													<div class="rmb">
+														<span>¥</span>
+														<span v-text="$options.filters.formatCurrency(saleWallet.cash)"></span>
+													</div>
+												</div>
+											</li>
+										</div>
+										<div class="mui-col-sm-6 mui-col-xs-6">
+											<li class="mui-table-view-cell" style="text-align: center;">
+												<div class="wallet-right">
+													<div>待解冻(订单未完成)</div>
+													<div>
+														<span>¥</span>
+														<span v-text="$options.filters.formatCurrency(saleWallet.frozen)"></span>
+													</div>
+												</div>
+											</li>
+										</div>
+										<div class="mui-col-sm-12 mui-col-xs-12 card">
+											<a class="mui-navigate-right">
+												<template v-if="saleWallet.receiptsAccount">
+													<li class="mui-table-view-cell" id="showcardPicker1" style="height: 40px;">
+														<span id="showcardPickerImg1">
+															<img class="mui-pull-left" src="images/1X/096.png" style="width: 20px; height: 20px; margin-right: 5px;">我的收款账户</span>
+														<span id="showcardPickerResult1" class="mui-badge mui-badge-inverted"></span>
+													</li>
+												</template>
+												<template v-else>
+													<li class="mui-table-view-cell" @tap="bindAccount()">
+														<span>没有收款账户？点击这里立即绑定</span>
+													</li>
+												</template>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<template v-if="saleWallet.cash>500 && !!payment">
+								<div class="wallet-button">
+									<button @tap="cash('sell')" class="mui-btn mui-btn-danger active">提现</button>
+								</div>
+							</template>
+							<template v-else>
+								<div class="wallet-button">
+									<button @tap="cash('sell')" class="mui-btn mui-btn-danger normal">提现</button>
+								</div>
+							</template>
+
+						</div>
+					</div>
+				</div>
+
+				<div id="item2mobile" class="mui-control-content">
+					<div id="scroll2" class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+
+							<div class="wallet-icon-layer">
+								<div class="wallet-icon">
+									<img src="images/1X/095.png" style="width: 60px; height: 60px;" />
+								</div>
+								<div>我的资产</div>
+								<div>
+									<span>¥</span>
+									<span v-text="$options.filters.formatCurrency(kampoWallet.assets)"></span>
+								</div>
+							</div>
+							<div class="mui-card">
+								<div class="mui-card-content">
+									<div class="mui-row">
+										<div class="mui-col-sm-6 mui-col-xs-6">
+											<li class="mui-table-view-cell" style="text-align: center;">
+												<div class="wallet-left">
+													<div>可提现</div>
+													<div class="rmb">
+														<span>¥</span>
+														<span v-text="$options.filters.formatCurrency(kampoWallet.cash)"></span>
+													</div>
+												</div>
+											</li>
+										</div>
+										<div class="mui-col-sm-6 mui-col-xs-6">
+											<li class="mui-table-view-cell" style="text-align: center;">
+												<div class="wallet-right">
+													<div>待解冻(鉴定未完成)</div>
+													<div>
+														<span>¥</span>
+														<span v-text="$options.filters.formatCurrency(kampoWallet.frozen)"></span>
+													</div>
+												</div>
+											</li>
+										</div>
+										<div class="mui-col-sm-12 mui-col-xs-12 card">
+											<!-- <template v-if="saleWallet.receiptsAccount">
+												<li class="mui-table-view-cell" id="showcardPicker2">
+													<a href="my-col-account.html" class="mui-navigate-right">
+														<img class="mui-pull-left" src="images/1X/096.png" style="width: 20px; height: 20px; margin-right: 5px;"> 我的收款账户
+													</a>
+													<span class="mui-badge mui-badge-inverted" id="showcardPickerResult2"></span>
+												</li>
+											</template>
+											<template>
+												<li class="mui-table-view-cell" @tap="bindAccount()">
+													<span>没有收款账户？点击这里立即绑定</span>
+												</li>
+											</template> -->
+
+
+											<a class="mui-navigate-right">
+												<template v-if="kampoWallet.receiptsAccount">
+													<li class="mui-table-view-cell" id="showcardPicker2" style="height: 40px;">
+														<span id="showcardPickerImg2">
+															<img class="mui-pull-left" src="images/1X/096.png" style="width: 20px; height: 20px; margin-right: 5px;">我的收款账户</span>
+														<span id="showcardPickerResult2" class="mui-badge mui-badge-inverted"></span>
+													</li>
+												</template>
+												<template v-else>
+													<li class="mui-table-view-cell" @tap="bindAccount()">
+														<span>没有收款账户？点击这里立即绑定</span>
+													</li>
+												</template>
+											</a>
+
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+							<template v-if="kampoWallet.cash>500 && payment">
+								<div class="wallet-button">
+									<button @tap="cash('appraisal')" class="mui-btn mui-btn-danger active">提现</button>
+								</div>
+							</template>
+							<template v-else>
+								<div class="wallet-button">
+									<button @tap="cash('appraisal')" class="mui-btn mui-btn-danger normal">提现</button>
+								</div>
+							</template>
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+	<script src="js/vue.min.js"></script>
+	<script src="js/mui.min.js?version=201801202115"></script>
+	<script src="js/common.js?version=201801202115"></script>
+	<script src="js/mui.picker.js?version=201801202115"></script>
+	<script src="js/mui.poppicker.js?version=201801202115"></script>
+	<script type="text/javascript">
+		var cardPicker1 = new mui.PopPicker();
+		var cardPicker2 = new mui.PopPicker();
+		Vue.filter('formatCurrency', formatCurrency);
+		var app = new Vue({
+			el: '#app',
+			data: {
+				user: {},
+				saleWallet: {
+					receiptsAccount: {}
+				},
+				kampoWallet: {
+					receiptsAccount: {}
+				},
+				payment: ''
+			},
+			methods: {
+				loadData: function (val) {
+					var _this = this;
+
+					if (val == 1) {
+						ajax(api('/my/wallet/sale'), {
+							dataType: 'json',
+							success: function (data) {
+								_this.saleWallet = data;
+
+								var tempdata = [];
+								if (data.receiptsAccount) {
+									if (data.receiptsAccount.bankcard) {
+										tempdata.push({
+											value: 'bankcard',
+											text: data.receiptsAccount.bankcard.name + '(' + data.receiptsAccount.bankcard.openingBank + data.receiptsAccount.bankcard.cardNo + ')'
+										})
+									}
+									if (data.receiptsAccount.alipay) {
+										tempdata.push({
+											value: 'alipay',
+											text: data.receiptsAccount.alipay.name + '(' + data.receiptsAccount.alipay.account + ')'
+										})
+									}
+								}
+								cardPicker1.setData(tempdata);
+							}
+						});
+					} else {
+						ajax(api('/my/wallet/appraisal'), {
+							dataType: 'json',
+							success: function (data) {
+								_this.kampoWallet = data;
+
+								var tempdata = [];
+								if (data.receiptsAccount) {
+									if (data.receiptsAccount.bankcard) {
+										tempdata.push({
+											value: 'bankcard',
+											text: data.receiptsAccount.bankcard.name + '(' + data.receiptsAccount.bankcard.openingBank + data.receiptsAccount.bankcard.cardNo + ')'
+										})
+									}
+									if (data.receiptsAccount.alipay) {
+										tempdata.push({
+											value: 'alipay',
+											text: data.receiptsAccount.alipay.name + '(' + data.receiptsAccount.alipay.account + ')'
+										})
+									}
+								}
+								cardPicker2.setData(tempdata);
+							}
+						});
+					}
+				},
+				changeTab: function (val) {
+					this.loadData(val);
+				},
+				bindAccount: function () {
+					forward('my-col-account.html');
+				},
+				cash: function (val) {
+					var _this = this;
+					if (val == 'sell' && _this.saleWallet.cash < 500) {
+						mui.toast('亲，您的可提现金额不够500哦！'); return;
+					} else if (val == 'appraisal' && _this.kampoWallet.cash < 500) {
+						mui.toast('亲，您的可提现金额不够500哦！'); return;
+					}
+					ajax(api('/my/wallet/withdraw'), {
+						autoProcessError: false,
+						type: 'POST',
+						data: {
+							category: val,//sell,appraisal
+							amount: val == 'sell' ? _this.saleWallet.cash : _this.kampoWallet.cash,
+							receiptsAccountType: _this.payment,//bankcard,alipay
+						},
+						dataType: 'json',
+						success: function (data) {
+							mui.toast(data.message);
+						},
+						error: function (xhr, type, errerThrown) {
+							var data = JSON.parse(xhr.responseText);
+							if (xhr.status = 422) {
+								mui.toast((data.pop()).message);
+							}
+						}
+					});
+				}
+			},
+			mounted: function () {
+				var _this = this;
+				ajax(api('/my'),{
+					dataType: 'json',
+					success: function (data) {
+						_this.user = data.user;
+					}
+				});
+				_this.loadData(1);
+
+				var showCardPicker1 = document.getElementById('showcardPicker1');
+				var showCardPickerResult1 = document.getElementById('showcardPickerResult1');
+				if (showCardPicker1) {
+					showCardPicker1.addEventListener('tap', function (event) {
+						cardPicker1.show(function (items) {
+							document.getElementById('showcardPickerImg1').style.display = 'none';
+							showCardPickerResult1.innerText = (items[0] || {}).text;
+							app.payment = (items[0] || {}).value;
+						});
+					}, false);
+				}
+
+				var showCardPicker2 = document.getElementById('showcardPicker2');
+				if (showCardPicker2) {
+					var showCardPickerResult2 = document.getElementById('showcardPickerResult2');
+					showCardPicker2.addEventListener('tap', function (event) {
+						cardPicker2.show(function (items) {
+							document.getElementById('showcardPickerImg2').style.display = 'none';
+							showCardPickerResult2.innerText = (items[0] || {}).text;
+							app.payment = (items[0] || {}).value;
+						});
+					}, false);
+				}
+			}
+		});
+	</script>
+
+</body>
+
+</html>

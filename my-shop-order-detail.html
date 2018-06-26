@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>订单详情</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" href="css/mui.min.css">
+	<link href="css/mui.picker.css" rel="stylesheet" />
+	<link href="css/mui.poppicker.css" rel="stylesheet" />
+</head>
+
+<body>
+
+	<style>
+		a {
+			color: white;
+		}
+
+		li {
+			list-style: none;
+		}
+
+		body,
+		p {
+			font-size: 12px;
+		}
+
+		.mui-bar {
+			background: url(images/1X/110.png);
+			background-size: contain;
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+			background-color: #e6a03c;
+			height: 70px;
+			padding-top: 20px;
+		}
+
+		.mui-bar .mui-title {
+			color: white;
+			margin-top: 5px;
+		}
+
+		.mui-bar-nav~.mui-content {
+			padding-top: 70px;
+			margin-bottom: 45px;
+		}
+
+		.mui-content>.mui-card:first-child {
+			margin-top: 0;
+		}
+
+		.mui-card {
+			margin: 10px 0;
+		}
+
+		.mui-media-body p {
+			color: #C0C0C0;
+		}
+
+		.mui-card-header {
+			font-size: 12px;
+			background-color: #f4f4f8;
+		}
+
+		.mui-media-body span {
+			margin-right: 5px;
+			font-size: 12px;
+		}
+
+		.mui-card-content {
+			font-size: 12px;
+		}
+
+		.head-img {
+			height: 30px;
+			width: 30px;
+			float: left;
+			border-radius: 15px;
+			margin-right: 10px;
+			z-index: 2;
+		}
+
+		.head-img img {
+			height: 30px;
+			width: 30px;
+		}
+
+		.mui-card-header .head-img-text-left {
+			width: 250px;
+			max-width: 300px;
+			padding-left: 10px;
+			float: left;
+			color: #50a2aa;
+			text-align: left;
+		}
+
+		.order-item-product div {
+			margin-top: 15px;
+			padding-left: 10px;
+			float: left;
+		}
+
+		.order-item-product span {
+			display: block;
+		}
+
+		.order-item-product span:nth-child(2) {
+			margin-top: 10px;
+			color: #ff6464;
+		}
+
+		.mui-numbox {
+			position: absolute;
+			right: 5px;
+			top: 3px;
+		}
+
+		.pay img {
+			width: 30px;
+			height: 30px;
+		}
+
+		.mui-table-view-radio .mui-table-view-cell .mui-navigate-right:after {
+			background-color: #ff6464;
+			color: white;
+			border-radius: 15px;
+		}
+
+		.fixed-buttom {
+			position: fixed;
+			z-index: 999;
+			bottom: 0;
+			border: 1px;
+			background-color: white;
+			width: 100%;
+		}
+
+		.fixed-buttom a {
+			text-align: center;
+		}
+
+		.fixed-buttom .normal {
+			background-color: white;
+			color: #C0C0C0;
+		}
+
+		.fixed-buttom .active {
+			background-color: #ff6464;
+			color: white;
+		}
+
+
+
+		.popup {
+			position: fixed;
+			z-index: 10000;
+			top: 50%;
+			left: 50%;
+			display: none;
+			overflow: hidden;
+			width: 270px;
+			-webkit-transition-property: -webkit-transform, opacity;
+			transition-property: transform, opacity;
+			-webkit-transform: translate3d(-50%, -50%, 0) scale(1.185);
+			transform: translate3d(-50%, -50%, 0) scale(1.185);
+			text-align: center;
+			opacity: 0;
+			color: #000;
+			border-radius: 13px;
+		}
+
+		.popup .popup-in {
+			display: block;
+			-webkit-transition-duration: 400ms;
+			transition-duration: 400ms;
+			-webkit-transform: translate3d(-50%, -50%, 0) scale(1);
+			transform: translate3d(-50%, -50%, 0) scale(1);
+			opacity: 1;
+		}
+
+		.popup-inner {
+			position: relative;
+			padding: 15px;
+			border-radius: 13px 13px 0 0;
+			background: white;
+		}
+
+		.mui-popup-title+.mui-popup-text {
+			text-align: left;
+			min-height: 100px;
+		}
+
+		.mui-popup-button {
+			font-size: 12px;
+			background: white;
+		}
+
+		.popup-buttons {
+			position: relative;
+			display: -webkit-box;
+			display: -webkit-flex;
+			display: flex;
+			height: 44px;
+			-webkit-box-pack: center;
+			-webkit-justify-content: center;
+			justify-content: center;
+		}
+
+		.popup-backdrop {
+			position: fixed;
+			z-index: 998;
+			top: 40px;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			-webkit-transition-duration: 400ms;
+			transition-duration: 400ms;
+			opacity: 0;
+			background: rgba(0, 0, 0, .4);
+		}
+
+		.popup-inner .mui-table-view-cell {
+			padding: 5px;
+		}
+
+		.popup-inner .mui-table-view-cell:after {
+			height: 0;
+		}
+	</style>
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+		<h1 class="mui-title">订单详情</h1>
+	</header>
+	<div class="mui-content" id="app">
+		<div class="mui-card">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-media">
+					<!--<a href="javascript:;" class="mui-navigate-right">-->
+					<div class="mui-media-body">
+						<span>订单编号：
+							<span v-text="orderItem.no"></span>
+						</span>
+					</div>
+					<!--</a>-->
+					<span class="mui-badge mui-badge-inverted" style="color: #ff6464;" v-text="$options.filters.formatOrderStatus(orderItem.status)"></span>
+				</li>
+			</ul>
+		</div>
+
+		<div class="mui-card">
+			<div class="mui-card-header">买家信息</div>
+			<div class="mui-card-content">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell mui-media">
+						<div class="head-img">
+							<img :src="orderItem.buyer.avatar" />
+						</div>
+						<div class="mui-media-body">
+							<span v-text="orderItem.buyer.nickname"></span>
+							<span v-text="orderItem.buyer.phone"></span>
+							<p>地址：
+								<span v-text="orderItem.addressBook.address.province"></span>
+								<span v-text="orderItem.addressBook.address.city"></span>
+								<span v-text="orderItem.addressBook.address.region"></span>
+								<span v-text="orderItem.addressBook.address.street"></span>
+							</p>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="mui-card">
+			<div class="mui-card-header">所买商品</div>
+			<div class="mui-card-content">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell mui-media order-item-product">
+						<!-- <a @tap="order-detail.html"> -->
+						<img class="mui-pull-left" :src="orderItem.goods.photos[0]" style="width: 100px; height: 100px;">
+						<div>
+							<span class="mui-ellipsis" style="max-width: 200px;" v-text="orderItem.goods.name"></span>
+							<span v-text="'¥'+$options.filters.formatCurrency(orderItem.goods.price)"></span>
+							<!-- <span v-text="'X'+orderItem.quantity"></span> -->
+						</div>
+						<!-- </a> -->
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="mui-card">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-media">
+					<div class="mui-media-body">
+						<span>购买数量：</span>
+					</div>
+					<span class="mui-badge mui-badge-inverted" style="color: #ff6464;" v-text="orderItem.quantity"></span>
+				</li>
+				<li class="mui-table-view-cell mui-media">
+					<div class="mui-media-body">
+						<span>需付运费：</span>
+					</div>
+					<span class="mui-badge mui-badge-inverted" style="color: #ff6464;" v-text="'¥'+$options.filters.formatCurrency(orderItem.postage)"></span>
+				</li>
+				<li class="mui-table-view-cell mui-media">
+					<div class="mui-media-body">
+						<span>应付总额：</span>
+					</div>
+					<span class="mui-badge mui-badge-inverted" style="color: #ff6464;" v-text="'¥'+$options.filters.formatCurrency(orderItem.amount)"></span>
+				</li>
+			</ul>
+		</div>
+
+		<div class="fixed-buttom">
+			<div class="mui-row">
+				<template v-if="orderItem.status == 'nopay'">
+
+				</template>
+				<template v-else-if="orderItem.status == 'wait-shipping'">
+					<div class="mui-col-sm-12 mui-col-xs-12" @tap="shiping()">
+						<li class="mui-table-view-cell">
+							<a href="javascript:;" class="active" style="color: white;">
+								立即发货
+							</a>
+						</li>
+					</div>
+				</template>
+				<template v-else-if="orderItem.status == 'wait-receiving'">
+					<!-- <div class="mui-col-sm-12 mui-col-xs-12">
+						<li class="mui-table-view-cell">
+							<a href="javascript:;" class="active" style="color: white;">
+								删除订单
+							</a>
+						</li>
+					</div> -->
+				</template>
+				<template v-else-if="orderItem.status == 'refunding'">
+					<div class="mui-col-sm-6 mui-col-xs-6">
+						<li class="mui-table-view-cell">
+							<a href="javascript:;" class="active" style="color: white;">
+								拒绝
+							</a>
+						</li>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6">
+						<li class="mui-table-view-cell">
+							<a href="javascript:;" class="normal" style="color: #C0C0C0;">
+								同意
+							</a>
+						</li>
+					</div>
+				</template>
+				<template v-else>
+					<!-- <div class="mui-col-sm-12 mui-col-xs-12">
+						<li class="mui-table-view-cell">
+							<a href="javascript:;" class="active" style="color: white;">
+								删除订单
+							</a>
+						</li>
+					</div> -->
+				</template>
+			</div>
+		</div>
+		<div class="popup popup-in">
+			<div class="popup-inner">
+				<!-- <div class="mui-popup-title">鉴定师</div> -->
+				<li class="mui-table-view-cell mui-media">
+					<span href="javascript:;" id="showExpressPicker" class="mui-navigate-right">
+						<div class="mui-media-body" style="text-align:left;">
+							<span id="showExpressPickerResult">请选择快递公司</span>
+						</div>
+					</span>
+				</li>
+				<li class="mui-table-view-cell mui-media">
+					<input type="text" v-model="shipping.no" placeholder="请填写快递单号" maxlength="18" style="font-size:12px;border: 1px solid rgba(0,0,0,0);margin:0;padding:0;">
+				</li>
+				<!-- <div class="mui-popup-text">鉴定师简介...</div> -->
+			</div>
+			<div class="popup-buttons">
+				<span class="mui-popup-button" @tap="cancelPop()">取消</span>
+				<span class="mui-popup-button mui-popup-button-bold" @tap="submitPop()">确定</span>
+			</div>
+		</div>
+		<div class="popup-backdrop" style="display: none;"></div>
+	</div>
+	<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+	<script src="js/vue.min.js"></script>
+	<script src="js/mui.min.js?version=201801202115"></script>
+	<script src="js/common.js?version=201801202115"></script>
+	<script src="js/mui.picker.js?version=201801202115"></script>
+	<script src="js/mui.poppicker.js?version=201801202115"></script>
+
+	<script type="text/javascript">
+		Vue.filter('formatCurrency', formatCurrency);
+		Vue.filter('formatOrderStatus', formatOrderStatus);
+
+		var params = getUrlParams();
+		var id = params['id'];
+
+		var app = new Vue({
+			el: '#app',
+			data: {
+				orderItem: {
+					buyer: {},
+					addressBook: {
+						address: {}
+					},
+					goods: {
+						photos: []
+					}
+				},
+				shipping: {}
+			},
+			methods: {
+				loadData: function () {
+					var _this = this;
+
+					ajax(api("/my/order/" + id), {
+						dataType: 'json',
+						success: function (data) {
+							_this.orderItem = data;
+						}
+					});
+				},
+				shiping: function () {
+					document.getElementsByClassName('popup')[0].style.display = 'block';
+					document.getElementsByClassName('popup')[0].style.opacity = 1;
+					document.getElementsByClassName('popup-backdrop')[0].style.display = 'block';
+					document.getElementsByClassName('popup-backdrop')[0].style.opacity = 1;
+				},
+				del: function () {
+
+				},
+				cancelPop: function () {
+					document.getElementsByClassName('popup')[0].style.display = 'none';
+					document.getElementsByClassName('popup')[0].style.opacity = 0;
+					document.getElementsByClassName('popup-backdrop')[0].style.display = 'none';
+					document.getElementsByClassName('popup-backdrop')[0].style.opacity = 0;
+				},
+				submitPop: function () {
+					var _this = this;
+					if (!_this.shipping.express) {
+						mui.toast('请选择快递公司'); return;
+					}
+					if (!_this.shipping.no) {
+						mui.toast('请填写快递单号'); return;
+					}
+					ajax(api("/my/order/" + id) + '/shipping', {
+						autoProcessError: false,
+						type: "POST",
+						data: {
+							express: _this.shipping.express,
+							no: _this.shipping.no
+						},
+						dataType: 'json',
+						success: function (data) {
+							mui.toast(data.message);
+							_this.cancelPop();
+							if (window.Gold) {
+								Gold.broadcast('refreshLogin', 'submitShipping');
+							}
+							location.href = "my-shop.html";
+						},
+						error: function (xhr, type, errerThrown) {
+							var data = JSON.parse(xhr.responseText);
+							mui.toast((data.pop()).message);
+						}
+					});
+				}
+			},
+			mounted: function () {
+				var _this = this;
+				_this.loadData();
+
+				var expressPicker = new mui.PopPicker();
+				expressPicker.setData([{
+					value: 'SF',
+					text: '顺丰快递'
+				}, {
+					value: 'BSHT',
+					text: '百世汇通'
+				}]);
+				var showExpressPicker = document.getElementById('showExpressPicker');
+				var showExpressPickerResult = document.getElementById('showExpressPickerResult');
+				showExpressPicker.addEventListener('tap', function (event) {
+					expressPicker.show(function (items) {
+						showExpressPickerResult.innerText = (items[0] || {}).text;
+						_this.shipping.express = (items[0] || {}).text;
+					});
+				}, false);
+			}
+		});
+	</script>
+
+</body>
+
+</html>

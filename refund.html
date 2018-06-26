@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>退款/退货</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" href="css/mui.min.css">
+	<link href="css/mui.picker.css" rel="stylesheet" />
+	<link href="css/mui.poppicker.css" rel="stylesheet" />
+</head>
+
+<body>
+
+	<style>
+		a {
+			color: white;
+		}
+
+		li {
+			list-style: none;
+		}
+
+		.mui-bar {
+			background: url(images/1X/110.png);
+			background-size: contain;
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+			background-color: #e6a03c;
+			height: 70px;
+			padding-top: 20px;
+		}
+
+		.mui-bar .mui-title {
+			color: white;
+			margin-top: 5px;
+		}
+
+		.mui-bar-nav~.mui-content {
+			padding-top: 70px;
+			margin-bottom: 45px;
+		}
+
+		.mui-card {
+			margin: 10px 0;
+		}
+
+		.mui-media-body p {
+			color: #C0C0C0;
+		}
+
+		.mui-card-header {
+			font-size: 12px;
+			background-color: #f4f4f8;
+		}
+
+		.mui-media-body span {
+			margin-right: 5px;
+		}
+
+		.mui-content>.mui-card:first-child {
+			margin-top: 0;
+		}
+
+		.mui-card-content {
+			font-size: 12px;
+		}
+
+		.mui-table-view-radio .mui-table-view-cell .mui-navigate-right:after {
+			font-size: 16px;
+			background-color: black;
+			color: white;
+			border-radius: 8px;
+		}
+
+		.fixed-buttom {
+			position: fixed;
+			z-index: 999;
+			bottom: 0;
+			border: 1px;
+			background-color: white;
+			width: 100%;
+		}
+
+		.fixed-buttom a {
+			text-align: center;
+		}
+
+		.fixed-buttom .normal {
+			background-color: white;
+			color: #C0C0C0;
+		}
+
+		.fixed-buttom .active {
+			background-color: #ff6464;
+			color: white;
+		}
+
+		input,
+		textarea {
+			font-size: 12px;
+		}
+	</style>
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+		<h1 class="mui-title">退款/退货</h1>
+	</header>
+	<div class="mui-content" id="app">
+		<div class="mui-card">
+			<div class="mui-card-header">退款类型</div>
+			<div class="mui-card-content">
+				<ul class="mui-table-view mui-table-view-radio">
+					<li class="mui-table-view-cell mui-media" @tap="switchType('1')">
+						<a href="javascript:;" class="mui-navigate-right">
+							<div class="mui-media-body">
+								<span>我要退款
+									<span style="color: #C0C0C0;">（无须退货）</span>
+								</span>
+							</div>
+						</a>
+					</li>
+					<li class="mui-table-view-cell mui-media" @tap="switchType('2')">
+						<a href="javascript:;" class="mui-navigate-right">
+							<div class="mui-media-body">
+								<span>我要退货</span>
+							</div>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="mui-card">
+			<div class="mui-card-header">退款原因</div>
+			<div class="mui-card-content">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell" id="showRefundPicker">
+						<span id="showRefundPickerResult">&nbsp;</span>
+						<span class="mui-navigate-right"></span>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="mui-card">
+			<div class="mui-card-header">退款金额</div>
+			<div class="mui-card-content">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell mui-media">
+						<div class="mui-media-body">
+							<input type="number" readonly="readonly" style="border: 1px solid rgba(0, 0, 0, 0);margin:0;padding:0;" placeholder="请输入退款金额"
+							 v-model="refund.amount">
+						</div>
+						<!-- <span class="mui-badge mui-badge-inverted" style="color: #ff6464;">待付款</span> -->
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="mui-card">
+			<div class="mui-card-header">退款说明（可不填写）</div>
+			<div class="mui-card-content">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell mui-media">
+						<div class="mui-media-body">
+							<textarea style="border: 1px solid rgba(0, 0, 0, 0);margin:0;padding:0;" rows="5" placeholder="请输入退款说明" v-model="refund.description"></textarea>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="fixed-buttom">
+			<div class="mui-row">
+				<div class="mui-col-sm-12 mui-col-xs-12">
+					<li class="mui-table-view-cell">
+						<template v-if="refund.type!='' && refund.reason!='' && refund.amount!=''">
+							<a href="javascript:;" class="active" style="color: white;font-size: 17px;" @tap="refundProduct()">提交申请</a>
+						</template>
+						<template v-else>
+							<a href="javascript:;" style="color: black;font-size: 17px;">提交申请</a>
+						</template>
+					</li>
+				</div>
+			</div>
+		</div>
+		<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+		<script src="js/vue.min.js"></script>
+		<script src="js/mui.min.js?version=201801202115"></script>
+		<script src="js/common.js?version=201801202115"></script>
+		<script src="js/mui.picker.js?version=201801202115"></script>
+		<script src="js/mui.poppicker.js?version=201801202115"></script>
+
+		<script type="text/javascript">
+
+			var params = getUrlParams();
+			var id = params['id'];
+			var app = new Vue({
+				el: '#app',
+				data: {
+					refund: {
+						type: '',
+						reason: '',
+						amount: '',
+						description: '',
+					},
+					appUpgrade: {}
+				},
+				methods: {
+					loadData: function () {
+						var _this = this;
+						ajax(api('/my/order/' + id), {
+							dataType: 'json',
+							success: function (data) {
+								if (!data) {
+									mui.toast('订单不存在');
+									setTimeout(function () {
+										back();
+									}, 3000);
+									return;
+								}
+								_this.refund.amount = data.amount;
+							}
+						});
+					},
+					switchType: function (val) {
+						this.refund.type = val;
+					},
+					refundProduct: function () {
+						var _this = this;
+						mui.confirm('确认退款？', '提示', ['取消', '确定'], function (e) {
+							if (e.index != 0) {
+								ajax(api('/my/order/' + id + '/refund'), {
+									autoProcessError: false,
+									data: {
+										type: _this.refund.type,
+										reason: _this.refund.reason,
+										amount: _this.refund.amount,
+										description: _this.refund.description,
+									},
+									type: 'POST',
+									dataType: 'json',
+									success: function (data) {
+										mui.toast('退款申请提交成功');
+										if (window.Gold) {
+											Gold.broadcast('refreshOrderList', 'refund');
+										}
+										setTimeout(() => {
+											back();
+										}, 1000);
+									},
+									error: function (xhr, type, errerThrown) {
+										var data = JSON.parse(xhr.responseText);
+										mui.toast((data.pop()).message);
+									}
+								});
+							}
+						});
+					},
+				},
+				mounted: function () {
+					var _this = this;
+					_this.loadData();
+					var refundPicker = new mui.PopPicker();
+					refundPicker.setData([{
+						value: '0',
+						text: '多拍'
+					}, {
+						value: '1',
+						text: '拍错'
+					}, {
+						value: '2',
+						text: '不想要'
+					}, {
+						value: '3',
+						text: '不喜欢'
+					}]);
+					var showRefundPicker = document.getElementById('showRefundPicker');
+					var showRefundPickerResult = document.getElementById('showRefundPickerResult');
+					showRefundPicker.addEventListener('tap', function (event) {
+						refundPicker.show(function (items) {
+							showRefundPickerResult.innerText = (items[0] || {}).text;
+							_this.refund.reason = (items[0] || {}).text;
+						});
+					}, false);
+				}
+			});
+		</script>
+
+
+</body>
+
+</html>

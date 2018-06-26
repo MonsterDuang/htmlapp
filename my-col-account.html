@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>我的收款账户</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" href="css/mui.min.css">
+</head>
+
+<body>
+
+	<style>
+		li {
+			list-style: none;
+		}
+
+		a {
+			color: white;
+		}
+
+		.mui-bar {
+			background: url(images/1X/110.png);
+			background-size: contain;
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+			background-color: #e6a03c;
+			height: 70px;
+			padding-top: 20px;
+		}
+
+		.mui-bar .mui-title {
+			color: white;
+			margin-top: 5px;
+		}
+
+		.mui-bar-nav~.mui-content {
+			padding-top: 70px;
+		}
+
+		/*.mui-slider-indicator {
+				background-color: white;
+			}*/
+
+		.mui-segmented-control {
+			background-color: white;
+			font-size: 13px;
+		}
+
+		.mui-segmented-control.mui-segmented-control-inverted {
+			box-shadow: 0 1px 2px rgba(0, 0, 0, 0)
+		}
+
+		.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+			color: #F0AD4E;
+			border-bottom: 2px solid #F0AD4E;
+		}
+
+		.mui-control-content {
+			min-height: 600px;
+		}
+
+		.mui-card {
+			margin: 0;
+		}
+
+		.mui-card-content {
+			font-size: 12px;
+		}
+	</style>
+	<div id="app">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+			<h1 class="mui-title">我的收款账户</h1>
+		</header>
+		<div class="mui-content">
+			<div>
+				<div id="sliderSegmentedControl" class="mui-segmented-control mui-segmented-control-inverted mui-segmented-control-primary">
+					<a class="mui-control-item mui-active" href="#item1mobile">
+						银行卡
+					</a>
+					<a class="mui-control-item" href="#item2mobile">
+						支付宝账户
+					</a>
+				</div>
+				<div>
+					<div id="item1mobile" class="mui-control-content mui-active">
+						<div id="scroll1" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+
+								<div class="mui-card">
+									<div class="mui-card-content">
+										<template v-if="bankcard && bankcard.openingBank!=undefined">
+											<li class="mui-table-view-cell" style="padding:15px;">
+												<img class="mui-pull-left" src="images/1X/057.png" style="width: 20px; height: 20px; margin-right: 5px;">{{bankcard.openingBank}}
+												<span class="mui-badge mui-badge-inverted" v-text="bankcard.cardNo"></span>
+											</li>
+										</template>
+										<template v-else>
+												<li class="mui-table-view-cell" style="padding:15px;">
+												<a @tap="bind('bind-card.html')" class="mui-navigate-right">
+													去绑定
+												</a>
+											</li>
+										</template>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div id="item2mobile" class="mui-control-content">
+						<div id="scroll2" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+
+								<div class="mui-card">
+									<div class="mui-card-content">
+										<template v-if="alipay && alipay.account!=undefined">
+											<li class="mui-table-view-cell" style="padding:15px;">
+												<img class="mui-pull-left" src="images/1X/055.png" style="width: 20px; height: 20px; margin-right: 5px;">支付宝账号
+												<span class="mui-badge mui-badge-inverted" v-text="alipay.account"></span>
+											</li>
+										</template>
+										<template v-else>
+											<li class="mui-table-view-cell" style="padding:15px;">
+												<a @tap="bind('bind-alipay.html')" class="mui-navigate-right">
+													去绑定
+												</a>
+											</li>
+										</template>
+
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+	<script src="js/vue.min.js"></script>
+	<script src="js/mui.min.js?version=201801202115"></script>
+	<script src="js/common.js?version=201801202115"></script>
+	<script type="text/javascript">
+		var app = new Vue({
+			el: '#app',
+			data: {
+				alipay: {},
+				bankcard: {}
+			},
+			methods: {
+				bind: function (uri) {
+					forward(uri);
+				}
+			},
+			mounted: function () {
+				var _this = this;
+				ajax(api('/my/receipts-account'), {
+					dataType: 'json',
+					success: function (data) {
+						if (data) {
+							_this.alipay = data.alipay;
+							_this.bankcard = data.bankcard;
+						}
+					}
+				});
+			}
+		});
+	</script>
+
+</body>
+
+</html>

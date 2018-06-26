@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>鉴定</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <link rel="stylesheet" href="css/mui.min.css">
+  <style>
+    .mui-plus.mui-android header.mui-bar {
+      display: none;
+    }
+
+    li {
+      list-style: none;
+    }
+
+    body,
+    p {
+      font-size: 12px;
+    }
+
+    a {
+      color: white;
+    }
+
+    .mui-bar {
+      background: url(images/1X/110.png);
+      background-size: contain;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      background-color: #e6a03c;
+      height: 70px;
+      padding-top: 20px;
+    }
+
+    .mui-bar .mui-title {
+      color: white;
+      margin-top: 5px;
+
+    }
+
+    .mui-bar-nav~.mui-content {
+      padding-top: 70px;
+    }
+
+    .mui-control-content {
+      min-height: 570px;
+    }
+
+    .mui-card {
+      margin: 0 0 0 0;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, .1);
+    }
+
+    .mui-card .mui-table-view {
+      padding-left: 10px;
+    }
+
+    .mui-card-footer:before,
+    .mui-card-header:after {
+      height: 0;
+    }
+
+    .mui-table-view-cell:after {
+      height: 0;
+    }
+
+    .mui-card-header,
+    .mui-card-content,
+    .mui-card-footer {
+      font-size: 12px;
+    }
+
+    .mui-card-header .head-img {
+      height: 30px;
+      width: 30px;
+      float: left;
+      border-radius: 15px;
+    }
+
+    .mui-card-header .head-img img {
+      height: 30px;
+      width: 30px;
+    }
+
+    .mui-card-header .head-img-text-left {
+      width: 100px;
+      max-width: 300px;
+      padding-left: 10px;
+      float: left;
+      color: #50a2aa;
+      text-align: left;
+      margin-top: 5px;
+    }
+
+    .mui-card-header .head-img-text-right {
+      float: right;
+      width: 100px;
+      text-align: right;
+      margin-top: 5px;
+      color: red;
+    }
+
+    .mui-card-footer.result {
+      padding: 2px 10px;
+      background-color: #f4f4f4;
+    }
+
+    .mui-card-footer .logistics {
+      width: 100%;
+    }
+
+    .item-video img {
+      width: 100%;
+      height: 100%;
+    }
+
+    .item-image-left {
+      float: left;
+      width: 70%;
+      padding-right: 10px;
+    }
+
+    .item-image-left img {
+      width: 210px;
+      height: 210px;
+    }
+
+    .item-image-right {
+      float: left;
+      width: 30%;
+    }
+
+    .item-image-right img {
+      width: 100px;
+      height: 100px;
+    }
+
+    .item-image-right-up {
+      padding-bottom: 5px;
+    }
+
+    .head-img-text-result span {
+      width: 60px;
+      display: block;
+      float: left;
+      margin-right: 10px;
+      text-align: center;
+      background-color: white;
+      padding: 5px;
+      border-radius: 5px;
+    }
+
+    .head-img-text-result span.active {
+      color: white;
+      background-color: #faa93d;
+    }
+
+    .mui-card-footer.remark {
+      padding: 0;
+    }
+
+    textarea {
+      border: 0;
+    }
+
+    .mui-content>.mui-card:first-child {
+      margin-top: 0;
+    }
+
+    .fixed-buttom {
+      position: fixed;
+      z-index: 999;
+      bottom: 0;
+      border: 1px;
+      background-color: white;
+      width: 100%;
+    }
+
+    .fixed-buttom .normal {
+      text-align: center;
+      background-color: white;
+      color: #C0C0C0;
+    }
+
+    .fixed-buttom .active {
+      text-align: center;
+      background-color: #ff6464;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <header class="mui-bar mui-bar-nav">
+      <a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+      <h1 class="mui-title">鉴定</h1>
+    </header>
+    <div class="mui-content">
+      <template v-if="item.user!=undefined">
+        <div class="mui-card">
+          <div class="mui-card-header">
+            <div>
+              <div class="head-img">
+                <img :src="item.user.avatar" />
+              </div>
+              <div class="head-img-text-left" v-text="item.user.nickname"></div>
+              <!-- <template v-if="status=='did-not'">
+												<div class="head-img-text-right" @tap="toAppraisal(item)">去鉴定</div>
+											</template> -->
+              <div style=" clear: both;"></div>
+            </div>
+          </div>
+          <div class="mui-card-content">
+            <ul class="mui-table-view">
+              <li class="mui-table-view-cell">
+                <span v-text="item.questions"></span>
+              </li>
+              <li class="mui-table-view-cell" style="padding:0;">
+                <div>
+                  <div class="item-image-left" @tap="preViewImg(item.photos,0)">
+                    <img :src="item.photos[0]+'-convert210'" style="width: 100%" />
+                  </div>
+                  <div class="item-image-right">
+                    <div class="item-image-right-up" @tap="preViewImg(item.photos,1)">
+                      <img :src="item.photos[1]+'-convert100'" />
+                    </div>
+                    <div class="item-image-right-down" @tap="preViewImg(item.photos,2)">
+                      <img :src="item.photos[2]+'-convert100'" />
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+
+          </div>
+          <div class="mui-card-footer result">
+            <div class="head-img-text-result">
+              <template v-if="item.user.id==user.id">
+                <span :class="{'active':item.result=='真品'}">真品</span>
+                <span :class="{'active':item.result=='假货'}">假货</span>
+                <span :class="{'active':item.result=='其他'}">其他</span>
+              </template>
+              <template v-else>
+                <span :class="{'active':item.result=='真品'}" @tap="switchResult('真品')">真品</span>
+                <span :class="{'active':item.result=='假货'}" @tap="switchResult('假货')">假货</span>
+                <span :class="{'active':item.result=='其他'}" @tap="switchResult('其他')">其他</span>
+              </template>
+            </div>
+          </div>
+          <div class="mui-card-footer remark">
+            <template v-if="item.user.id==user.id">
+              <textarea rows="5" readonly="readonly" placeholder="请输入补充说明" style="font-size:12px;" v-model="item.resultIntro"></textarea>
+            </template>
+            <template v-else>
+              <textarea rows="5" placeholder="请输入补充说明" style="font-size:12px;" v-model="item.resultIntro"></textarea>
+            </template>
+          </div>
+        </div>
+      </template>
+    </div>
+    <template v-if="item.status=='did-not'">
+      <div class="fixed-buttom">
+        <div class="mui-row">
+          <div class="mui-col-sm-12 mui-col-xs-12">
+            <li class="mui-table-view-cell normal" :class="{'active':item.result && item.resultIntro}" @tap="appraisal()">
+              发送
+            </li>
+          </div>
+        </div>
+      </div>
+    </template>
+  </div>
+  <!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+  <script src="js/vue.min.js"></script>
+  <script src="https://cdn.bootcss.com/lodash.js/4.17.4/lodash.min.js?version=201801202115"></script>
+  <script src="js/mui.js?version=201801202115"></script>
+  <script src="js/common.js?version=201801202115"></script>
+  <script>
+    var params = getUrlParams();
+    var id = params['id'];
+
+    var app = new Vue({
+      el: '#app',
+      data: {
+        user: {},
+        item: {}
+      },
+      methods: {
+        loadData: function () {
+          var self = this
+          ajax(api('/my/appraisal/' + id), {
+            dataType: 'json',
+            success: function (data) {
+              self.item = data;
+            }
+          });
+          ajax(api('/my'), {
+            dataType: 'json',
+            success: function (data) {
+              self.user = data.user;
+            }
+          });
+        },
+        preViewImg: function (srcList, index) {
+          if (window.Photo) {
+            var obj = {
+              srcList,
+              index
+            };
+            window.Photo.preview(JSON.stringify(obj), function (e,cb) {
+            });
+          }
+        },
+        switchResult: function (val) {
+          Vue.set(this.item, 'result', val);
+        },
+        appraisal: function () {
+          var _this = this;
+          if (!this.item.result) {
+            mui.toast('请选择鉴定结果'); return;
+          }
+          if (!this.item.resultIntro) {
+            mui.toast('请输入补充说明'); return;
+          }
+          ajax(api('/appraisal/' + id + '/result'), {
+            autoProcessError: false,
+            type: 'POST',
+            data: {
+              result: _this.item.result,
+              resultIntro: _this.item.resultIntro
+            },
+            dataType: 'json',
+            success: function (data) {
+              mui.toast(data.message);
+              if (window.Glod) {
+                Gold.broadcast('refreshList', 'result');
+              }
+              setTimeout(() => {
+                back();
+              }, 500)
+            },
+            error: function (xhr,type,errerThrown) {
+              var data = JSON.parse(xhr.responseText);
+              mui.toast((data.pop()).message);
+            }
+          });
+        }
+      },
+      mounted: function () {
+        this.loadData();
+      }
+    })
+  </script>
+</body>
+
+</html>

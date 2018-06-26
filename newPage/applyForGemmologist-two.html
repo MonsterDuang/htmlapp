@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../css/mui.min.css" rel="stylesheet" />
+    <title>申请成为鉴定师</title>
+    <style>
+        /*=============head_common=============*/
+        .mui-bar {
+            height: 70px;
+            padding-top: 20px;
+            text-align: center;
+            color: #000;
+        }
+        [v-cloak] {
+            display: none;
+        }
+        .mui-bar .mui-title {
+            color: rgb(53,53,53);
+            margin-top: 5px;
+        }
+
+        .mui-bar-nav~.mui-content {
+            padding: 70px 0 60px 0;
+        }
+
+        .header_{
+            color: white;
+            text-align: center;
+            font-size: 14px;
+            height: 60px;
+            line-height: 40px;
+            position: relative;
+            background: url("../images/new1x/bg-jiandingshi.png");
+            background-size: cover;
+        }
+        .header_N,
+        .header_T{
+            position: absolute;
+            width: 96%;
+            height: 60px;
+            left: 50%;
+            top: 50%;
+            margin-left: -48%;
+        }
+        .header_T{
+            z-index: 2;
+            line-height: 60px;
+            color: #000;
+        }
+        .solid_{
+            height:1px;width:84%;background:rgb(204,204,204);position: absolute;top:50%;left:8%;z-index:3;
+        }
+
+        .solid_1{
+            width: 33.3333%;
+            height: 1px;
+            background: rgb(250,169,61);
+            position: absolute;
+            top: 49.5%;
+            left: 0;
+            z-index: 1;
+        }
+
+        .solid_ li{
+            height: 29px;
+            width: 29px;
+            position: absolute;
+            top: -15px;
+            left: -2px;
+            margin: 0;
+            background: white;
+            z-index: 2;
+        }
+        .solid_ li span{
+            display: block;
+            color: white;
+            height: 23px;
+            width: 23px;
+            line-height: 23px;
+            text-align: center;
+            background: url("../images/new1x/icon-Grey.png");
+            background-size: cover;
+            margin: 3px auto;
+        }
+        .solid_ li:nth-child(2){
+            left: 33.4%;
+            margin-left: -14px;
+        }
+        .solid_ li:nth-child(3){
+            left: 66.66666666666%;
+            margin-left: -15px;
+        }
+        .solid_ li:nth-child(4){
+            left: 100%;
+            margin-left: -27px;
+        }
+
+        .info_{
+            margin-top: 32px;
+            font-size: 12px;
+            margin-left: 6%;
+            color: rgb(161,161,161);
+        }
+
+        .mui-table-view-cell>.mui-badge {
+            left: 0;
+        }
+        li{
+            list-style: none;
+            height: 30px;
+            line-height: 30px;
+            margin-left: 10px;
+        }
+        ._next{
+            width:90%;
+            height:40px;
+            line-height:40px;
+            text-align:center;
+            position:fixed;
+            bottom:10px;
+            left: 5%;
+            color:white;
+            z-index: 100;
+            border-radius: 44px;
+            font-size: 15px;
+        }
+        /*=============head_common_END=============*/
+
+        .hint_{
+            background: white;
+            padding: 10px;
+            margin-top: 10px;
+        }
+        .hint_ p{
+            line-height: 25px;
+            margin: 0;
+        }
+        .photo_{
+            background:white;
+            margin-top: 1px;
+            padding: 25px 20px;
+        }
+        .photo_ div{
+            float: left;
+            width: 20%;
+            text-align: right;
+        }
+        .photo_ div:nth-child(1),
+        .photo_ div:nth-child(3){
+            width: 40%;
+            height: 99px;
+            overflow: hidden;
+        }
+        .photo_ img{
+            width: 100%;
+        }
+        .certificate{
+            background: white;
+            margin-top: 12px;
+            height: 45px;
+            line-height: 45px;
+            padding-left: 6%;
+            font-size: 14px;
+        }
+        .certificate div,
+        .certificate input{
+            float: left;
+        }
+        .certificate input{
+            width: 60%;
+            margin: 2.5px 0;
+            border: none;
+        }
+        .mui-table-view-cell{
+            margin: 0;
+            padding: 0;
+            font-size: 12px;
+            line-height: 12px;
+            padding-top: 10px;
+            height: 40px;
+            line-height: 23px;
+        }
+        .box_B{
+            /*box-shadow: 0 1px 2px rgba(0,0,0,.1);*/
+        }
+    </style>
+</head>
+<body>
+
+<header class="mui-bar mui-bar-nav">
+    <!--<a class="mui-icon mui-icon-left-nav mui-pull-left" style="color:rgb(53,53,53)" href="applyForGemmologist-one.html"></a>-->
+    <a class="mui-icon mui-icon-left-nav mui-pull-left" style="color:rgb(53,53,53)" href="javascript:back()"></a>
+    <h1 class="mui-title">申请成为鉴定师</h1>
+</header>
+<div class="mui-content" id="app" v-cloak>
+    <div class="header_">
+        <span>轻松几步，成为鉴定师</span>
+        <img class="header_N" src="../images/new1x/bg-touying.png" alt="">
+        <div class="header_T">
+            <div class="solid_">
+                <li><span style='background: url("../images/new1x/icon-orange.png");background-size:cover;'>1</span></li>
+                <li><span style='background: url("../images/new1x/icon-orange.png");background-size:cover;'>2</span></li>
+                <li><span>3</span></li>
+                <li><span>4</span></li>
+                <div class="solid_1"></div>
+            </div>
+        </div>
+    </div>
+<!--<div style='position: fixed;z-index: 100;top: 100px;background: red'>测试获取:{{info}}</div>-->
+    <div>
+        <div class="info_">按要求填写您的身份信息</div>
+        <div class="hint_">
+            <p>如下图所示，请上传一张清晰的手持证件照，注意手指不要遮挡文字信息!</p>
+        </div>
+
+        <div class="photo_ mui-clearfix box_B">
+          <div>
+              <img @tap="actionsheetPop()" :src="upImage" alt="">
+          </div>
+          <div>图示 :&nbsp;</div>
+          <div>
+              <img style="vertical-align:top" :src="hint_img" alt="">
+          </div>
+        </div>
+
+        <div class="certificate box_B">
+            <div>身份证号 : </div><input onkeyup="value=value.replace(/[\W]/g,'') "
+                                     onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"
+                                     @blur="BlurFn()" v-model="certificate" type="text">
+        </div>
+
+    </div>
+    <!--<div style="position: fixed;z-index: 100;top: 100px;background: red">{{test}}</div>-->
+    <div id="actionsheet" class="mui-popover mui-popover-action mui-popover-bottom">
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell">
+                <a @tap="uploadFromPhotograph">拍照</a>
+            </li>
+            <li class="mui-table-view-cell">
+                <a @tap="uploadFromAlbum">从相册选择</a>
+            </li>
+        </ul>
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell">
+                <a @tap="cancelUpload()">
+                    <b>取消</b>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div id="but" @tap="nextFn()" :style="bgColor" class="_next">下一步</div>
+</div>
+</body>
+<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+<script src="../js/vue.min.js"></script>
+<script src="../js/mui.min.js?version=201801202115"></script>
+<!--<script src="../js/common.js?version=201801202115"></script>-->
+<script src="../js/common.js"></script>
+<script src="../js/jQuery-2.1.4.min.js"></script>
+<script>
+
+    window.onresize = function () {
+
+        var h = $(window).height();
+        //console.log(h+','+window.screen.availHeight)
+        var u = navigator.userAgent;
+        if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
+            if(h <= window.screen.availHeight/1.5){
+                $('#but').css({'position':'absoult',"margin-top":"-.5rem",'display':'none'});
+            }else{
+                $('#but').css({'position':'fixed','display':'block'});
+            }
+        }
+
+    }
+
+    $('input').on('focus',function(){
+        $('#but').hide();
+    })
+
+    $('input').on('blur',function(){
+        $('#but').show();
+    })
+
+    function getPramsFromNative(V){
+        var _info = JSON.parse(V),path = qiniuPath
+        _info.Id = app.$data.certificate;
+        if(app.$data.upImage.indexOf(path)>-1){
+            _info.IdImg = app.$data.upImage.replace(path,'');
+        }
+        window.Page.setwebParams(JSON.stringify(_info),"cb")
+    }
+
+    function getPhoto_callback(data, status) {
+        if (status != 'cancel') {
+            var uploadObj = {
+                isURI: true,
+                photos: new Array(data)
+            }
+            QNUpload.uploadImage(JSON.stringify(uploadObj), 'uploadPhoto_callback');
+        }
+    }
+    function uploadPhoto_callback(data, status) {
+        // app.$data.user.avatarKey = data;
+        app.$data.upImage = qiniuPath + data;
+        // document.getElementById('head-img1').src = 'http://img.aworld.cn/' + data;
+        mui('#actionsheet').popover('toggle');
+    }
+    function cb() {}
+    var params = NewgetUrlParams()
+
+    var app = new Vue({
+        el:"#app",
+        data:{
+            item:{
+                name:''
+            },
+            test:'测试参数',
+            certificate:'',
+            bgColor:"background:rgb(204,204,204)",
+            upImage:'../images/new1x/icon-add2.png',
+            user:{
+                avatarKey:''
+            },
+            hint_img:'../images/new1x/img-shenfenzheng.png',
+            info:'',
+            params:''
+        },
+        watch:{
+            "certificate"(newV){
+                var self = this,reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+                newV.length>18?
+                    self.certificate=newV.slice(0,18):true;
+                var Boole = self.upImage!='../images/new1x/icon-add2.png'
+                newV.length===18&&Boole&&reg.test(newV)?
+                    self.bgColor="background:rgb(250,169,61)":
+                    self.bgColor="background:rgb(204,204,204)";
+            },
+            "upImage"(newV){
+                var self = this
+                var Boole = self.upImage!='../images/new1x/icon-add2.png'
+                self.certificate.length===18&&Boole?
+                    self.bgColor="background:rgb(250,169,61)":
+                    self.bgColor="background:rgb(204,204,204)";
+            }
+        },
+        methods:{
+            BlurFn(){
+                var self = this,reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+                if(!reg.test(self.certificate)){
+                    mui.toast("请输入有效身份证号")
+                    self.bgColor="background:rgb(204,204,204)"
+                }
+            },
+            nextFn(){
+                var self = this;
+                if(self.bgColor=="background:rgb(250,169,61)"){
+                    if(params==="fromOne"){
+                        // var info = self.getStorage("info")
+                        if(!window.Page)return;
+                        window.Page.getwebParams("","getPramsFromNative")
+                        // self.info = info||"错误"
+                        // if(info){
+                        //     var _info = JSON.parse(info)
+                        //     _info.Id = self.certificate;
+                        //     _info.IdImg = self.upImage;
+                            // self.params = JSON.stringify(_info)
+                            // window.Page.setwebParams(JSON.stringify(_info),"cb")
+                            // self.setStorage("info",JSON.stringify(_info))
+                        // }
+                    }
+                    forward('./applyForGemmologist-three.html')
+                }
+            },
+            actionsheetPop: function () {
+                mui('#actionsheet').popover('toggle');
+            },
+            uploadFromPhotograph: function () {//拍照
+                if (window.Photo) {
+                    var obj = {
+                        source: 1,
+                        type: 'png',
+                        returnType: 'uri',
+                        edit: false,
+                        // 张数
+                        photoNumber:1
+                    };
+                    window.Photo.getPhoto(JSON.stringify(obj), 'getPhoto_callback');
+                }
+            },
+            uploadFromAlbum: function () {//从相册选择
+                if (window.Photo) {
+                    var obj = {
+                        source: 2,
+                        type: 'png',
+                        // returnType: 'uri',
+                        edit: false,
+                        photoNumber:1
+                    };
+                    window.Photo.getPhoto(JSON.stringify(obj), 'getPhoto_callback');
+                }
+            },
+            // 取消相册选择
+            cancelUpload: function () {
+                mui('#actionsheet').popover('toggle');
+            },
+            forward(url){
+                var self = this
+                if(!self.certificate){
+                    mui.toast('请输入身份证号码')
+                }else if(self.bgColor=="background:rgb(250,169,61)"){
+                    forward(url)
+                }
+            },
+            // getStorage(key){
+            //     return sessionStorage.getItem(key)
+            // },
+            // setStorage(key,Val){
+            //     sessionStorage.setItem(key,JSON.stringify(Val))
+            // },
+            // rmStorage(key){
+            //     sessionStorage.removeItem(key)
+            // }
+        },
+        mounted(){
+            var self = this
+            // self.test = params;
+        }
+    })
+</script>
+</html>

@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>拍卖标题</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" href="css/mui.min.css">
+	<style>
+		body,
+		p {
+			font-size: 12px;
+		}
+
+		ui,
+		li {
+			list-style: none;
+		}
+
+		a {
+			color: white;
+		}
+
+		.mui-bar {
+			background: url(images/1X/110.png);
+			background-size: contain;
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+			background-color: #e6a03c;
+			height: 70px;
+			padding-top: 20px;
+		}
+
+		.mui-bar .mui-title {
+			color: white;
+			margin-top: 5px;
+		}
+
+		.mui-bar-nav~.mui-content {
+			padding-top: 70px;
+			margin-bottom: 60px;
+		}
+
+		.mui-scroll-wrapper {
+			top: 70px;
+		}
+
+		.mui-slider .mui-slider-group .mui-slider-item {
+			vertical-align: middle;
+		}
+
+		#slider img {
+			display: block;
+			max-width: 100%;
+			/* height: 375px; */
+		}
+
+		.auction-remark {
+			/* max-height: 100px; */
+			color: black;
+		}
+
+		.auction-remark p {
+			margin-top: 5px;
+			color: #C0C0C0;
+		}
+
+		.auction-price {
+			background-color: #f4f4f8;
+			color: black;
+		}
+
+		.auction-price .item {
+			width: 25%;
+			max-width: 25%;
+			height: 20px;
+			line-height: 20px;
+			float: left;
+			margin: 10px 0px;
+		}
+
+		.auction-price img {
+			width: 20px;
+			height: 20px;
+		}
+
+		.mui-table-view-cell:after {
+			background-color: white;
+		}
+
+		.auction-price .item-img {
+			float: left;
+		}
+
+		.auction-price .item-text {
+			float: left;
+			margin-left: 2px;
+		}
+
+		.auction-price .item-tag {
+			margin: 10px 0px;
+		}
+
+		.auction-price .item-tag span {
+			margin: 5px 20px 5px 0;
+			padding: 5px 10px;
+			border-radius: 20px;
+			color: white;
+		}
+
+		.auction-price .item-tag span:first-child {
+			background-color: #22ac38;
+		}
+
+		.auction-price .item-tag span:nth-child(2) {
+			background-color: #e6a03c;
+		}
+
+		.auction-price-time span {
+			font-size: 12px;
+			color: green;
+		}
+
+		.auction-price-action span {
+			font-size: 12px;
+			margin: 0 10px 20px;
+		}
+
+		.auction-price-action span:first-child {
+			color: red;
+		}
+
+		.fixed-noapp-header {
+			font-size: 12px;
+			position: fixed;
+			z-index: 99;
+			top: 0;
+			border: 1px;
+			background-color: #666666;
+			filter: Alpha(Opacity=8, Style=0);
+			opacity: 0.8;
+			width: 100%;
+			color: white;
+		}
+
+		.fixed-noapp-header img {
+			width: 30px;
+			height: 30px;
+			margin-right: 5px;
+		}
+
+		.fixed-noapp-header span {
+			padding-top: 6px;
+			display: block;
+		}
+
+		.fixed-noapp-header .item-img {
+			float: left;
+		}
+
+		.fixed-noapp-header button {
+			width: 80px;
+			border: 1px;
+			border-radius: 5px;
+		}
+
+
+		.fixed-noapp-bottom {
+			display: none;
+			font-size: 12px;
+			position: fixed;
+			z-index: 99;
+			bottom: 0;
+			border: 1px;
+			background-color: white;
+			width: 100%;
+			color: white;
+		}
+
+		.fixed-noapp-bottom .mui-table-view-cell {
+			border-top: 1px solid #f4f4f8;
+		}
+
+		.fixed-noapp-bottom button {
+			width: 80%;
+			border: 1px;
+			border-radius: 5px;
+			color: white;
+			background-color: #ff6464;
+		}
+
+		.fixed-buttom {
+			font-size: 12px;
+			position: fixed;
+			z-index: 99;
+			bottom: 0;
+			border: 1px;
+			background-color: white;
+			width: 100%;
+			color: #afafaf;
+		}
+
+		.fixed-buttom img {
+			width: 20px;
+			height: 20px;
+			margin-right: 5px;
+		}
+
+		.fixed-buttom span {
+			padding-top: 2px;
+			display: block;
+		}
+
+		.fixed-buttom .item-img {
+			float: left;
+		}
+
+		.fixed-buttom .item-text {
+			margin-left: 5px;
+			float: left;
+		}
+
+		.fixed-buttom button {
+			width: 120px;
+			border: 1px;
+		}
+
+		.fixed-buttom .item-botton-active {
+			color: white;
+			background-color: #ff6464;
+		}
+
+		.fixed-buttom .item-botton-normal {
+			width: 120px;
+			border: 1px;
+			color: white;
+			background-color: #C0C0C0;
+		}
+
+		.fixed-pay {
+			display: none;
+			font-size: 12px;
+			position: fixed;
+			z-index: 100;
+			bottom: 0;
+			border: 1px;
+			background-color: white;
+			width: 100%;
+			color: #afafaf;
+			box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
+		}
+
+		.fixed-pay .mui-card {
+			padding: 0;
+			margin: 0;
+		}
+
+		.fixed-pay img {
+			width: 20px;
+			height: 20px;
+			margin-right: 5px;
+		}
+
+		.mui-table-view-radio .mui-table-view-cell .mui-navigate-right:after {
+			background-color: #ff6464;
+			color: white;
+			border-radius: 15px;
+			font-size: 18px;
+		}
+
+		.mui-numbox {
+			width: 150px;
+		}
+
+		.mui-numbox .mui-input-numbox,
+		.mui-numbox .mui-numbox-input {
+			text-align: center;
+		}
+
+		.mutilineword {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 3;
+		}
+
+		.marginbottom60 {
+			/* margin-bottom: 60px; */
+		}
+	</style>
+</head>
+
+<body>
+	<div id="app">
+		<template v-if="goodsAuction">
+			<template v-if="!env.appVersion">
+				<div class="fixed-noapp-header">
+					<div class="mui-row">
+						<div class="mui-col-sm-6 mui-col-xs-6">
+							<li class="mui-table-view-cell">
+								<div class="item-img">
+									<img src="images/1X/logo.png" />
+								</div>
+								<span>艺方购</span>
+							</li>
+						</div>
+						<div class="mui-col-sm-6 mui-col-xs-6">
+							<li class="mui-table-view-cell" style="text-align:right">
+								<button @tap="downloadapp()">立即下载</button>
+							</li>
+						</div>
+					</div>
+				</div>
+			</template>
+			<template  v-if="env.appVersion">
+				<header class="mui-bar mui-bar-nav">
+					<a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+					<h1 class="mui-title" v-text="goodsAuction.title"></h1>
+					<a href="javascript:;" @tap="share">
+						<span class="mui-icon mui-pull-right" style="font-size: 14px;padding-top: 15px;color: white;">
+							<img src="images/1X/067.png" style="width: 20px; height: 20px;" />
+						</span>
+					</a>
+				</header>
+			</template>
+			<div class="mui-content">
+				<div id="slider" class="mui-slider">
+					<div class="mui-slider-group mui-slider-loop">
+						<div class="mui-slider-item mui-slider-item-duplicate">
+							<img :src="goodsAuction.photos[goodsAuction.photos.length-1]" @tap="preview(goodsAuction.photos.length-1)">
+						</div>
+						<div class="mui-slider-item" v-for="(photo,index) in goodsAuction.photos">
+							<img :src="photo" @tap="preview(index)">
+						</div>
+						<div class="mui-slider-item mui-slider-item-duplicate">
+							<img :src="goodsAuction.photos[0]" @tap=preview(0)>
+						</div>
+					</div>
+					<div class="mui-slider-indicator">
+						<div class="mui-indicator" v-bind:class="{'mui-active':index==0}" v-for="(photo,index) in goodsAuction.photos"></div>
+					</div>
+				</div>
+				<ul class="mui-table-view" :class="{'marginbottom60':!env.appVersion}">
+					<li class="mui-table-view-cell auction-remark">
+						<span v-text="goodsAuction.title"></span>
+						<p v-html="formatDescription(goodsAuction.description)"></p>
+					</li>
+					<li class="mui-table-view-cell auction-price">
+						<div class="item">
+							<div class="item-img">
+								<img src="images/1X/074.png" />
+							</div>
+							<div class="item-text" v-show="goodsAuction.marginMoney" v-text="formatValue(goodsAuction.marginMoney)"></div>
+							<div style=" clear: both;"></div>
+						</div>
+						<div class="item">
+							<div class="item-img">
+								<img src="images/1X/075.png" />
+							</div>
+							<div class="item-text" v-show="goodsAuction.floorPrice" v-text="formatValue(goodsAuction.floorPrice)"></div>
+							<div style=" clear: both;"></div>
+						</div>
+						<div class="item">
+							<div class="item-img">
+								<img src="images/1X/076.png" />
+							</div>
+							<div class="item-text" v-show="goodsAuction.raisePriceRange" v-text="formatValue(goodsAuction.raisePriceRange)"></div>
+							<div style=" clear: both;"></div>
+						</div>
+						<div class="item">
+							<div class="item-img">
+								<img src="images/1X/077.png" />
+							</div>
+							<div class="item-text" v-show="goodsAuction.postage" v-text="formatValue(goodsAuction.postage)"></div>
+							<div style=" clear: both;"></div>
+						</div>
+						<div style=" clear: both;"></div>
+						<div class="item-tag">
+							<span v-for="tag in goodsAuction.tags" v-text="tag"></span>
+						</div>
+					</li>
+					<!-- <li v-if="comparTime(goodsAuction.auctionStartAt)==1 && comparTime(goodsAuction.auctionEndAt)==2" class="mui-table-view-cell auction-price-time">
+					离开场还需：
+					<span v-if="substractTime('',goodsAuction.auctionEndAt).days>0">
+						<span>{{substractTime('',goodsAuction.auctionEndAt).days}}</span>天</span>
+					<span v-if="substractTime('',goodsAuction.auctionEndAt).hours>0">
+						<span>{{substractTime('',goodsAuction.auctionEndAt).hours}}</span>小时</span>
+					<span v-if="substractTime('',goodsAuction.auctionEndAt).minutes>0">
+						<span>{{substractTime('',goodsAuction.auctionEndAt).minutes}}</span>分</span>
+					<span v-if="substractTime('',goodsAuction.auctionEndAt).seconds>0">
+						<span>{{substractTime('',goodsAuction.auctionEndAt).seconds}}</span>秒</span>
+				</li> -->
+					<li v-if="goodsAuction.auctionStatus == 'ing'" class="mui-table-view-cell auction-price-action">
+						最新出价：
+						<template v-if="goodsAuctionPrice.length>0">
+							<span v-for="price in goodsAuctionPrice" v-text="formatMoneyVal(price.bid)"></span>
+						</template>
+						<template v-else>
+							<span v-show="goodsAuction.floorPrice" v-text="formatMoneyVal(goodsAuction.floorPrice)"></span>
+						</template>
+					</li>
+					<li v-else-if="goodsAuction.auctionStatus == 'not-started'" class="mui-table-view-cell auction-price-time">
+						离开场还需：
+						<span v-if="substractTime('',goodsAuction.auctionStartAt).days>0">
+							<span>{{substractTime('',goodsAuction.auctionStartAt).days}}</span>天</span>
+						<span v-if="substractTime('',goodsAuction.auctionStartAt).hours>0">
+							<span>{{substractTime('',goodsAuction.auctionStartAt).hours}}</span>时</span>
+						<span v-if="substractTime('',goodsAuction.auctionStartAt).minutes>0">
+							<span>{{substractTime('',goodsAuction.auctionStartAt).minutes}}</span>分</span>
+						<span v-if="substractTime('',goodsAuction.auctionStartAt).seconds>0">
+							<span>{{substractTime('',goodsAuction.auctionStartAt).seconds}}</span>秒</span>
+					</li>
+					<li v-else="goodsAuction.auctionStatus=='end'" class="mui-table-view-cell auction-price-action">
+						最高出价：
+						<template v-if="goodsAuction.lastTradingPrice">
+							<span v-text="'¥'+goodsAuction.lastTradingPrice"></span>
+						</template>
+						<template v-else>
+							<span v-show="goodsAuction.floorPrice" v-text="'¥'+goodsAuction.floorPrice"></span>
+						</template>
+					</li>
+
+				</ul>
+			</div>
+
+			<template v-if="!env.appVersion">
+				<div class="fixed-noapp-bottom">
+					<div class="mui-row">
+						<div class="mui-col-sm-12 mui-col-xs-12">
+							<li class="mui-table-view-cell" style="text-align:center">
+								<button class="item-botton-normal" @tap="navigatorTotarget()">戳我进入App购买</button>
+							</li>
+						</div>
+					</div>
+				</div>
+			</template>
+			<template v-else>
+				<div class="fixed-buttom">
+					<div class="mui-row">
+						<template v-if="hasMarginmoney && goodsAuction.auctionStatus=='ing'">
+							<div class="mui-col-sm-6 mui-col-xs-6">
+								<li class="mui-table-view-cell">
+									<div class="mui-numbox" :data-numbox-min='goodsAuction.floorPrice' :data-numbox-step="goodsAuction.raisePriceRange">
+										<button class="mui-btn mui-btn-numbox-minus" type="button" @tap="subNumber()">-</button>
+										<template v-if="this.goodsAuctionPrice.length>0">
+											<input class="mui-input-numbox" type="number" :value="parseFloat(this.goodsAuctionPrice[0].bid + this.goodsAuction.raisePriceRange).toFixed(2)"
+											/>
+										</template>
+										<template v-else>
+											<input class="mui-input-numbox" type="number" :value="parseFloat(this.goodsAuction.floorPrice + this.goodsAuction.raisePriceRange).toFixed(2)"
+											/>
+										</template>
+
+										<button class="mui-btn mui-btn-numbox-plus" type="button" @tap="addNumber()">+</button>
+									</div>
+								</li>
+							</div>
+							<div class="mui-col-sm-6 mui-col-xs-6">
+								<li class="mui-table-view-cell" style="text-align:right">
+									<button class="item-botton-active" @tap="price(goodsAuction)">立即出价</button>
+								</li>
+							</div>
+						</template>
+						<template v-else>
+							<div class="mui-col-sm-6 mui-col-xs-6" @tap="remind(goodsAuction)">
+								<li class="mui-table-view-cell" style="margin-top:5px;">
+									<template v-if="goodsAuction.reminded && goodsAuction.reminded">
+										<div class="item-img">
+											<img src="images/1X/100.png" />
+										</div>
+									</template>
+									<template v-else>
+										<div class="item-img">
+											<img src="images/1X/099.png" />
+										</div>
+									</template>
+									<span>开拍提醒</span>
+								</li>
+							</div>
+							<template v-if="goodsAuction.auctionStatus == 'ing'">
+								<div class="mui-col-sm-6 mui-col-xs-6">
+									<li class="mui-table-view-cell" style="text-align:right">
+										<button class="item-botton-active" @tap="auction(goodsAuction)">我要参拍</button>
+									</li>
+								</div>
+							</template>
+							<template v-else-if="goodsAuction.auctionStatus == 'not-started'">
+								<div class="mui-col-sm-6 mui-col-xs-6">
+									<li class="mui-table-view-cell">
+										<button class="item-botton-normal">未开始</button>
+									</li>
+								</div>
+							</template>
+							<template v-else>
+								<div class="mui-col-sm-4 mui-col-xs-6">
+									<li class="mui-table-view-cell">
+										<button class="item-botton-normal">已结束</button>
+									</li>
+								</div>
+							</template>
+						</template>
+					</div>
+				</div>
+
+				<div class="fixed-pay">
+					<div class="mui-card">
+						<div class="mui-card-content">
+							<ul class="mui-table-view">
+								<template>
+									<li class="mui-table-view-cell" @tap="wechatPay()">
+										<a href="javascript:;" class="mui-navigate-right">
+											<img class="mui-pull-left" src="images/1X/054.png">
+											<div class="mui-media-body">
+												<span>微信</span>
+											</div>
+										</a>
+									</li>
+								</template>
+								<template>
+									<li class="mui-table-view-cell" @tap="aliPay()">
+										<a href="javascript:;" class="mui-navigate-right">
+											<img class="mui-pull-left" src="images/1X/055.png">
+											<div class="mui-media-body">
+												<span>支付宝</span>
+											</div>
+										</a>
+									</li>
+								</template>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</template>
+		</template>
+	</div>
+
+	<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+	<script src="js/vue.min.js"></script>
+	<script src="js/mui.min.js?version=201801202115"></script>
+	<script src="js/common.js?version=201801202115"></script>
+	<script type="text/javascript">
+		window.orderType = 2;
+		//保证金支付
+		function marginmoneyPay_callback(code, msg) {
+			document.getElementsByClassName('fixed-pay')[0].style.display = 'none';
+			if (code == 0) {//支付成功
+				window.orderType = 2;
+				location.reload();
+			} else {
+				window.orderType = 1;
+				mui.toast('取消支付');
+			}
+		}
+
+		//订单支付
+		function orderPay_callback(code, msg) {
+			if (code == 0) {//支付成功
+				forward('my-order.html');
+			} else {
+				mui.toast('取消支付');
+			}
+		}
+
+		var params = getUrlParams();
+        var id = params['id'];
+		var app = new Vue({
+			el: '#app',
+			data: {
+				goodsAuction: {
+					photos: []
+				},
+				goodsAuctionPrice: [],
+				paymentChannel: 'wechat',
+				orderType: window.orderType,
+				hasMarginmoney: false//是否缴纳保证金
+			},
+			methods: {
+				downloadapp: function () {
+					if (env.isIos) {
+						forward(iosDownLoadUrl);
+					} else {
+						forward(androidDownLoadUrl);
+					}
+				},
+				navigatorTotarget: function () {
+					if (env.isWechat) {
+						mui.toast('请点击微信右上角，浏览器中打开');
+					} else {
+						awakenToTarget(location.href);
+					}
+				},
+				preview: function (index) {
+					if (window.Photo) {
+						var obj = {
+							srcList: this.goodsAuction.photos,
+							index: index || 0
+						};
+						window.Photo.preview(JSON.stringify(obj), function () { });
+					}
+				},
+				loadData: function (type) {
+					var _this = this;
+					ajax(api('/auction-goods/' + id), {
+						dataType: 'json',
+						success: function (data) {
+							_this.goodsAuction = data;
+							window.document.title = _this.goodsAuction.title;
+
+							ajax(api('/auction-goods/' + id + '/margin-money'), {
+								autoProcessError: false,
+								dataType: 'json',
+								success: function (data) {
+									if (data) {
+										_this.hasMarginmoney = true;
+									} else {
+										_this.hasMarginmoney = false;
+									}
+								}
+							});
+
+							ajax(api('/auction-goods/' + id + '/bid'), {
+								autoProcessError: false,
+								dataType: 'json',
+								success: function (data) {
+									_this.goodsAuctionPrice = data;
+
+									//判断是否竞拍成功
+									if (_this.goodsAuction.auctionSuccess) {
+										var lastBid = _this.goodsAuctionPrice && _this.goodsAuctionPrice[0].bid || 0;
+										if (!_this.goodsAuction.order || _this.goodsAuction.order.status == 'closed') {//弹框
+											mui.confirm('恭喜您竞拍成功！记得付款哦！<br/>竞拍金额：¥' + lastBid, '提示', ['取消', '去付款'], function (e) {
+												if (e.index != 0) {//去缴纳
+													_this.order();
+												}
+											});
+										} else {
+											if (_this.goodsAuction.order.status == 'nopay') {
+												mui.confirm('恭喜您竞拍成功！记得付款哦！<br/>竞拍金额：¥' + lastBid, '提示', ['取消', '去付款'], function (e) {
+													if (e.index != 0) {//去缴纳
+														forward('my-order.html?status' + _this.goodsAuction.order.status);
+													}
+												});
+											} else
+												forward('my-order.html?status' + _this.goodsAuction.order.status);
+										}
+									}
+								}
+							});
+						}
+					});
+				},
+				share: function () {
+					var _this = this;
+					if (window.Share){
+						window.Share.share(JSON.stringify({
+							title: _this.goodsAuction.title,
+							shareUrl: location.href,
+							imageUrl: _this.goodsAuction.photos[0],
+							description: _this.goodsAuction.description
+						}), 'inject');
+					}
+				},
+				formatDescription: function (val) {
+					return val ? val.replace(new RegExp('\n', 'gm'), '<br/>') : '';
+				},
+				auction: function (item) {
+					var _this = this;
+					//TODO 接口判断是否需要缴纳保证金
+					if (!_this.hasMarginmoney) {
+						mui.confirm('请先缴纳保证金才可以参与竞拍哦！', '提示', ['取消', '去缴纳'], function (e) {
+							if (e.index != 0) {//去缴纳
+								_this.orderType = 1;//保证金
+								document.getElementsByClassName('fixed-pay')[0].style.display = 'block';
+							}
+						});
+					}
+				},
+				subNumber: function () {
+					var currentNumber = mui('.mui-input-numbox')[0].value
+					if (this.goodsAuctionPrice.length > 0) {
+						if (currentNumber < this.goodsAuctionPrice[0].bid + this.goodsAuction.raisePriceRange) { return; }
+					} else {
+						if (currentNumber <= this.goodsAuction.floorPrice + this.goodsAuction.raisePriceRange) { return; }
+					}
+					var number = parseFloat(mui('.mui-input-numbox')[0].value) - this.goodsAuction.raisePriceRange;
+					mui('.mui-input-numbox')[0].value = number.toFixed(2);
+
+				},
+				addNumber: function () {
+					var number = parseFloat(mui('.mui-input-numbox')[0].value) + this.goodsAuction.raisePriceRange;
+					mui('.mui-input-numbox')[0].value = number.toFixed(2);
+				},
+				price: function (item) {
+					//立即出价
+					var _this = this;
+					// document.getElementsByClassName('fixed-pay')[0].style.display = 'block';
+					// _this.orderType = 2;
+					//竞拍出价
+					ajax(api('/auction-goods/' + id + '/bid'),{
+						type: 'POST',
+						data: {
+							bid: mui('.mui-input-numbox')[0].value
+						},
+						autoProcessError: false,
+						dataType: 'json',
+						success: function (data) {
+							mui.toast(data.message);
+							//刷新最新出价
+							ajax(api('/auction-goods/' + id + '/bid'), {
+								dataType: 'json',
+								success: function (data) {
+									_this.goodsAuctionPrice = data;
+									if (window.Gold) {
+										Gold.broadcast('editPrice', JSON.stringify({ id: _this.goodsAuction.id, bid: _this.goodsAuctionPrice[0].bid }));
+									}
+								}
+							});
+						},
+						error: function (xhr, type, errerThrown) {
+							var data = JSON.parse(xhr.responseText);
+							if (xhr.status == 422) {
+								mui.toast((data.pop()).message);
+								ajax(api('/auction-goods/' + id + '/bid'), {
+									dataType: 'json',
+									success: function (data) {
+										_this.goodsAuctionPrice = data;
+										if (window.Gold) {
+											Gold.broadcast('editPrice', JSON.stringify({ id: _this.goodsAuction.id, bid: _this.goodsAuctionPrice[0].bid }));
+										}
+									}
+								});
+							}
+						}
+					});
+
+				},
+				marginmoney: function () {
+                    var _this = this;
+					//缴纳保证金
+					ajax(api('/auction-goods/' + id + '/margin-money'), {
+						type: 'POST',
+						data: {
+							payment: {
+								channel: _this.paymentChannel
+							}
+						},
+						dataType: 'json',
+						success: function (data) {
+							var paymentObj = {};
+							if (window.Pay != undefined) {
+								var paymentObj = {
+									type: _this.paymentChannel == 'wechat' ? 'wx' : 'alipay',
+								};
+								if (env.isIos) {
+									if (_this.paymentChannel == 'wechat') {
+										paymentObj.payment = data.payment.order;
+									} else {
+										paymentObj.sign = encodeURIComponent(data.payment.order.data.sign);
+									}
+									// paymentObj.payment = _this.paymentChannel == 'wechat' ? data.payment.order : encodeURIComponent(JSON.stringify(data.payment.order.sign));
+								} else {
+									paymentObj.payment = data.payment.order;
+								}
+								Pay.payment(JSON.stringify(paymentObj), 'marginmoneyPay_callback');
+							}
+						},
+						error: function () {
+							mui('.fixed-pay').style.display = 'none';
+							mui.toast('下单失败');
+						}
+					});
+				},
+				order: function () {
+				    // alert("this.goodsAuction.id")
+				    // alert(this.goodsAuction.id)
+					forward('my-auction-order-detail.html?auctionGoodsId=' + this.goodsAuction.id);
+				},
+				forward: function (uri) {
+					forward(uri);
+				},
+				formatValue: function (val) {
+					return val + '元';
+				},
+				formatMoneyVal: function (val) {
+					return '¥' + val;
+				},
+				remind: function (item) {
+					var _this = this;
+					//设置/取消开拍提醒
+					ajax(api('/auction-goods/' + id + '/remind'), {
+						type: 'POST',
+						dataType: 'json',
+						autoProcessError: false,
+						success: function (data) {
+							_this.goodsAuction.reminded = !_this.goodsAuction.reminded;
+							mui.toast(data.message);
+						}, error: function (xhr, type, errerThrown) {
+							var data = JSON.parse(xhr.responseText);
+							if (xhr.status == 400) {
+								mui.toast((data.pop()).message);
+							}
+							if (xhr.status == 402) {
+								mui.toast((data.pop()).message);
+							}
+						}
+					});
+				},
+				wechatPay: function (type) {
+				    var self = this
+                    self.paymentChannel = 'wechat';
+					if (self.orderType == 1) {
+                        self.marginmoney();
+					} else {
+                        self.order(self.goodsAuction);
+					}
+				},
+				aliPay: function (type) {
+				    var self = this
+                    self.paymentChannel = 'alipay';
+					if (self.orderType == 1) {
+                        self.marginmoney();
+					} else {
+                        self.order();
+					}
+				}
+			},
+			mounted: function () {
+				this.loadData();
+                mui.init({
+					swipeBack: true //启用右滑关闭功能
+				});
+			}
+		});
+	</script>
+
+</body>
+
+</html>

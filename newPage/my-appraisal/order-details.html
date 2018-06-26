@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/mui.min.css" rel="stylesheet" />
+    <title>订单详情</title>
+    <style>
+        /*=============head_common=============*/
+        .mui-bar {
+            height: 70px;
+            padding-top: 20px;
+            text-align: center;
+            color: #000;
+        }
+        [v-cloak] {
+            display: none;
+        }
+        .mui-bar .mui-title {
+            color: rgb(53,53,53);
+            margin-top: 5px;
+        }
+
+        .mui-bar-nav~.mui-content {
+            padding:70px 0 60px 0;
+        }
+        .listC{
+            background: white;
+            height: 45px;
+            line-height: 45px;
+            margin-top: 8px;
+            padding: 0 10px;
+            font-size: 14px;
+            color: #666;
+        }
+        .listC span:nth-child(1){
+            float: left;
+        }
+        .listC span:nth-child(2){
+            float: right;
+        }
+        .pay_C{
+            width:90%;
+            height:40px;
+            line-height:40px;
+            text-align:center;
+            position:fixed;
+            bottom:10px;
+            left: 5%;
+            color:white;
+            z-index: 100;
+            border-radius: 44px;
+            background: rgb(255,169,61);
+            font-size: 15px;
+        }
+        .requireC{
+            background: white;
+            padding: 10px;
+            font-size: 14px;
+            color: #666;
+            margin-top: 8px;
+        }
+        .requireC span{
+            float: left;
+        }
+        .requireC span:nth-child(1){
+            width: 26%;
+            text-align: center;
+            font-size: 15px;
+        }
+        .requireC span:nth-child(2){
+            width: 74%;
+        }
+        .mui-slider{
+            margin-top: 10px;
+            /*box-shadow: 0 1px 2px rgba(0,0,0,.1);*/
+        }
+        .box_B{
+            /*box-shadow: 0 1px 2px rgba(0,0,0,.1);*/
+        }
+        /*.requireC div:nth-child(1){*/
+            /*width: 80px;*/
+            /*background: red;*/
+        /*}*/
+        .mui-card{
+            margin: 10px 0;
+        }
+        .mui-bar {
+            height: 70px;
+            padding-top: 20px;
+            text-align: center;
+            color: #000;
+        }
+        [v-cloak] {
+            display: none;
+        }
+        .mui-bar .mui-title {
+            color: rgb(53,53,53);
+            margin-top: 5px;
+        }
+
+        .pay_C{
+            width:90%;
+            height:40px;
+            line-height:40px;
+            text-align:center;
+            position:fixed;
+            bottom:10px;
+            left: 5%;
+            color:white;
+            z-index: 100;
+            border-radius: 44px;
+            background: rgb(255,169,61);
+            font-size: 15px;
+        }
+        .pay_C_1{
+            width:90%;
+            height:40px;
+            line-height:40px;
+            text-align:center;
+            position:fixed;
+            bottom:10px;
+            left: 5%;
+            color:white;
+            z-index: 100;
+            border-radius: 44px;
+            background: rgb(204,204,204);
+            font-size: 15px;
+        }
+        .timeC{
+            background: white;
+            padding: 12px 0;
+            position: relative;
+        }
+        .timeC>div{
+            height: 55px;
+            line-height: 55px;
+            background: rgb(245,245,245);
+            color: rgb(102,102,102);
+            border-radius: 3px;
+            padding: 12.5px 15px;
+            position: relative;
+        }
+        .timeC>div>img{
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: 0;
+            top: 0;
+        }
+        .timeC>div>span{
+            position: absolute;
+            top: 0;
+            right: 18px;
+            font-size: 15px;
+            width: 100%;
+        }
+        .timeC>div>div{
+            position: absolute;
+            width: 75%;
+            height: 30px;
+            background: rgb(255,169,61);
+            border-radius:0 30px 30px 30px;
+            padding-left: 15px;
+        }
+        .timeC>div>div span{
+            display: block;
+            height: 27px;
+            width: 22px;
+            margin-top: 1px;
+            background: url("../../images/new3x/IDF_icon_Voice3@3x-1.png")center center no-repeat;
+            background-size: cover;
+            animation: am 1s linear infinite;
+        }
+
+        @keyframes am {
+            0%{
+                background: url("../../images/new3x/IDF_icon_Voice3@3x-1.png")center center no-repeat;
+                background-size: cover;
+            }
+            50%{
+                background: url("../../images/new3x/IDF_icon_Voice3@3x-2.png")center center no-repeat;
+                background-size: cover;
+            }
+            100%{
+                background: url("../../images/new3x/IDF_icon_Voice3@3x-3.png")center center no-repeat;
+                background-size: cover;
+            }
+        }
+        .video_C{
+            padding: 10px 0;
+        }
+        .mui-slider{
+            height: 260px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<header class="mui-bar mui-bar-nav">
+    <a class="mui-icon mui-icon-left-nav mui-pull-left" style="color:rgb(53,53,53)" href="javascript:back()"></a>
+    <h1 class="mui-title">订单详情</h1>
+</header>
+<div id="app" class="mui-content" v-cloak>
+
+
+    <div class="mui-slider">
+        <div class="mui-slider-group mui-slider-loop">
+
+            <div @tap="preview(listLength)" class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img :src="list[listLength]" /></a></div>
+
+            <div v-for="(item,index) in list" @tap="preview(index)" class="mui-slider-item"><a href="#"><img :src="item"/></a></div>
+
+            <div @tap="preview(0)" class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img :src="list[0]" /></a></div>
+        </div>
+    </div>
+
+    <div class="requireC mui-clearfix box_B">
+        <span style="display:inline-block;color:#333;text-align:left">鉴定要求 :</span>
+        <span style="display:inline-block;">
+            {{DataList.questions}}
+        </span>
+    </div>
+    <!--<div style="position: fixed;z-index: 100;background: red;top: 100px;left: 0">{{paymentObj}}</div>-->
+    <div class="listC mui-clearfix box_B"><span>鉴定方式 :</span> <span>{{DataList.mode=="platform"?"平台分配":"指定专家"}}</span></div>
+    <div class="listC mui-clearfix box_B"><span>鉴定费用 :</span> <span style="color:rgb(255,51,0)">￥{{DataList.amount}}</span></div>
+    <div class="listC mui-clearfix box_B"><span>提交时间 :</span> <span>{{DataList.createdAt}}</span></div>
+    <div class="listC mui-clearfix box_B"><span>{{DataList.mode=="platform"?"平台分配":"指定专家"}} :</span> <span>{{DataList.nickname}}</span></div>
+    <div v-if='DataList.type=="completed"' class="listC mui-clearfix box_B"><span>鉴定结果 :</span> <span style="color:rgb(255,51,0)">{{DataList.result}}</span></div>
+
+    <!--<div style="word-wrap:break-word;position:fixed;top: 50px;background: red;z-index: 100;left: 0;width: 98%">{{test}}</div>-->
+
+    <div v-if="DataList.type=='completed'" class="video_C">
+        <div class="timeC" v-if="DataList.resultAudio">
+            <div>
+                <div @tap="playV(DataList.resultAudio)" :style="playStyle">
+                    <span v-show="videoImg"></span>
+                    <div v-show="!videoImg" style="width:22px;height:27px;margin-top:1px;background:url('../../images/new3x/IDF_icon_Voice3@3x-3.png');background-size: cover"></div>
+                </div>
+                <!--DataList-->
+                <!--<img @tap.stop="delFn()" src="../../images/new2x/icon_delete2@2x.png" alt="">-->
+            </div>
+            <span style="position:absolute;right:18px;top:28px">{{videoTiem_s}}</span>
+        </div>
+        <div class="timeC" v-if="DataList.resultIntro">
+            <span style="padding:10px;font-size:13px;color:rgb(102,102,102);text-indent:2em">{{DataList.resultIntro}}</span>
+        </div>
+    </div>
+
+    <div v-if='DataList.type=="nopay"' style="margin-top: 10px;width: 100%">
+        <div v-if="PayType=='wx'" style="width: 100%">
+            <!--box-shadow: 0 1px 2px rgba(0,0,0,.1)-->
+            <img style="width: 100%;" src="../../images/new2x/wechat_Image.png" alt="">
+        </div>
+        <div style="width: 100%" v-if="PayType=='alipay'">
+            <!--box-shadow: 0 1px 2px rgba(0,0,0,.1)-->
+            <img style="width: 100%;" src="../../images/new2x/alipay_Image.png" alt="">
+        </div>
+    </div>
+
+    <!--<div class="listC mui-clearfix"><span>鉴定结果 :</span> <span style="color:rgb(255,51,0)">看假</span></div>-->
+    <div v-if='DataList.type=="nopay"' class="pay_C" @tap="PayFn()">去支付</div>
+    <div v-if="DataList.type=='noappraisal'&&!DataList.isSend" class="pay_C" @tap="urge(DataList.orderId)">催一下</div>
+    <div v-if="DataList.type=='noappraisal'&&DataList.isSend" class="pay_C_1" @tap="urge()">已催促</div>
+    <div v-if="DataList.type=='completed'" class="pay_C" @tap="comment()">评价专家</div>
+
+</div>
+</body>
+<script src="../../js/jQuery-2.1.4.min.js"></script>
+<script src="../../js/vue.min.js"></script>
+<script src="../../js/mui.min.js?version=201801202115"></script>
+<script src="../../js/common.js?version=201801202115"></script>
+<script>
+
+    function pay_callback(code, msg) {
+        if (code == 0) {//支付成功
+            if (window.Gold) {
+                Gold.broadcast('refreshLogin', 'payOrder');
+            }
+            back()
+            if (window.Gold) {
+                Gold.broadcast('refreshList', 'editAddress');
+            }
+        } else {
+            mui.toast('取消支付');
+        }
+    }
+    function callBackFn(state) {
+
+        var St,time,Timer;
+        if(state.indexOf("|")>-1){
+            St = state.split("|")[0];
+            time = state.split("|")[1]-0;
+        }else {
+            St = state;
+        }
+        app.$data.videoImg = false;
+
+        switch (St){
+            case "0":
+                mui.toast("播放异常")
+                break;
+            case "1":
+                app.$data.videoTiem = time;
+                app.$data.videoTiem_s = timeFormat(time);
+                app.$data.videoImg = true;
+                app.$data.index = 2;
+                Timer = setInterval(()=> {
+                    app.$data.videoTiem==0?
+                        window.clearInterval(Timer):
+                        app.$data.videoTiem--;
+                },1000)
+                break;
+            case "2":
+                app.$data.index = 3;
+                window.clearInterval(Timer)
+                break;
+            case "3":
+                app.$data.index = 2;
+                Timer = setInterval(()=> {
+                    app.$data.videoTiem==0?
+                        window.clearInterval(Timer):
+                        app.$data.videoTiem--;
+                },1000)
+                app.$data.videoImg = true;
+                break;
+            case "4":
+                window.clearInterval(Timer);
+                app.$data.index = 1;
+                app.$data.videoTiem = time;
+                app.$data.videoImg = false;
+                break;
+        }
+
+    }
+
+    window.onresize = function () {
+
+        var h = $(window).height();
+        //console.log(h+','+window.screen.availHeight)
+        var u = navigator.userAgent;
+        if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
+            if(h <= window.screen.availHeight/1.5){
+                $('#but').css({'position':'absoult',"margin-top":"-.5rem",'display':'none'});
+            }else{
+                $('#but').css({'position':'fixed','display':'block'});
+
+            }
+        }
+
+    }
+    $('input').on('focus',function(){
+        $('#but').hide();
+    })
+    $('input').on('blur',function(){
+        $('#but').show();
+    })
+    var params = NewgetUrlParams_app()
+    var app = new Vue({
+        el:"#app",
+        data:{
+            Next:'去支付',
+            list:[],
+            list_S:[
+                "../../images/new2x/icon-dengdai@2x.png",
+                "../../images/new2x/icon-dengdai@2x.png",
+                "../../images/new2x/icon-dengdai@2x.png"
+            ],
+            listLength:0,
+            DataList:'',
+            payment:'',
+            videoTiem_s:'',
+            resultIntro:'',
+            videoImg:false,
+            playStyle:'',
+            audioUrl:'',
+            videoTiem:'',
+            index:1,
+            PayType:'wx',
+            paymentObj:'100',
+            test:"测试数据",
+        },
+        watch:{
+            "videoTiem"(){
+                var self = this
+                self.videoTiem_s = timeFormat(self.videoTiem)
+            }
+        },
+        methods:{
+            comment(){
+                forward("evaluate.html")
+            },
+            playV(url){
+                var self = this;
+                self.VoiceFn(self.index,url)
+            },
+            VoiceFn(index,url){
+                var self = this
+                if(window.Voice){
+                    self.index==2?self.videoImg=false:self.videoImg=true;
+                    window.Voice.playVoice(JSON.stringify({
+                        playState:index,
+                        voiceUrl:url
+                    }),"callBackFn")
+
+                }
+            },
+            urge(id){
+                if(id){
+                    var obj = {
+                        tradeId:id,
+                        channel:'app'
+                    },self = this;
+                    ajax(api(_Api.sendmsg),{
+                        dataType: 'json',
+                        type:'POST',
+                        data:obj,
+                        success: function (data) {
+                            mui.toast(data.message)
+                            if(data.code==200)
+                                self.getList()
+                        },
+                        error(){
+
+                        }
+                    })
+                }else{
+                    mui.toast("24小时内不能重复催促")
+                }
+            },
+
+            PayFn(){
+                var self = this
+                // var paymentObj = {
+                //     // type:self.DataList.payment.channel=="wechat"?"wx":"alipay",
+                //     type:self.PayType,
+                //     payment:{data:self.DataList.payment.order.data}
+                // }
+                // // sign
+                // if(env.isIos){
+                //     paymentObj.payment = {data:encodeURIComponent(self.DataList.payment.order.sign)}
+                // }
+
+
+                var paymentObj = { type: self.PayType,};
+                if (env.isIos) {
+                    if (self.DataList.payment.channel == 'wechat') {
+                        paymentObj.payment = self.DataList.payment.order;
+                    } else {
+                        paymentObj.sign = encodeURIComponent(self.DataList.payment.order.data.sign);
+                    }
+                } else {
+                    paymentObj.payment = self.DataList.payment.order;
+                }
+
+                if (window.Pay)
+                    Pay.payment(JSON.stringify(paymentObj), 'pay_callback');
+            },
+            preview(index){
+                if (window.Photo) {
+                    var obj = {
+                        srcList: this.list,
+                        index: index || 0
+                    };
+                    window.Photo.preview(JSON.stringify(obj), function () {});
+                }
+            },
+            getList(){
+                var obj = {tradeId:params},self = this
+                ajax(api(_Api.mydetails),{
+                        dataType: 'json',
+                        type:'GET',
+                        data:obj,
+                        autoProcessError: false,
+                        success(data) {
+                            if(data.code==200){
+                                var length = data.data.photos.length;
+                                if(length!=0){
+                                    // data.data.listLength = length
+                                    self.listLength = length -1
+                                }else{
+                                    data.data.listLength = 0
+                                }
+
+                                self.list = data.data.photos
+
+                                if(data.data.createdAt.indexOf(".")>-1){
+                                    var left_ = data.data.createdAt.split(".")[0]
+                                }
+
+                                data.data.createdAt =left_.replace("T"," ")
+
+                                if(data.data.resultAudio){data.data.resultAudio= qiniuPath+data.data.resultAudio}
+
+                                if(data.data.payment){
+                                    data.data.payment.channel=="wechat"?self.PayType="wx":self.PayType="alipay";
+                                }
+
+                                self.DataList = data.data
+                            }else{
+                                mui.toast(data.message)
+                            }
+                        },
+                        error(){
+                        }
+                })
+            }
+        },
+        mounted(){
+            var self = this
+            self.getList()
+            var gallery = mui('.mui-slider');
+            gallery.slider({
+                interval:1500
+            });
+            var gallery = mui('.mui-slider');
+            gallery.slider({
+                interval:3000//自动轮播周期，若为0则不自动播放，默认为0；
+            });
+            //
+            // window.onload = function() {
+            //
+            //     var mySwiper = new Swiper ('.swiper-container', {
+            //         direction: 'vertical',
+            //         loop: true,
+            //
+            //         // 如果需要分页器
+            //         pagination: {
+            //             el: '.swiper-pagination',
+            //         },
+            //
+            //         // 如果需要前进后退按钮
+            //         navigation: {
+            //             nextEl: '.swiper-button-next',
+            //             prevEl: '.swiper-button-prev',
+            //         },
+            //
+            //         // 如果需要滚动条
+            //         scrollbar: {
+            //             el: '.swiper-scrollbar',
+            //         },
+            //     })
+            //
+            // }
+
+        }
+    })
+</script>
+</html>

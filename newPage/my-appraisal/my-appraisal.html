@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/mui.min.css" rel="stylesheet" />
+    <title>我的鉴定</title>
+    <style>
+        /*=============head_common=============*/
+        .mui-bar {
+            height: 70px;
+            padding-top: 20px;
+            text-align: center;
+            color: #000;
+        }
+
+        .mui-bar .mui-title {
+            color: rgb(53,53,53);
+            margin-top: 5px;
+        }
+
+        .mui-bar-nav~.mui-content {
+            padding:70px 0 50px 0;
+        }
+
+
+        .head_img{
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            right: 17px;
+            bottom: 16px;
+        }
+        .head_span{
+            position: absolute;
+            right: 10px;
+            bottom: 27px;
+            font-size:12px;
+            color:white;
+            height: 16px;
+            min-width: 16px;
+            background: red;
+            line-height: 16px;
+            text-align: center;
+            border-radius: 50%;
+        }
+
+        .tabTop{
+            width: 100%;
+            background: white;
+            margin: 12px 0 8px 0;
+            /*box-shadow: 0 1px 2px rgba(0,0,0,.1);*/
+        }
+        .tabTop span{
+            color: #666;
+            float: left;
+            display: block;
+            width: 33.3333333%;
+            text-align: center;
+            font-size: 14px;
+            height: 40px;
+            line-height: 40px;
+            border-bottom: 2px solid transparent;
+        }
+        .tabContent{
+
+        }
+        .Tobepaid{
+            margin-bottom: 10px;
+            /*box-shadow: 0 1px 2px rgba(0,0,0,.1);*/
+        }
+        .Tobepaid .TobepaidTop{
+            position: relative;
+            height: 50px;
+            line-height: 50px;
+            background: white;
+            padding: 0 12px;
+        }
+        .Tobepaid .TobepaidTop p{
+            margin: 0;
+        }
+        .Tobepaid .TobepaidTop span{
+            position: absolute;
+        }
+        .Tobepaid .TobepaidTop span:nth-child(1){
+            height: 32px;
+            width: 32px;
+            border-radius: 50%;
+            left: 12px;
+            top: 7px;
+            overflow: hidden;
+        }
+        .Tobepaid .TobepaidTop span:nth-child(1) img{
+            width: 100%;
+            padding: 0;
+        }
+        .Tobepaid .TobepaidTop p:nth-child(2){
+            margin-left: 40px;
+            font-size: 14px;
+            color: #333;
+        }
+        .Tobepaid .TobepaidTop span:nth-child(3){
+            height:16px;
+            width: 16px;
+            right: 16px;
+            top: 17px;
+            background: url("../../images/new1x/icon_delete.png")no-repeat;
+            background-size: cover;
+        }
+        .TobepaidBot{
+            background: rgb(248,248,248);
+            padding: 8px 0;
+            position: relative;
+            border-bottom: 1px solid rgb(229,229,229);
+        }
+        .TobepaidBot img,
+        .TobepaidBot div{
+            float: left;
+        }
+        .TobepaidBot div:nth-child(1){
+            width: 25%;
+            max-height: 90px;
+            overflow: hidden;
+            margin-left: 3%;
+        }
+        .TobepaidBot div:nth-child(1) img{
+            width: 100%;
+        }
+        .TobepaidBot div:nth-child(2){
+            color: #666;
+            width: 68%;
+            margin: 0 2%;
+            max-height: 90px;
+            font-size: 14px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+        .TobepaidBot div:nth-child(3){
+            color: rgb(255,51,0);
+            width: 68%;
+            text-align: right;
+            margin-top: 8px;
+        }
+        .TobepaidB,
+        .TobepaidB1{
+            background: white;
+            padding:8px 10px;
+        }
+        .TobepaidB div,
+        .TobepaidB1 div{
+            width: 88px;
+            height: 28px;
+            line-height: 28px;
+            font-size: 15px;
+            text-align: center;
+            border-radius: 34px;
+            float: right;
+            font-size: 13px;
+        }
+        .TobepaidB div{
+            color: rgb(250,51,0);
+            border: 1px solid rgb(250,69,22);
+            font-size: 13px;
+        }
+        .TobepaidB1 div{
+            color: rgb(250,169,61);
+            border: 1px solid rgb(250,169,61);
+        }
+        .TobepaidB2{
+            font-size: 14px;
+            background: white;
+        }
+        .TobepaidB2 div{
+            padding:10px;
+        }
+        .TobepaidB2 div:nth-child(1){
+            border-bottom: 1px solid rgb(229,229,229);
+        }
+        .TobepaidB2 div:nth-child(2){
+            padding: 8px 10px;
+        }
+        .TobepaidB2 div:nth-child(2) p{
+            margin: 0;
+            width: 90px;
+            height: 29px;
+            text-align: center;
+            line-height: 29px;
+            border-radius: 15px;
+            color: rgb(250,169,51);
+            border: 1px solid rgb(250,169,51);
+            font-size: 13px;
+            float: right;
+        }
+        .TobepaidB2 div:nth-child(2) ._p{
+            margin: 0;
+            width: 90px;
+            height: 29px;
+            text-align: center;
+            line-height: 29px;
+            border-radius: 15px;
+            color: rgb(102,102,102);
+            border: 1px solid rgb(102,102,102);
+            font-size: 13px;
+            float: right;
+        }
+        .speech{
+            background: rgb(250,169,0);
+            display: inline-block;
+            width: 150px;
+            height: 30px;
+            line-height: 30px;
+            border-radius: 2px 17px 17px 17px;
+            margin-top: 5px;
+        }
+        [v-cloak] {
+            display: none;
+        }
+        .elseC{
+            width: 100%;
+            text-align: center;
+        }
+        .elseC img{
+            width: 40%;
+            margin-top: 40px;
+        }
+        .elseC p{
+            margin: 0;
+        }
+        .elseC p:nth-child(2){
+            font-size: 16px;
+            color: black;
+            margin-top: 12px;
+        }
+        .elseC p:nth-child(3){
+            margin-top: 8px;
+        }
+
+        .timeC{
+            background: white;
+            padding: 12px;
+        }
+        .timeC>div{
+            height: 55px;
+            line-height: 55px;
+            background: rgb(245,245,245);
+            color: rgb(102,102,102);
+            border-radius: 3px;
+            padding: 12.5px 15px;
+            position: relative;
+        }
+        .timeC>div>img{
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: 0;
+            top: 0;
+        }
+        .timeC>div>span{
+            position: absolute;
+            top: 0;
+            right: 18px;
+            font-size: 15px;
+        }
+        .timeC>div>div{
+            position: absolute;
+            width: 75%;
+            height: 30px;
+            background: rgb(255,169,61);
+            border-radius:0 30px 30px 30px;
+            padding-left: 15px;
+        }
+        .timeC>div>div span{
+            display: block;
+            height: 25px;
+            width: 20px;
+            margin-top: -8px;
+            background: url("../../images/new3x/IDF_icon_Voice3@3x-1.png")center center no-repeat;
+            background-size: cover;
+            animation: am 1s linear infinite;
+        }
+
+        @keyframes am {
+            0%{
+                background: url("../../images/new3x/IDF_icon_Voice3@3x-1.png")center center no-repeat;
+                background-size: cover;
+            }
+            50%{
+                background: url("../../images/new3x/IDF_icon_Voice3@3x-2.png")center center no-repeat;
+                background-size: cover;
+            }
+            100%{
+                background: url("../../images/new3x/IDF_icon_Voice3@3x-3.png")center center no-repeat;
+                background-size: cover;
+            }
+        }
+        .mui-bar-nav~.mui-content .mui-pull-top-pocket{
+            top: 70px;
+        }
+    </style>
+</head>
+<body>
+<div id="app" v-cloak>
+
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-icon mui-icon-left-nav mui-pull-left" style="color:rgb(53,53,53)" href="javascript:back()"></a>
+        <h1 class="mui-title">我的鉴定</h1>
+            <img class="head_img" src="../../images/new3x/mine_icon_Message@3x.png" @tap='forward_B()' alt="">
+            <span class="head_span" v-if="noReadNum">{{noReadNum}}</span>
+    </header>
+    <div id='pullrefresh' class='mui-content mui-scroll-wrapper'>
+<div class="mui-content">
+
+    <div class="tabTop mui-clearfix">
+        <span v-for="(item,index) in tabT" @tap="tabIndexFn(index)" :style="item.borderB">{{item.text}}</span>
+        <!--@tap="tabFn(item.text,index)"-->
+    </div>
+        <!--待支付-->
+    <div class="tabContent" v-show="tabIndex===0">
+        <div v-if='list_1.length!=0' class="Tobepaid mui-clearfix" v-for="(item,index) in list_1">
+            <div class='TobepaidTop'>
+                <span><img :src="item.avatar" alt=""></span>
+                <p>{{item.mode=="platform"?"平台分配":"指定专家"}}:{{item.nickname}}</p>
+                <span @tap='delOrder(item.orderId)'></span>
+            </div>
+            <div class="TobepaidBot mui-clearfix" @tap="forwardDetails(item.orderId)">
+                <div><img :src="item.photos[0]" alt=""></div>
+                <div>{{item.questions}}</div>
+                <div>￥{{item.amount}}</div>
+            </div>
+            <div class="TobepaidB mui-clearfix">
+                <div @tap="forwardDetails(item.orderId)">去支付</div>
+            </div>
+        </div>
+        <div v-if='list_1.length==0' class="elseC">
+            <img src="../../images/new3x/mine_icon_none@3x.png" alt="">
+            <p>没有相关内容</p>
+            <p>看看其他的吧</p>
+        </div>
+    </div>
+        <!--待鉴定-->
+    <div class="tabContent" v-show="tabIndex===1">
+
+        <div v-if='list_2.length!=0' class="Tobepaid mui-clearfix" v-for="(item,index) in list_2">
+            <div class='TobepaidTop'>
+                <span><img :src="item.avatar" alt=""></span>
+                <p>{{item.mode=="platform"?"平台分配":"指定专家"}}:{{item.nickname}}</p>
+            </div>
+            <div class="TobepaidBot mui-clearfix" @tap="forwardDetails(item.orderId)">
+                <div><img :src="item.photos[0]" alt=""></div>
+                <div>{{item.questions}}</div>
+                <div>￥{{item.amount}}</div>
+            </div>
+            <div class="TobepaidB1 mui-clearfix">
+                <div v-if="!item.isSend" @tap="urge(item.orderId)">催一下</div>
+                <div v-if="item.isSend" @tap="urge()" style="border: 1px solid #ccc;color:#ccc">催一下</div>
+            </div>
+        </div>
+        <div v-if='list_2.length==0' class="elseC">
+            <img src="../../images/new3x/mine_icon_none@3x.png" alt="">
+            <p>没有相关内容</p>
+            <p>看看其他的吧</p>
+        </div>
+
+    </div>
+        <!--已完成-->
+    <div class="tabContent" v-show="tabIndex===2">
+
+        <div v-if='list_3.length!=0' class="Tobepaid mui-clearfix" v-for="(item,index) in list_3">
+            <div class='TobepaidTop'>
+                <span><img :src="item.avatar" alt=""></span>
+                <p>{{item.mode=="platform"?"平台分配":"指定专家"}}:{{item.nickname}}</p>
+            </div>
+            <div class="TobepaidBot mui-clearfix" @tap='complete(item.orderId)'>
+                <div><img :src="item.photos[0]" alt=""></div>
+                <div>{{item.questions}}</div>
+                <div style="font-size:14px;color:rgba(255,51,0,1)">鉴定结果: {{item.result}}</div>
+            </div>
+            <div class="TobepaidB2 mui-clearfix">
+                <div>
+                    专家回复:<br/>
+
+                    <div class="timeC" v-if="item.resultAudio">
+                        <div>
+                            <div @tap="playV(item.resultAudio,index)" :style="playStyle">
+                                <span v-show="item.videoImg"></span>
+                                <div v-show="!item.videoImg" style="width:15px;height:25px;margin-top:-8px;background:url('../../images/new3x/IDF_icon_Voice3@3x-3.png');background-size: cover"></div>
+                            </div>
+                            <span>{{item.videoTiem_s}}</span>
+                            <!--<img @tap.stop="delFn()" src="../../images/new2x/icon_delete2@2x.png" alt="">-->
+                        </div>
+                    </div>
+                    <div class="timeC" v-if="item.resultIntro">
+                        <span>{{item.resultIntro}}</span>
+                    </div>
+
+                </div>
+                <div class="mui-clearfix">
+                    <p v-if='!item.isAssess' @tap="evaluate(item.appraiserId,item.orderId)">评价专家</p>
+                    <p v-if='item.isAssess' class='_p' @tap="evaluateFn()">已评价</p>
+                </div>
+            </div>
+        </div>
+
+        <div v-if='list_3.length==0' class="elseC">
+            <img src="../../images/new3x/mine_icon_none@3x.png" alt="">
+            <p>没有相关内容</p>
+            <p>看看其他的吧</p>
+        </div>
+
+    </div>
+</div>
+    </div>
+</div>
+
+</body>
+<script src="../../js/vue.min.js"></script>
+<script src="../../js/mui.min.js?version=201801202115"></script>
+<script src="../../js/common.js?version=201801202115"></script>
+<script src="../../js/base64.modified.js"></script>
+<script>
+
+    let Timer,windowIndex;
+    function refreshList() {
+        location.reload();
+    }
+    function callBackFn(state) {
+        var St,time;
+        if(state.indexOf("|")>-1){
+            St = state.split("|")[0];
+            time = state.split("|")[1]-0;
+        }else {
+            St = state;
+        }
+        app.$data.list_3[windowIndex].videoImg = false;
+
+        switch (St){
+            case "0":
+                mui.toast("播放异常")
+                break;
+            case "1":
+                app.$data.list_3[windowIndex].videoTiem = time;
+                app.$data.list_3[windowIndex].videoTiem_s = timeFormat(time);
+                app.$data.list_3[windowIndex].videoImg = true;
+                app.$data.index = 2;
+                Timer = setInterval(()=> {
+                    app.$data.list_3[windowIndex].videoTiem==0?
+                        window.clearInterval(Timer):
+                        app.$data.list_3[windowIndex].videoTiem--;
+                        app.$data.list_3[windowIndex].videoTiem_s = timeFormat(app.$data.list_3[windowIndex].videoTiem)
+                },1000)
+                break;
+            case "2":
+                app.$data.index = 3;
+                window.clearInterval(Timer)
+                break;
+            case "3":
+                app.$data.index = 2;
+                Timer = setInterval(()=> {
+                    app.$data.list_3[windowIndex].videoTiem==0?
+                        window.clearInterval(Timer):
+                        app.$data.list_3[windowIndex].videoTiem--;
+                        app.$data.list_3[windowIndex].videoTiem_s = timeFormat(app.$data.list_3[windowIndex].videoTiem)
+                },1000)
+                app.$data.list_3[windowIndex].videoImg = true;
+                break;
+            case "4":
+                app.$data.index = 1;
+                app.$data.list_3[windowIndex].videoTiem_2 = "";
+                app.$data.list_3[windowIndex].videoTiem = "";
+                app.$data.list_3[windowIndex].videoImg = false;
+                window.clearInterval(Timer);
+                break;
+        }
+
+    }
+
+    var app = new Vue({
+        el:"#app",
+        data:{
+            voiceS:true,
+            playStyle:'',
+            // videoImg:false,
+            videoTiem_s:'',
+            videoTiem:'',
+            audioUrl:'',
+            index:1,
+            tabT:[
+                {
+                    text:"待支付",
+                    borderB:"borderBottom: 2px solid rgb(250,169,61);color:rgb(250,169,61)"
+                },
+                {
+                    text:"待鉴定",
+                    borderB:""
+                },
+                {
+                    text:"已完成",
+                    borderB:""
+                }
+            ],
+            tabContent:"待支付",
+            tabIndex:0,
+            list_1:[],
+            list_2:[],
+            list_3:[],
+            user:'',
+            noReadNum:''
+        },
+        watch:{
+            "tabIndex"(newV){
+                var self = this
+                for(var i=0;i<self.tabT.length;i++){
+                    self.tabT[i].borderB=''
+                }
+                self.tabT[newV].borderB="borderBottom:2px solid rgb(250,169,61);color:rgb(250,169,61)";
+                self.tabContent=self.tabT[newV].text;
+                if(newV!=2){
+                    self.VoiceFn(self.audioUrl,windowIndex,4)
+                    self.list_3[windowIndex].videoTiem_s = ""
+                    self.list_3[windowIndex].videoTiem = ""
+                    self.index = 1
+                }
+            },
+            // "videoTiem"(){
+            //     var self = this
+            //     self.videoTiem_s = timeFormat(self.videoTiem)
+            // }
+        },
+        methods:{
+            UNREADcomment(){
+                var self = this;
+                ajax(api("/my/comment-noread"),{
+                    dataType: 'json',
+                    // autoProcessError: false,
+                    type:'GET',
+                    success(data) {
+                        if(data.code==200&&data.userNoReadNum!=0){
+                            self.noReadNum = JSON.stringify(data.userNoReadNum)
+                        }else{
+
+                        }
+                    },
+                    error(){}
+                })
+            },
+            evaluateFn(){
+                mui.toast("已评价过该鉴定师")
+            },
+            delOrder(rederId){
+                var self = this
+                mui.confirm("","是否删除该订单",["是","否"],function (v) {
+                    if(!v.index){
+                        ajax(api("/my/appraisal/orderdel"),{
+                            dataType: 'json',
+                            type:'POST',
+                            data:{tadeId:rederId},
+                            success: function (data) {
+                                mui.toast(data.message)
+                                if(data.code==200){
+                                    self.appraisalFn(1,150,"did-not","nopay")
+                                }
+                            },
+                            error(){
+
+                            }
+                        })
+                    }
+                })
+            },
+            forwardDetails(orderid){
+                forward("order-details.html?"+orderid)
+            },
+            forward_B(){
+                forward("comment.html")
+            },
+            urge(id){
+                if(id){
+                    var obj = {
+                        tradeId:id,
+                        channel:'app'
+                    },self = this;
+                    ajax(api(_Api.sendmsg),{
+                            dataType: 'json',
+                            type:'POST',
+                            data:obj,
+                            success: function (data) {
+                                mui.toast(data.message)
+                                if(data.code==200)
+                                    self.appraisalFn(1,150,"did-not","noappraisal")
+                            },
+                            error(){
+
+                            }
+                    })
+                }else{
+                    mui.toast("24小时内不能重复催促")
+                }
+            },
+            evaluate(id,orderId){
+                forward("evaluate.html?id="+id+"&"+orderId)
+            },
+            forward_A(url){
+                forward("order-details.html?"+url)
+            },
+            complete(orderid){
+                forward("order-details.html?"+orderid)
+            },
+            playV(url,index){
+                var self = this;
+                if(!self.audioUrl){
+                    self.audioUrl = url
+                }else{
+                    if(self.audioUrl!=url){
+                       window.clearInterval(Timer);
+                       self.index = 1;
+                       self.list_3.forEach(function(key,I,Arr){
+                           Arr[I].videoImg = false;
+                           Arr[I].videoTiem_s = '';
+                           Arr[I].videoTiem = '';
+                       })
+                       self.list_3[index].videoImg = true;
+                       self.VoiceFn(url,index,4)
+                       self.audioUrl = url;
+                    }
+                }
+                self.VoiceFn(url,index,self.index)
+            },
+            VoiceFn(url,index,State){
+                var self = this
+                windowIndex = index;
+                if(window.Voice){
+                    self.index==2?
+                        self.list_3[index].videoImg=false:
+                        self.list_3[index].videoImg=true;
+                    window.Voice.playVoice(JSON.stringify({
+                        playState:State,
+                        voiceUrl:url
+                    }),"callBackFn")
+                }
+            },
+            appraisalFn(index,size,status,type){
+                var self = this,obj;
+                obj = {
+                    pageIndex:index, pageSize:size, status:status,type:type, // me:me
+                }
+                ajax(api(_Api.appraisal),{
+                    dataType: 'json',
+                    type:'GET',
+                    data:obj,
+                    success: function (data) {
+                        // if(data.code==200){
+                        // platform  平台分配
+                        // expert  制定专家
+                            switch(type){
+                                case "nopay":
+                                    self.list_1 = data;
+                                    break;
+                                case "noappraisal":
+                                    data.forEach(function(key,index,Arr){
+                                        if(!Arr[index].avatar){
+                                            Arr[index].avatar="../../images/new2x/icon-moren.png"
+                                        }
+                                    })
+                                    self.list_2 = data;
+                                    break;
+                                case "completed":
+                                    data.forEach(function(key,index,Arr){
+                                        Arr[index].resultAudio!=""?
+                                        Arr[index].resultAudio= qiniuPath+Arr[index].resultAudio:
+                                            true;
+                                        Arr[index].videoImg = false;
+                                        Arr[index].videoTiem_s = "";
+                                        Arr[index].videoTiem = "";
+                                    })
+                                    self.list_3 = data;
+                                    break;
+                            }
+                        // }else{
+                        //     mui.toast(data.message)
+                        // }
+                    },
+                    error:function(){}
+                });
+            },
+            tabFn(){
+                var self = this;
+                for(var i=0;i<self.tabT.length;i++){
+                    self.tabT[i].borderB=""
+                }
+                self.tabT[self.tabIndex].borderB="borderBottom: 2px solid rgb(250,169,61);color:rgb(250,169,61)";
+            },
+            // tabFn(item,index){
+            //     var self = this
+            //     self.tabContent = item
+            //     for(var i=0;i<self.tabT.length;i++){
+            //         self.tabT[i].borderB=''
+            //     }
+            //     self.tabT[index].borderB="borderBottom: 2px solid rgb(250,169,61);color:rgb(250,169,61)"
+            // },
+            tabIndexFn(index){
+                var self = this;
+                self.tabIndex = index;
+            }
+        },
+        mounted(){
+            var self = this
+            self.tabFn()
+            mui.init({
+                swipeBack: true,
+                pullRefresh: {
+                    container: '#pullrefresh',
+                    down: {
+                        auto:true,
+                        callback: function () {
+                            // ajax(api('/my'),{
+                            //     dataType: 'json',
+                            //     success: function (data) {
+                                    if(self.audioUrl){
+                                        self.VoiceFn(self.audioUrl,windowIndex,4)
+                                        self.list_3[windowIndex].videoTiem_s = ""
+                                        self.list_3[windowIndex].videoTiem = ""
+                                        self.index = 1
+                                    }
+                                    self.UNREADcomment()
+                                    self.appraisalFn(1,150,"did-not","nopay")
+                                    self.appraisalFn(1,150,"did-not","noappraisal")
+                                    self.appraisalFn(1,150,"did","completed")
+                                // }})
+                            mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+                            mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
+                            mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().disablePullupToRefresh();
+                        }
+                    },
+                    up: {
+                        contentrefresh: '',
+                        callback: function () { }
+                    }
+                }
+            });
+
+        },
+    })
+</script>
+</html>

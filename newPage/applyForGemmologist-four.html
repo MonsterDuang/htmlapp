@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../css/mui.min.css" rel="stylesheet" />
+    <title>申请成为鉴定师</title>
+    <style>
+        /*=============head_common=============*/
+        .mui-bar {
+            height: 70px;
+            padding-top: 20px;
+            text-align: center;
+            color: #000;
+        }
+
+        .mui-bar .mui-title {
+            color: rgb(53,53,53);
+            margin-top: 5px;
+        }
+
+        .mui-bar-nav~.mui-content {
+            padding:70px 0 60px 0;
+        }
+
+        .header_{
+            color: white;
+            text-align: center;
+            font-size: 14px;
+            height: 60px;
+            line-height: 40px;
+            position: relative;
+            background: url("../images/new1x/bg-jiandingshi.png");
+            background-size: cover;
+        }
+        .header_N,
+        .header_T{
+            position: absolute;
+            width: 96%;
+            height: 60px;
+            left: 50%;
+            top: 50%;
+            margin-left: -48%;
+        }
+        .header_T{
+            z-index: 2;
+            line-height: 66px;
+            color: #000;
+        }
+        .solid_{
+            height:1px;width:84%;background:rgb(204,204,204);position: absolute;top:50%;left:8%;z-index:3;
+        }
+        .solid_1{
+            width: 100%;
+            height: 1px;
+            background: rgb(250,169,61);
+            position: absolute;
+            top: 49.5%;
+            left: 0;
+            z-index: 1;
+        }
+        .solid_ li{
+            height: 29px;
+            width: 29px;
+            position: absolute;
+            top: -15px;
+            left: -2px;
+            margin: 0;
+            background: white;
+            z-index: 2;
+        }
+        .solid_ li span{
+            display: block;
+            color: white;
+            height: 23px;
+            width: 23px;
+            line-height: 23px;
+            text-align: center;
+            background: url("../images/new1x/icon-orange.png");
+            background-size: cover;
+            margin: 3px auto;
+        }
+        .solid_ li:nth-child(2){
+            left: 33.4%;
+            margin-left: -14px;
+        }
+        .solid_ li:nth-child(3){
+            left: 66.66666666666%;
+            margin-left: -15px;
+        }
+        .solid_ li:nth-child(4){
+            left: 100%;
+            margin-left: -27px;
+        }
+        ._next{
+            width:90%;
+            height:40px;
+            line-height:40px;
+            text-align:center;
+            position:fixed;
+            bottom:10px;
+            left: 5%;
+            color:white;
+            z-index: 100;
+            border-radius: 44px;
+            font-size: 15px;
+        }
+
+        .info_{
+            margin-top: 32px;
+            font-size: 12px;
+            margin-left: 5%;
+            color: rgb(161,161,161);
+        }
+
+        .mui-table-view-cell>.mui-badge {
+            left: 0;
+        }
+        li{
+            list-style: none;
+            height: 30px;
+            line-height: 30px;
+            margin-left: 10px;
+        }
+
+
+      /*==========END===========*/
+
+        [v-cloak] {
+            display: none;
+        }
+        .list_C{
+            font-size: 14px;
+            color: #333;
+            height: 45px;
+            line-height: 45px;
+            background: white;
+            margin-top: 10px;
+            padding-left: 8%;
+            position: relative;
+            border-bottom: 1px solid rgb(229,229,229);
+            width: 100%;
+        }
+        .list_C b{
+            position: absolute;
+            font-size: 18px;
+            top: 9%;
+            left: 5%;
+        }
+        .list_Content{
+            padding: 5px 5%;
+            background: white;
+            width: 100%;
+            line-height: 22px;
+            /*white-space: nowrap;*/
+            /*text-overflow: ellipsis;*/
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            color: rgb(102,102,102);
+            font-size: 14px;
+            /*| break-word*/
+        }
+
+        .right_{
+            color: #333;
+        }
+        .hint_{
+            padding-left: 5%;
+            font-size: 14px;
+            color: #999;
+            margin: 5px 0;
+        }
+        .image_list{
+            padding: 10px 5%;
+            background: white;
+        }
+
+        .image_list div{
+            float: left;
+            width: 30%;
+            height: 75px;
+            overflow: hidden;
+            margin: 3px 1.5%;
+            position: relative;
+        }
+        .image_list div img{
+            width: 100%;
+        }
+        .spanS {
+            position: absolute;
+            width: 23px;
+            height: 23px;
+            right: 0;
+            top: 0;
+        }
+        .protocol{
+            padding: 8px 5% 8px 5%;
+            position: relative;
+            background: white;
+            margin-top: 10px;
+        }
+        .mui-table-view-cell{
+            margin: 0;
+            padding: 0;
+            font-size: 12px;
+            line-height: 12px;
+            padding-top: 10px;
+            height: 40px;
+            line-height: 23px;
+        }
+        .mui-checkbox{
+            position: relative;
+        }
+        .mui-checkbox input[type=checkbox], .mui-radio input[type=radio]{
+            top: 0;
+            left: 0;
+        }
+        .checkbox1d{
+            position: absolute;
+            left: 25px;
+            top: 2px;
+            font-size: 15px;
+        }
+        .mui-checkbox input[type=checkbox]:checked:before, .mui-radio input[type=radio]:checked:before{
+            color: rgb(250,169,61);
+            font-size: 24px;
+        }
+        .mui-checkbox input[type=checkbox]:before, .mui-radio input[type=radio]:before{
+            font-size: 24px;
+        }
+        [v-cloak] {
+            display: none;
+        }
+        .masking{
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 101;
+            background: rgba(0,0,0,0.5);
+        }
+        .masking .masking_D{
+            position: absolute;
+            width: 200px;
+            height: 220px;
+            background: white;
+            top: 30%;
+            left: 50%;
+            margin-left: -100px;
+            border-radius: 15px;
+        }
+        .masking .masking_D div{
+            width: 50%;
+            margin: 0 auto;
+            margin-top: 23px;
+        }
+        .masking .masking_D div img{
+            width: 100%;
+        }
+        .masking .masking_D p{
+            margin: 0;
+            text-align: center;
+            font-size: 12px;
+        }
+        .masking .masking_D span{
+            display:inline-block;
+            margin-top: 3px;
+            height: 28px;
+            line-height: 28px;
+            text-align: center;
+            color: white;
+            width: 80%;
+            font-size: 14px;
+            border-radius: 15px;
+            background:rgba(250,169,61,1);
+            margin-left: 10%;
+        }
+        .field{
+            background: white;
+            text-align: center;
+            padding: 5px 10px;
+        }
+        .field div{
+            float: left;
+            width: 26%;
+            margin: 5px 3.65%;
+            background: rgb(242,242,242);
+            color: rgb(102,102,102);
+            font-size: 13px;
+            border-radius: 30px;
+            padding: 2px 0;
+        }
+        .box_B{
+            /*box-shadow: 0 1px 2px rgba(0,0,0,.1);*/
+        }
+    </style>
+</head>
+<body>
+<header class="mui-bar mui-bar-nav">
+    <!--<a class="mui-icon mui-icon-left-nav mui-pull-left" href="applyForGemmologist-three.html"></a>-->
+    <a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+    <h1 class="mui-title">申请成为鉴宝师</h1>
+</header>
+
+<div class="mui-content" id="app" v-cloak>
+    <!--<p style="word-wrap:break-word;position:fixed;z-index:100;top:70px;left:1%;background:red;width:98%;height:50px;overflow-y:auto;color:white">测试返回的数据：{{test}}</p>-->
+    <div class="masking" @tap="masking()" v-if="maskingShow">
+        <div class='masking_D'>
+            <div><img src="../images/new2x/icon-dengdai@2x.png" alt=""></div>
+            <p style="color:rgb(51,51,51);margin-top:7px">已提交鉴定师申请</p>
+            <p>请耐心等待1-3个工作日审查</p>
+            <span @tap.stop="confirm()">确定</span>
+        </div>
+    </div>
+
+    <div class="header_">
+        <span>轻松几步，成为鉴定师</span>
+        <img class="header_N" src="../images/new1x/bg-touying.png" alt="">
+        <div class="header_T">
+            <div class="solid_">
+                <li><span>1</span></li>
+                <li><span>2</span></li>
+                <li><span>3</span></li>
+                <li><span>4</span></li>
+                <div class="solid_1"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="info_">请按要求填写您的身份信息，*号为必填项</div>
+
+    <div v-for="(item,index) in list">
+        <div class="list_C" @tap="listFn(item.name)">
+            <b style="color:red;font-size: 18px">*</b>
+            {{item.text}}
+            <span class="right_ mui-navigate-right"></span>
+        </div>
+        <div v-show="item.introduce" class="list_Content box_B">{{item.introduce}}</div>
+    </div>
+
+
+    <div class="list_C">
+        <b style="color:red;font-size: 18px">*</b>我的精通领域
+        <span class="right_ mui-navigate-right"></span>
+    </div>
+    <div class='field mui-clearfix box_B'>
+        <div v-for='(item,index) in fieldList' @tap='fieldFn(index)' :style='item.style'>{{item.text}}</div>
+    </div>
+
+    <div class="list_C">
+        <b style="color:red;font-size: 18px">*</b>我的生活风采
+    </div>
+    <div class="hint_">请您上传至少一张图片</div>
+    <div class="image_list mui-clearfix box_B">
+        <div v-for='(item,index) in images' @tap="preview(index)">
+            <img :src="item" alt="">
+            <span @tap.stop="delImg(index)" class="spanS"><img src="../images/new2x/mine_icon-delete1@2x.png" alt=""></span>
+        </div>
+        <div @tap="actionsheetPop()"><img src="../images/new1x/icon-add2.png" alt=""></div>
+    </div>
+
+    <div class="protocol mui-clearfix box_B">
+        <div style="padding-left:20px;height:25px" class="mui-input-row mui-checkbox">
+            <input class="checkbox1" name="checkbox1" type="checkbox" v-model="checked">
+            <div class="checkbox1d">同意 <a style='text-decoration:underline;color:rgb(250,160,61)' href="protocol.html">鉴定师协议</a></div>
+        </div>
+    </div>
+
+    <div id="actionsheet" class="mui-popover mui-popover-action mui-popover-bottom">
+        <ul class="mui-table-view">
+            <!--<li class="mui-table-view-cell">-->
+                <!--<a @tap="uploadFromPhotograph">拍照</a>-->
+            <!--</li>-->
+            <li class="mui-table-view-cell">
+                <a @tap="uploadFromAlbum">从相册选择</a>
+            </li>
+        </ul>
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell">
+                <a @tap="cancelUpload()">
+                    <b>取消</b>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div id="but" @tap="submit()" class="_next" :style="next_bg">申请提交</div>
+</div>
+
+</body>
+<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+<script src="../js/jQuery-2.1.4.min.js"></script>
+<script src="../js/vue.min.js"></script>
+<script src="../js/mui.min.js?version=201801202115"></script>
+<!--<script src="../js/common.js?version=201801202115"></script>-->
+<script src="../js/common.js"></script>
+<script>
+    var delIndex;
+    function refreshList() {
+        location.reload();
+    }
+    window.onresize = function () {
+
+        var h = $(window).height();
+        //console.log(h+','+window.screen.availHeight)
+        var u = navigator.userAgent;
+        if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
+            if(h <= window.screen.availHeight/1.5){
+                $('#but').css({'position':'absoult',"margin-top":"-.5rem",'display':'none'});
+            }else{
+                $('#but').css({'position':'fixed','display':'block'});
+            }
+        }
+
+    }
+
+    $('input').on('focus',function(){
+        $('#but').hide();
+    })
+
+    $('input').on('blur',function(){
+        $('#but').show();
+    })
+
+    var params = NewgetUrlParams();
+
+    function getPhoto_callback(data, status) {
+        if (status != 'cancel') {
+            var arr
+            data&&data.indexOf("|")>-1?
+                arr=data.split("|"):
+                arr=[data];
+            var uploadObj = {
+                isURI: true,
+                photos: arr
+                // photos: new Array(data)
+            }
+            QNUpload.uploadImage(JSON.stringify(uploadObj), 'uploadPhoto_callback');
+        }
+    }
+
+    function cb(){}
+    // 删除图片
+    function getPramsFromNative_one(V){
+        var _info = JSON.parse(V)
+        _info.imgList.splice(delIndex,1);
+        window.Page.setwebParams(JSON.stringify(_info),"cb")
+    }
+    // 提交
+    function getPramsFromNative_two(V){
+        var _info = JSON.parse(V)
+        app.$data.paramsValue = _info
+    }
+    // 首次进入页面时getwebparams调用的回调
+    function getPramsFromNative_three(V){
+        // app.$data.test = V
+        var _info = JSON.parse(V)
+        _info.honoraryTitle?app.$data.list[0].introduce=_info.honoraryTitle:true;
+        _info.contextIntroduce?app.$data.list[1].introduce=_info.contextIntroduce:true;
+        _info.specialtyIntroduce?app.$data.list[2].introduce=_info.specialtyIntroduce:true;
+        _info.academicResearch?app.$data.list[3].introduce=_info.academicResearch:true;
+        _info.imgList?app.$data.images=_info.imgList:true;
+        window.Page.setwebParams(JSON.stringify(_info),"cb")
+    }
+
+    function uploadPhoto_callback(data, status) {
+        mui('#actionsheet').popover('toggle');
+        var arr,newArr,Nub,params,_params
+        if (status != 'cancel'){
+            if(data&&data.indexOf("|")>-1){
+                arr = data.split("|");
+                for(var i=0;i<arr.length;i++){
+                    arr[i] = qiniuPath+arr[i]
+                }
+                newArr = app.$data.images.concat(arr);
+                newArr.length>6?Nub=newArr.length-6:true;
+                newArr.splice(0,Nub);
+                app.$data.images = newArr;
+            }else {
+                var images = app.$data.images;
+                if(images.length<6){
+                    images.push(qiniuPath+data)
+                }else {
+                    images.splice(0,1)
+                    images.push(qiniuPath+data)
+                }
+            }
+
+            params = window.Page.getwebParams("","getPramsFromNative");
+            _params = JSON.parse(params);
+            _params.imgList = app.$data.images;
+            window.Page.setebParams(JSON.stringify(_params),"cb");
+
+        }else {
+            mui.toast("服务器繁忙")
+        }
+        // app.$data.images.push('http://img.aworld.cn/' + data);
+        // app.$data.images.push('ow90m0wgs.bkt.clouddn.com' + data);
+        // document.getElementById('head-img1').src = 'http://img.aworld.cn/' + data;
+    }
+
+
+    var app = new Vue({
+        el:"#app",
+        data:{
+            test:'100',
+            maskingShow:false,
+            next_bg:"background:rgb(204,204,204)",
+            list:[
+                {
+                    name:'title',
+                    text:"我的荣誉称号",
+                    introduce:'',
+                },
+                {
+                    name:'context',
+                    text:"我的背景介绍",
+                    introduce:'',
+                },
+                {
+                    name:'specialty',
+                    text:"我的专长介绍",
+                    introduce:''
+                },
+                {
+                    name:'research',
+                    text:"我的学术研究（成果介绍）",
+                    introduce:''
+                }
+            ],
+            images:[],
+            checked:false,
+            params:'new',
+            fieldList:[],
+            fieldList_:[],
+            paramsValue:''
+        },
+        watch:{
+            images(newV){
+                var self = this;
+                newV.length>1&&self.isPass()&&self.checked&&self.fieldList_.length!=0?
+                    self.next_bg="background:rgb(250,169,61)":
+                    self.next_bg="background:rgb(204,204,204)";
+            },
+            checked(newV){
+                var self = this
+                self.images.length>1&&newV&&self.isPass()&&self.fieldList_.length!=0?
+                    self.next_bg="background:rgb(250,169,61)":
+                    self.next_bg="background:rgb(204,204,204)";
+            },
+            fieldList_(newV){
+                var self = this
+                self.images.length>1&&newV&&self.isPass()&&newV.length!=0?
+                    self.next_bg="background:rgb(250,169,61)":
+                    self.next_bg="background:rgb(204,204,204)";
+            }
+        },
+        methods:{
+            fieldlistFn(){
+                var self = this
+                ajax(api('/categories/all'), {
+                    dataType: 'json',
+                    type:'GET',
+                    autoProcessError:false,
+                    success(data) {
+
+                        if(data.code==200){
+                            data.data.forEach(function(key,index,Arr){
+                                self.fieldList.push({
+                                    text:Arr[index].name,
+                                    id:Arr[index].id,
+                                    style:''
+                                })
+                            })
+                        }else{
+                            mui.toast(data.message)
+                        }
+
+                    },
+                    error(xhr,type,errerThrown){
+                        mui.toast(type)
+                    }
+                });
+
+            },
+            // 精通领域选择
+            fieldFn(index){
+                var self = this,I;
+                    self.fieldList[index].style?
+                    self.fieldList[index].style='':
+                    self.fieldList[index].style="background:rgb(250,169,61);color:white";
+                    I = self.fieldList_.indexOf(self.fieldList[index].id);
+                    I >-1?
+                        self.fieldList_.splice(I,1):
+                        self.fieldList_.push(self.fieldList[index].id);
+
+                // params = window.Page.getWebParams("","");
+                // _params = JSON.parse(params);
+                // _params.imgList = app.$data.images;
+                // window.Page.setWebParams(JSON.stringify(_params),"cb");
+            },
+            preview(index) {
+                if (window.Photo) {
+                    var obj = {
+                        srcList: this.images,
+                        index: index || 0
+                    };
+                    window.Photo.preview(JSON.stringify(obj), function () {});
+                }
+            },
+            // 删除图片列表
+            delImg(index){
+                var self = this,params,_params
+                 self.images.splice(index,1)
+                 delIndex = index;
+                 window.Page.getwebParams("","getPramsFromNative_one");
+            },
+            isPass(){
+                var self = this
+                for(var i=0;i<self.list.length;i++){
+                    if(!self.list[i].introduce||self.list[i].introduce==" "){
+                        return false;
+                        break;
+                    }
+                }
+                return true;
+            },
+            confirm(){
+                var self = this;
+                self.maskingShow = false;
+                backTop()
+                if (window.Gold) {
+                    Gold.broadcast('refreshList', 'editAddress');
+                }
+            },
+            masking(){
+                this.maskingShow = false;
+            },
+            // 提交
+            submit(){
+                var self = this,obj,par,objTest,_par;
+                function listFn(index){return self.list[index].introduce}
+                if(self.next_bg=="background:rgb(250,169,61)") {
+                    window.Page.getwebParams("", "getPramsFromNative_two")
+                    par = self.paramsValue;
+                    // try{
+                    // alert(JSON.stringify(par))
+                    obj = {
+                        realname: par.name,//姓名
+                        avatarKey: sliceSrc(par.logo_img),//头像
+                        phone: par.phone,//手机
+                        idCard: par.Id,//身份证
+                        idCardPhotoKey: sliceSrc(par.IdImg),//身份证图片
+                        address: {
+                            "province": par.address.province,
+                            "city": par.address.city,
+                            "region": par.address.region,
+                            "street": ""
+                        },
+                        certification: par.cardNumber,//资格证号
+                        certificationPhotoKey: sliceSrc(par.cardNumberImg),//资格证号照片
+                        area: self.fieldList_,//精通领域
+                        honoraryname: listFn(0),//荣誉称号
+                        //honoraryname:"国家馆馆长(暂时固定数据)",//荣誉称号
+                        intro: listFn(1),//背景介绍
+                        //intro:"专家背景(暂时固定数据)",//背景介绍
+                        speintroduce: listFn(2),//特长介绍
+                        //speintroduce:"好多特长(暂时固定数据)",//特长介绍
+                        acaresearch: listFn(3),//学术研究
+                        //acaresearch:"字画研究(暂时固定数据)",//学术研究
+                        lifestyle: sliceSrc(self.images),//生活风采
+                    }
+                    // }catch(e){
+                    //     alert(JSON.stringify(e))
+                    // }
+
+                    // self.test = JSON.stringify(obj)
+
+                    // objTest={
+                    //     realname:"小明",//姓名
+                    //     avatarKey:"http://img1.imgtn.bdimg.com/it/u=594559231,2167829292&fm=27&gp=0.jpg",//头像
+                    //     phone:"13112155372",//手机
+                    //     idCard:"445244199510035447",//身份证
+                    //     idCardPhotoKey:"https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=680756696,610110959&fm=27&gp=0.jpg",//身份证图片
+                    //     address:{
+                    //         "province":"广东",
+                    //         "city":"深圳",
+                    //         "region":"南山",
+                    //         "street":"国兴大厦"
+                    //     },
+                    //     certification:"999555555",//资格证号
+                    //     certificationPhotoKey:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2562119479,1598667651&fm=27&gp=0.jpg",//资格证号照片
+                    //     area:["5acf249c830a8a3c99c97c3e","5acf249c830a8a3c99c97c3f"],//精通领域
+                    //     honoraryname:"国家级鉴定师",//荣誉称号
+                    //     intro:"扛把子",//背景介绍
+                    //     speintroduce:"好多特长",//特长介绍
+                    //     acaresearch:"字画研究达人",//学术研究
+                    //     lifestyle:["https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3414501229,3923271862&fm=27&gp=0.jpg"],//生活风采
+                    // }
+
+                    // alert(JSON.stringify(obj))
+
+                    ajax(api('/appraiser/apply'), {
+                        dataType: 'json',
+                        data: obj,
+                        type: 'POST',
+                        autoProcessError: false,
+                        success(data) {
+                            mui.toast(data.message)
+                            // self.test = JSON.stringify(data)
+                            // if(data.code==200){
+                            self.maskingShow = true;
+                            // }else{
+                            //     mui.toast(data.message)
+                            // }
+                        },
+                        error(xhr, type, errerThrown) {
+                            mui.toast(xhr)
+                        }
+                    });
+
+                    // }
+                    // for(var i=0;i<self.list.length;i++){
+                    //     if(self.list[i].introduce===''||self.list[i].introduce===' '){
+                    //         mui.toast("请填写"+self.list[i].text);
+                    //         return;
+                    //     }
+                    // };
+                    // if(self.fieldList_.length===0){
+                    //     mui.toast("请选择精通领域");
+                    //     return
+                    // }else if(self.images.length===0){
+                    //     mui.toast("请上传生活风采");
+                    //     return
+                    // }
+                }
+            },
+            listFn(name) {
+                var self = this;
+                switch (name){
+                    case "title":
+                        self.forward("my-honoraryTitle.html?id=S9");
+                        break;
+                    case "context":
+                        self.forward("context-introduce.html?id=S9");
+                        break;
+                    case "specialty":
+                        self.forward("my-specialty-introduce.html?id=S9");
+                        break;
+                    case "research":
+                        self.forward("my-academic-research.html?id=S9");
+                        break;
+                }
+            },
+            actionsheetPop(index) {
+                mui('#actionsheet').popover('toggle')
+            },
+            uploadFromPhotograph() {//拍照
+                if (window.Photo) {
+                    var obj = {
+                        source: 1,
+                        type: 'png',
+                        returnType: 'uri',
+                        edit: true,
+                        // 张数
+                        photoNumber:1
+                    };
+                    window.Photo.getPhoto(JSON.stringify(obj), 'getPhoto_callback');
+                }
+            },
+            uploadFromAlbum() {//从相册选择
+                var Nub,self=this;Nub=6-(self.images.length-0)
+                if (window.Photo) {
+                    var obj = {
+                        source: 2,
+                        type: 'png',
+                        // returnType: 'uri',
+                        edit: false,
+                        photoNumber:Nub<0?Nub=0:Nub
+                    };
+                    window.Photo.getPhoto(JSON.stringify(obj), 'getPhoto_callback');
+                }
+            },
+            // 取消相册选择
+            cancelUpload() {
+                mui('#actionsheet').popover('toggle');
+            },
+            forward(url) {
+                forward(url)
+            },
+        },
+        mounted(){
+            var self = this,par;
+            self.fieldlistFn()
+            if(self.images.length>1&&self.isPass()&&self.checked){
+               self.next_bg="background:rgb(250,169,61)"
+            }else{
+               self.next_bg="background:rgb(204,204,204)"
+            }
+            if(window.Page){
+                window.Page.getwebParams("","getPramsFromNative_three")
+                // self.test = par
+                // self.params = JSON.stringify(par)
+                // self.params = par
+                // if(par){
+                //     var _params = JSON.parse(par)
+                //     _params.honoraryTitle?self.list[0].introduce=_params.honoraryTitle:true;
+                //     _params.contextIntroduce?self.list[1].introduce=_params.contextIntroduce:true;
+                //     _params.specialtyIntroduce?self.list[2].introduce=_params.specialtyIntroduce:true;
+                //     _params.academicResearch?self.list[3].introduce=_params.academicResearch:true;
+                //     _params.imgList?self.images=_params.imgList:true;
+                // }
+            }
+
+        }
+    })
+
+</script>
+</html>

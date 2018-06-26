@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+<head>
+    <title>一锤定音</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="css/mui.min.css">
+    <style>
+        [v-cloak]{
+            display: none;
+        }
+        .mui-bar {
+            background: url(images/1X/110.png);
+            background-size: contain;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-color: #e6a03c;
+            height: 70px;
+            padding-top: 20px;
+        }
+
+        .mui-bar .mui-title {
+            color: white;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+<div id="app" v-cloak>
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+        <h1 class="mui-title">一锤定音</h1>
+    </header>
+    <div>
+
+
+
+    </div>
+</div>
+</body>
+<script src="js/vue.min.js"></script>
+<script src="js/mui.min.js?version=201801202115"></script>
+<script src="js/common.js?version=201801202115"></script>
+<script>
+    var app = new Vue({
+            el:"#app",
+            ready(){
+                this.getList(0)
+
+
+            },
+            data:{
+
+
+
+            },
+            methods:{
+                getList(index){
+                    let self = this;
+                    ajax(api('/shop/home/aution-list'), {
+                        dataType: 'json',
+                        data:{
+                            pageIndex:index
+                        },
+                        success: function (data) {
+                            alert(JSON.stringify(data))
+                        },
+                        error(){
+                            alert("错误")
+                        }
+                    });
+                }
+            }
+        })
+
+</script>
+</html>

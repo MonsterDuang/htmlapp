@@ -1,0 +1,310 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>搜索结果</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link href="css/mui.min.css" rel="stylesheet" />
+	<style>
+		body {
+			font-size: 12px;
+		}
+
+		header a {
+			color: white;
+		}
+
+		.mui-bar {
+			background: url(images/1X/110.png);
+			background-size: contain;
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+			background-color: #e6a03c;
+			height: 70px;
+			padding-top: 20px;
+		}
+
+		.mui-bar .mui-title {
+			color: white;
+			margin-top: 5px;
+		}
+
+		.mui-bar input[type=search] {
+			margin: 11px 0;
+		}
+
+		.mui-bar-nav~.mui-content {
+			padding-top: 70px;
+		}
+
+		.mui-pull-caption {
+			font-size: 12px;
+		}
+
+		.mui-content>.mui-card:first-child {
+			margin-top: 0;
+		}
+
+		.mui-card {
+			margin: 0;
+		}
+
+		.mui-table-view {
+			background-color: #f4f4f8;
+		}
+
+		.mui-table-view-cell:after {
+			background-color: white;
+		}
+
+		input[type=search] {
+			background-color: white;
+		}
+
+		.mui-card {
+			background-color: #f4f4f8;
+			padding: 0 0 10px 0;
+			box-shadow: 0 0 1px rgba(0, 0, 0, .3);
+		}
+
+		.mui-card-content {
+			font-size: 12px;
+		}
+
+		.mui-card-content ul:first-child .mui-table-view-cell {
+			padding: 5px 10px;
+		}
+
+		.mui-card-content ul:first-child span {
+			color: #ff6464;
+		}
+		.mui-bar{
+			padding-right: 0;
+		}
+
+		.mui-row not:first-child {
+			margin: 0;
+			padding: 0 10px 10px 0px;
+			font-size: 12px;
+			color: black;
+		}
+
+		.mui-row img {
+			width: 150px;
+			height: 150px;
+		}
+
+		.mui-row span {
+			color: #ff6464;
+		}
+
+		.mui-row .mui-table-view-cell {
+			padding: 0 10px 5px 10px;
+			text-align: left;
+		}
+
+		.mui-scroll-wrapper {
+			top: 120px;
+		}
+
+		/*search input*/
+
+		.search {
+			font-size: 14px;
+		}
+
+		.search:before {
+			/* font-family: Muiicons;
+			font-size: 20px;
+			font-weight: 400;
+			position: absolute;
+			top: 35px;
+			left: 15px;
+			content: '\e466'; */
+		}
+
+		.search:after {
+			font-family: Muiicons;
+			font-size: 20px;
+			font-weight: 400;
+			position: absolute;
+			top: 15px;
+			right: 35px;
+			content: '\e460';
+		}
+
+		.search input {
+			text-align: left;
+			padding-left: 25px;
+			border-radius: 15px;
+			width: 90%;
+			font-size: 12px;
+		}
+
+		.search span {
+			margin-top: 10px;
+			color: white;
+			font-size: 12px;
+		} 
+		.mui-bar-nav~.mui-content .mui-pull-top-pocket{
+			top: 0;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="app">
+		<header class="mui-bar mui-bar-nav">
+			<!-- <a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back();"></a> -->
+
+			<div class="mui-row">
+				<div class="mui-col-sm-10 mui-col-xs-10">
+					<!-- <div> -->
+						<div class="search">
+							<input type="search" class="mui-input-clear" style="border-radius: 15px;" placeholder="" v-model="words" @keyup.enter="searchInput">
+						</div>
+					<!-- </div> -->
+				</div>
+				<div @tap="cancel()" class="mui-col-sm-2 mui-col-xs-2" style="margin-top: 15px; padding-left:10px;color:white;font-size:12px;">
+						取&nbsp;&nbsp;消
+					</div>
+			</div>
+		</header>
+
+		<div class="mui-content">
+			<ul class="mui-table-view" style="margin-top: 0">
+				<li class="mui-table-view-cell">搜索到
+					<span v-text="total" style="color: red"></span>款宝贝</li>
+			</ul>
+			<div class="mui-content mui-scroll-wrapper">
+				<div class="mui-scroll"id="pullrefresh" >
+					<div class="mui-card">
+						<div class="mui-card-content">
+							<ul class="mui-row" style="padding:0">
+								<template v-for="item in items">
+									<div class="mui-col-sm-6 mui-col-xs-6" style="display: none" :style="{ display: !!item ? 'block' : 'none' }">
+										<li class="mui-table-view-cell" @tap="detail(item)">
+											<img :src="item.photos[0]" />
+											<div class="mui-ellipsis" v-text="item.description"></div>
+											<div>
+												<span>¥
+													<span v-text="item.price"></span>
+												</span>
+											</div>
+										</li>
+									</div>
+								</template>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+	<script src="js/vue.min.js"></script>
+	<script src="https://cdn.bootcss.com/lodash.js/4.17.4/lodash.min.js?version=201801202115"></script>
+	<script src="js/mui.min.js?version=201801202115"></script>
+	<script src="js/common.js?version=201801202115"></script>
+	<script>
+		var searchHistories = localStorage.getItem('search-history');
+		searchHistories = searchHistories ? JSON.parse(searchHistories) : [];
+
+		var params = getUrlParams();
+		var words = decodeURIComponent(params['words']);
+
+		Vue.filter('dateTime', dateTime);
+		var app = new Vue({
+			el: '#app',
+			data: {
+				words: words,
+				pageIndex: 1,
+				pageSize: 8,
+				items: [],
+				total: 0
+			},
+			methods: {
+				loadData: function (type) {
+					if (type === 1) {
+						mui('#pullrefresh').pullRefresh().refresh(true);
+						mui('#pullrefresh').pullRefresh().scrollTo(0, 0, 100);
+					}
+
+					var _this = this;
+
+					var data = {
+						pageIndex: _this.pageIndex,
+						pageSize: _this.pageSize,
+						words: this.words
+					};
+
+					ajax(api('/search'), {
+						data: data,
+						dataType: 'json',
+						success: function (data) {
+							if (type === 1) {
+								_this.items = data.objects;
+								_this.total = data.total;
+							} else {
+								for (var i = 0, len = data.objects.length; i < len; i++)
+									_this.items.push(data.objects[i]);
+							}
+
+							//结束下拉刷新
+							mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+							/*结束上拉加载，并根据情况切换“下拉显示更多数据”，以及“没有更多数据了”。
+							执行endPullupToRefresh()方法，结束转雪花进度条的“正在加载...”过程,若还有更多数据，
+							则传入false; 否则传入true，之后滚动条滚动到底时*/
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh(!data.hasNext);
+						}
+					});
+				},
+				saveSearchHistory(words) {
+					if (!_.includes(searchHistories, words)) {
+						searchHistories.push(words);
+						localStorage.setItem('search-history', JSON.stringify(searchHistories));
+					}
+				},
+				searchInput: function () {
+					if (!this.words) return;
+					this.saveSearchHistory(this.words);
+					this.loadData(1);
+				},
+				detail: function (item) {
+					forward('product-detail.html?id=' + item.id);
+				},
+				cancel:function(){
+					back();
+				}
+			},
+			mounted: function () {
+				var _this = this;
+				mui.init({
+					swipeBack: true,
+					pullRefresh: {
+						container: '#pullrefresh',
+						down: {
+							auto: true,
+							callback: function () {
+								_this.pageIndex = 1;
+								_this.loadData(1);
+							}
+						},
+						up: {
+							contentrefresh: '正在加载...',
+							callback: function () {
+								_this.pageIndex++;
+								_this.loadData(2);
+							}
+						}
+					}
+				});
+			}
+		});
+	</script>
+</body>
+
+</html>

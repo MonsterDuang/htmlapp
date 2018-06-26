@@ -1,0 +1,298 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>设置</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link href="css/mui.min.css" rel="stylesheet" />
+	<link href="css/mui.picker.css" rel="stylesheet" />
+	<link href="css/mui.poppicker.css" rel="stylesheet" />
+	<style>
+		a {
+			color: white;
+		}
+
+		.mui-bar {
+			background: url(images/1X/110.png);
+			background-size: contain;
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+			background-color: #e6a03c;
+			height: 70px;
+			padding-top: 20px;
+		}
+
+		.mui-bar .mui-title {
+			color: white;
+			margin-top: 5px;
+		}
+
+		.mui-bar-nav~.mui-content {
+			padding-top: 70px;
+		}
+
+		.mui-card-content {
+			font-size: 12px;
+		}
+
+		.mui-content>.mui-card:first-child {
+			margin-top: 0;
+		}
+
+		.mui-card {
+			margin: 10px 0 10px 0;
+		}
+
+		.mui-table-view-cell img {
+			width: 20px;
+			height: 20px;
+		}
+
+		.mui-table-view-cell>.mui-badge:last-child {
+			right: 25px;
+		}
+
+		.mui-table-view-cell>.newversion {
+			right: 65px;
+			background-color: #ff6464;
+		}
+	</style>
+</head>
+
+<body>
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+		<h1 class="mui-title">设置</h1>
+	</header>
+	<div class="mui-content" id="app">
+		<div class="mui-card" style="display:none" :style="{ display: !!user ? 'block' : 'none' }">
+			<div class="mui-card-content">
+				<ul class="mui-table-view">
+					<template v-if="user.qqUnionid">
+						<li class="mui-table-view-cell mui-media qq" @tap="unbind('qq')">
+							<a href="javascript:;" class="mui-navigate-right">
+								<img class="mui-pull-left" src="images/1X/056.png">
+								<div class="mui-media-body" style="padding-left:15px">
+									<span>QQ</span>
+								</div>
+							</a>
+							<span class="mui-badge mui-badge-inverted">已关联</span>
+						</li>
+					</template>
+					<template v-else>
+						<li class="mui-table-view-cell mui-media qq" @tap="bind('qq')">
+							<a href="javascript:;" class="mui-navigate-right">
+								<img class="mui-pull-left" src="images/1X/056.png">
+								<div class="mui-media-body" style="padding-left:15px">
+									<span>QQ</span>
+								</div>
+							</a>
+							<span class="mui-badge mui-badge-inverted">未关联</span>
+						</li>
+					</template>
+					<template v-if="user.wechatUnionid">
+						<li class="mui-table-view-cell mui-media" id="wx" @tap="unbind('wechat')">
+							<a href="javascript:;" class="mui-navigate-right">
+								<img class="mui-pull-left" src="images/1X/054.png">
+								<div class="mui-media-body" style="padding-left:15px">
+									<span>微信</span>
+								</div>
+							</a>
+							<span class="mui-badge mui-badge-inverted">已关联</span>
+						</li>
+					</template>
+					<template v-else>
+						<li class="mui-table-view-cell mui-media" id="wx" @tap="bind('wechat')">
+							<a href="javascript:;" class="mui-navigate-right">
+								<img class="mui-pull-left" src="images/1X/054.png">
+								<div class="mui-media-body" style="padding-left:15px">
+									<span>微信</span>
+								</div>
+							</a>
+							<span class="mui-badge mui-badge-inverted">未关联</span>
+						</li>
+					</template>
+				</ul>
+			</div>
+		</div>
+		<div class="mui-card">
+			<div class="mui-card-content">
+				<ul class="mui-table-view">
+					<!--<li class="mui-table-view-cell mui-media">-->
+						<!--<a href="javascript:;" class="mui-navigate-right">-->
+							<!--<div class="mui-media-body">-->
+								<!--<span>通知</span>-->
+							<!--</div>-->
+						<!--</a>-->
+						<!--<div class="mui-switch mui-switch-mini" :class="{'mui-active':user.settings.notify}" @tap="notify()">-->
+							<!--<div class="mui-switch-handle"></div>-->
+						<!--</div>-->
+					<!--</li>-->
+					<!--<template v-if="appUpgrade.currentVersion!=appUpgrade.version">-->
+						<!--<li class="mui-table-view-cell mui-collapse">-->
+							<!--<a class="mui-navigate-right">-->
+								<!--<div class="mui-media-body">-->
+									<!--<span>下载新版</span>-->
+								<!--</div>-->
+								<!--<div class="mui-collapse-content" v-text="appUpgrade.changelog" style="min-height:100px;">-->
+								<!--</div>-->
+								<!--<span @tap="download(appUpgrade.downloadUri)" class="mui-badge mui-badge-danger" style="right: 65px;background-color: #ff6464;">有新版本可用</span>-->
+							<!--</a>-->
+							<!--<span class="mui-badge mui-badge-inverted" v-text="appUpgrade.version"></span>-->
+						<!--</li>-->
+					<!--</template>-->
+				</ul>
+			</div>
+		</div>
+		<div class="mui-card">
+			<div class="mui-card-content">
+				<ul class="mui-table-view">
+					<li @tap="logout" class="mui-table-view-cell" style="text-align: center;color: #ff6464;font-size: 16px;">退出登录</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+	<script src="js/vue.min.js"></script>
+	<script src="js/mui.min.js?version=201801202115"></script>
+	<script src="js/common.js?version=201801202115"></script>
+	<script type="text/javascript">
+		window.bindVal = '';
+		function bind_callback(code, data) {
+			if (code == 400) {
+				mui.toast('取消授权');
+				return;
+			}
+			if (code == 500) {
+				mui.toast('授权失败');
+				return;
+			}
+			var tmp = JSON.parse(data);
+			ajax(api('/auth/oauth/bind'), {
+				autoProcessError: false,
+				data: {
+					source: window.bindVal == 'QQ' ? 'qq' : 'wechat',
+					openid: tmp.openid,
+					platform: env.isIos ? 'ios' : '',
+					access_token: tmp.accessToken
+				},
+				type: 'POST',
+				dataType: 'json',
+				success: function (data) {
+					if (window.bindVal == 'QQ') {
+						Vue.delete(app.user, 'qqUnionid');
+						Vue.set(app.user, 'qqUnionid', tmp.openid);
+					} else {
+						Vue.delete(app.user, 'wechatUnionid');
+						Vue.set(app.user, 'wechatUnionid', tmp.openid);
+					}
+					mui.toast('关联成功');
+				},
+				error: function (xhr, type, errerThrown) {
+					var data = JSON.parse(xhr.responseText);
+					mui.toast((data.pop()).message);
+				}
+			});
+		}
+		var app = new Vue({
+			el: '#app',
+			data: {
+				user: {
+					settings: false
+				},
+				appUpgrade: {}
+			},
+			methods: {
+				loadData: function () {
+					var _this = this;
+
+					ajax(api('/my'), {
+						dataType: 'json',
+						success: function (data) {
+							_this.user = data.user;
+						}
+					});
+
+					if (!env.appVersion) { return; }
+					ajax(api('/app/upgrade'), {
+						data: {
+							platform: env.isAndroid ? 'Android' : 'iOs',
+							version: env.appVersion
+						},
+						dataType: 'json',
+						success: function (data) {
+							if (data) {
+								_this.appUpgrade = data;
+								_this.appUpgrade.currentVersion = env.appVersion;
+							}
+						}
+					});
+				},
+				notify: function () {
+					var _this = this;
+					ajax(api('/my/setting'), {
+						data: {
+							notify: !_this.user.settings.notify
+						},
+						type: 'POST',
+						dataType: 'json',
+						success: function (data) {
+							mui.toast('保存成功', {
+								duration: 1000
+							});
+						}
+					});
+				},
+				bind: function (val) {
+					window.bindVal = val == 'qq' ? 'QQ' : 'WX';
+					if (window.Binding) {
+						Binding.achieveBinding(window.bindVal, 'bind_callback');
+					}
+				},
+				unbind: function (val) {
+					var _this = this;
+					ajax(api('/auth/oauth/unbind'), {
+						data: {
+							source: val,
+						},
+						type: 'POST',
+						dataType: 'json',
+						success: function (data) {
+							if (val == 'qq')
+								_this.user.qqUnionid = undefined;
+							else
+								_this.user.wechatUnionid = undefined;
+							mui.toast(data.message);
+						}
+					});
+				},
+				logout: function () {
+					ajax(api('/auth/signout'), {
+						dataType: 'json',
+						success: function () {
+							mui.toast('退出成功');
+							if (window.Gold) {
+								Gold.broadcast('refreshLogin', 'logout');
+								Gold.logout();
+                                Gold.broadcast('refreshList', 'editAddress');
+                                Gold.hideRedDotToMy();
+							}
+							back();
+						}
+					});
+				},
+				download: function (uri) {
+					location.href = uri;
+				}
+			},
+			mounted: function () {
+				this.loadData();
+			}
+		});
+	</script>
+</body>
+
+</html>

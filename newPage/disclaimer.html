@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link href="../css/mui.min.css" rel="stylesheet" />
+    <title>免责声明</title>
+    <style>
+        .mui-bar {
+            height: 70px;
+            padding-top: 20px;
+            text-align: center;
+            color: #000;
+        }
+        html,body{
+            height: 100%;
+        }
+        .mui-bar .mui-title {
+            color: rgb(53,53,53);
+            margin-top: 5px;
+        }
+
+        .mui-bar-nav~.mui-content {
+            padding:70px 0 0 0;
+            height: 100%;
+        }
+        ._content>div{
+            background: white;
+            padding: 10px;
+            margin-top: 3%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<header class="mui-bar mui-bar-nav">
+    <a class="mui-icon mui-icon-left-nav mui-pull-left" style="color:rgb(53,53,53)" href="javascript:back()"></a>
+    <h1 class="mui-title">免责声明</h1>
+</header>
+<div class='mui-content _content'>
+    <div>
+        <p>1.寄送鉴定是寻找专家进行线下鉴定服务，在您成功提交订单后的24小时内（如非工作时间可能会延迟，但不会超过36小时）会有专家助理与您联系，沟通安排服务细节。</p>
+        <p>2.专家助理与专家沟通后，会提供各种服务细节和服务时间供您选择，在您确认之后，会发送成功短信。如时间或者服务内容未能达成一致，则订单关闭，本次您支付的金额将原路返回。</p>
+        <p>3.如您已经确认服务，若您单方面申请取消服务，平台会扣除您30%服务费，剩余费用则原路返回，订单取消。</p>
+        <p>4.线下鉴定产生的其他消费如住宿，交通，邮寄等费用，您需自行承担，并负责藏品的搬运和安全。</p>
+        <p>5.您确认服务后，并未能按照约定的时间或地点进行线下的服务，影响鉴定专家的行程安排，则视为您违约，订单取消，鉴定服务费不给予退返。</p>
+        <p>6.线下鉴定专家给出的鉴定结果仅代表个人观点，无其他含义和目的。</p>
+    </div>
+</div>
+</body>
+<script src="../js/vue.min.js"></script>
+<script src="../js/mui.min.js?version=201801202115"></script>
+<script src="../js/common.js?version=201801202115"></script>
+<script>
+    var app = new Vue({
+        el:'#app',
+        data:{},
+        watch:{},
+        methods:{},
+        mounted(){}
+    })
+</script>
+</html>

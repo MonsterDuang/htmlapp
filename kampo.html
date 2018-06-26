@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>鉴定</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" href="css/mui.min.css">
+	<style>
+		.mui-plus.mui-android header.mui-bar {
+			display: none;
+		}
+
+		.mui-plus.mui-android .mui-bar-nav~.mui-content {
+			padding: 0;
+		}
+
+		body,
+		p {
+			font-size: 12px;
+		}
+
+		a {
+			color: white;
+		}
+
+		.mui-bar {
+			background: url(images/1X/110.png);
+			background-size: contain;
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+			background-color: #e6a03c;
+			height: 70px;
+			padding-top: 20px;
+		}
+
+		.mui-bar .mui-title {
+			color: white;
+			margin-top: 5px;
+
+		}
+
+		.mui-segmented-control {
+			background-color: white;
+			font-size: 13px;
+		}
+
+		.mui-bar-nav~.mui-content {
+			padding-top: 70px;
+		}
+
+		.mui-pull-caption {
+			font-size: 12px;
+		}
+
+
+		.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+			color: #F0AD4E;
+			border-bottom: 2px solid #F0AD4E;
+		}
+
+		.mui-control-content {
+			min-height: 570px;
+		}
+
+		.mui-scroll {
+			margin-top: 40px;
+			padding-bottom: 40px;
+		}
+
+		.mui-card {
+			margin: 10px 0;
+		}
+
+		.mui-card .mui-table-view {
+			padding-left: 10px;
+		}
+
+		.mui-card-footer:before,
+		.mui-card-header:after {
+			height: 0;
+		}
+
+		.mui-table-view-cell:after {
+			height: 0;
+		}
+
+		.mui-card-header,
+		.mui-card-content,
+		.mui-card-footer {
+			font-size: 12px;
+		}
+
+		.mui-card-header .head-img,
+		.mui-card-footer .head-img,
+		.reply .head-img {
+			height: 30px;
+			width: 30px;
+			float: left;
+			/* border: 1px solid #c0c0c0; */
+			border-radius: 15px;
+			overflow: hidden;
+		}
+
+		.mui-card-header .head-img img,
+		.mui-card-footer .head-img img,
+		.reply .head-img img {
+			height: 30px;
+			width: 30px;
+		}
+
+		.mui-card-header .head-img-text-left,
+		.mui-card-footer .head-img-text,
+		.reply .head-img-text {
+			width: 100px;
+			max-width: 300px;
+			padding-left: 10px;
+			float: left;
+			color: #50a2aa;
+			text-align: left;
+			margin-top: 5px;
+		}
+
+		.mui-card-header .head-img-text-right {
+			float: right;
+			width: 100px;
+			text-align: right;
+			margin-top: 5px;
+			color: red;
+		}
+
+		.mui-card .mui-card-content li:first-child {
+			padding: 5px 10px;
+		}
+
+		.mui-card-content li:nth-child(2) {
+			padding: 0;
+		}
+
+		.mui-card-footer .head-img-text-result {
+			color: #f25d07;
+		}
+
+		.mui-card-footer .head-img-text {
+			color: #000000
+		}
+
+		.mui-card-footer {
+			padding: 2px 10px;
+		}
+
+		.mui-card-footer .logistics {
+			width: 100%;
+		}
+
+		.item-video img {
+			width: 100%;
+			height: 100%;
+		}
+
+		.item-image-left {
+			float: left;
+			width: 70%;
+			padding-right: 10px;
+		}
+
+		.item-image-left img {
+			width: 210px;
+			height: 210px;
+		}
+
+		.item-image-right {
+			float: left;
+			width: 30%;
+		}
+
+		.item-image-right img {
+			width: 100px;
+			height: 100px;
+		}
+
+		.item-image-right-up {
+			padding-bottom: 5px;
+		}
+
+		.item-tips {
+			width: 100%;
+			padding-left: 5px;
+			border: 1px solid #f4f4f8;
+			position: relative;
+			border-radius: 5px;
+			background-color: #f4f4f8;
+			color: #50a2aa;
+		}
+
+		.item-tips span {
+			overflow: hidden;
+			position: absolute;
+		}
+
+		.item-tips span.item-tips-bot {
+			border-width: 8px;
+			border-style: solid dashed dashed;
+			border-color: transparent transparent #f4f4f8 transparent;
+			left: 10px;
+			top: -16px;
+		}
+
+		.item-tips span.item-tips-top {
+			border-width: 8px;
+			border-style: solid dashed dashed;
+			border-color: transparent transparent #f4f4f8 transparent;
+			top: -15px;
+		}
+
+		.fixed-icon {
+			position: fixed;
+			right: 20px;
+			bottom: 20px;
+			z-index: 999;
+		}
+
+		.fixed-icon img {
+			width: 60px;
+			height: 60px;
+		}
+
+
+		.empty-data {
+			margin-top: 100px;
+		}
+
+		.empty-data img {
+			width: 150px;
+			height: 150px;
+			margin: 0 auto;
+		}
+
+		.mutilineword {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 3;
+		}
+
+		.popup {
+			position: fixed;
+			z-index: 10000;
+			top: 50%;
+			left: 50%;
+			display: none;
+			overflow: hidden;
+			width: 270px;
+			-webkit-transition-property: -webkit-transform, opacity;
+			transition-property: transform, opacity;
+			-webkit-transform: translate3d(-50%, -50%, 0) scale(1.185);
+			transform: translate3d(-50%, -50%, 0) scale(1.185);
+			text-align: center;
+			opacity: 0;
+			color: #000;
+			border-radius: 13px;
+		}
+
+		.popup .popup-in {
+			display: block;
+			-webkit-transition-duration: 400ms;
+			transition-duration: 400ms;
+			-webkit-transform: translate3d(-50%, -50%, 0) scale(1);
+			transform: translate3d(-50%, -50%, 0) scale(1);
+			opacity: 1;
+		}
+
+		.popup-inner {
+			position: relative;
+			padding: 15px;
+			border-radius: 13px 13px 0 0;
+			background: rgba(255, 255, 255, .95);
+		}
+
+		.mui-popup-title .head-img {
+			height: 30px;
+			width: 30px;
+			float: left;
+			border-radius: 15px;
+			overflow: hidden;
+		}
+
+		.mui-popup-title .head-img-text {
+			width: 100px;
+			max-width: 300px;
+			padding-left: 10px;
+			float: left;
+			color: #50a2aa;
+			text-align: left;
+			margin-top: 5px;
+		}
+
+		.mui-popup-title+.mui-popup-text {
+			text-align: left;
+			min-height: 100px;
+		}
+
+		.popup-buttons {
+			position: relative;
+			display: -webkit-box;
+			display: -webkit-flex;
+			display: flex;
+			height: 44px;
+			-webkit-box-pack: center;
+			-webkit-justify-content: center;
+			justify-content: center;
+		}
+
+		.popup-backdrop {
+			position: fixed;
+			z-index: 998;
+			top: 40px;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			-webkit-transition-duration: 400ms;
+			transition-duration: 400ms;
+			opacity: 0;
+			background: rgba(0, 0, 0, .4);
+		}
+
+		.org_bot_cor {
+			width: 0;
+			height: 0;
+			font-size: 0;
+			border-width: 10px;
+			border-style: solid;
+			border-color: transparent transparent #f4f4f8;
+			_border-color: white white #f4f4f8;
+			overflow: hidden;
+			position: absolute;
+			left: 10px;
+			top: -20px;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="app">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-search mui-pull-left" href="javascript:forward('search-tag.html')"></a>
+			<h1 class="mui-title">鉴宝</h1>
+			<a class="mui-pull-right" href="javascript:forward('my-kampo.html')" style="padding-top: 20px;">
+				<!-- <span class="mui-badge mui-badge-success" v-show="unAppraisalCount>0" style="position:absolute;background-color:red; top: 40px;right:10px;width: 5px;height: 5px;padding: 1px"></span> -->
+				我的鉴宝
+			</a>
+		</header>
+		<div class="mui-content">
+			<div class="mui-segmented-control mui-segmented-control-inverted mui-segmented-control-primary" style="z-index: 10">
+				<a class="mui-control-item mui-active" @tap="switchStatus('did')">
+					已鉴定
+				</a>
+				<a class="mui-control-item" @tap="switchStatus('did-not')">
+					未鉴定
+				</a>
+			</div>
+			<div class="mui-fullscreen" style="top: 65px;">
+				<div id="pullrefresh" class="mui-scroll-wrapper mui-active">
+					<div class="mui-scroll">
+						<div class="mui-content">
+							<template v-if="items.length>0">
+								<div class="mui-card" v-for="item in items" :key="item.id">
+									<div class="mui-card-header mui-card-media">
+										<div>
+											<div class="head-img">
+												<img :src="item.user.avatar" />
+											</div>
+											<div class="head-img-text-left" v-text="item.user.nickname"></div>
+											<!-- <template v-if="status=='did-not'">
+												<div class="head-img-text-right" @tap="toAppraisal(item)">去鉴定</div>
+											</template> -->
+											<div style=" clear: both;"></div>
+										</div>
+									</div>
+									<div class="mui-card-content">
+										<ul class="mui-table-view">
+											<li class="mui-table-view-cell">
+												<span v-text="item.questions"></span>
+											</li>
+											<li class="mui-table-view-cell">
+												<div>
+													<div class="item-image-left" @tap="preViewImg(item.photos,0)">
+														<img :src="item.photos[0]+'-convert210'" style="width: 100%" />
+													</div>
+													<div class="item-image-right">
+														<div class="item-image-right-up" @tap="preViewImg(item.photos,1)">
+															<img :src="item.photos[1]+'-convert100'" />
+														</div>
+														<div class="item-image-right-down" @tap="preViewImg(item.photos,2)">
+															<img :src="item.photos[2]+'-convert100'" />
+														</div>
+													</div>
+												</div>
+											</li>
+										</ul>
+
+									</div>
+									<div class="mui-card-footer" v-if="item.appraiser">
+										<div @tap="showAppraiser(item.appraiser.user)">
+											<div class="head-img">
+												<img :src="item.appraiser.user.avatar" />
+											</div>
+											<div class="head-img-text mui-ellipsis" v-text="item.appraiser.user.nickname"></div>
+										</div>
+										<div class="head-img-text-result" v-if="item.result">鉴定结果：{{item.result}}</div>
+									</div>
+									<div class="mui-card-footer" v-if="item.resultIntro">
+										<!-- <div class="item-tips" style="min-height: 35px;padding-top:5px;">
+											<span class="item-tips-bot"></span>
+											<span class="mutilineword" v-text="item.resultIntro"></span>
+										</div> -->
+										<div class="item-tips" style="height: auto; padding: 5px;">
+											{{ item.resultIntro }}
+											<span class="org_bot_cor"></span>
+										</div>
+									</div>
+									<div class="mui-card-footer" style="padding: 10px 10px">
+										<div class="logistics" @tap="jisongjianbao">
+											<div class="head-img" style="border: none">
+												<img src="images/1X/030.png" />
+											</div>
+											<div class="head-img-text">寄送鉴宝</div>
+											<a class="mui-navigate-right"></a>
+										</div>
+									</div>
+								</div>
+							</template>
+							<template v-else>
+								<div class="empty-data" style="text-align: center;">
+									<div>
+										<img src="images/1X/073.png" style="width: 60px; height: 60px;" />
+										<p>还木有上传任何宝贝哦！</p>
+									</div>
+								</div>
+							</template>
+						</div>
+					</div>
+					<div class="fixed-icon">
+						<img src="images/1X/029.png" @tap="appraisal" />
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="popup popup-in">
+			<div class="popup-inner">
+				<div class="mui-popup-title" style="font-size:12px;">
+					<div class="head-img">
+						<img :src="appraiser.avatar" style="width:30px;height:30px;" />
+					</div>
+					<div class="head-img-text" v-text="appraiser.nickname"></div>
+					<div style="clear:both;"></div>
+				</div>
+				<div class="mui-popup-text" style="font-size:12px;" v-text="appraiser.intro"></div>
+			</div>
+			<div class="popup-buttons">
+				<span class="mui-popup-button" style="font-size:12px;" @tap="hideAppraiser()">关闭</span>
+				<!-- <span class="mui-popup-button mui-popup-button-bold">取消</span> -->
+			</div>
+		</div>
+	</div>
+	<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+	<script src="js/vue.min.js"></script>
+	<!-- <script src="js/vue.min.js?version=201801202115"></script> -->
+	<script src="js/mui.min.js?version=201801202115"></script>
+	<script src="js/common.js?version=201801202115"></script>
+	<script>
+		function refreshList() {
+			mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().pulldownLoading();
+		}
+		var app = new Vue({
+			el: '#app',
+			data: {
+				user: {},
+				unAppraisalCount: 0,
+				status: 'did',
+				appraiser: {},
+				pageIndex: 1,
+				pageSize: 8,
+				items: []
+			},
+			methods: {
+				jisongjianbao: function () {
+					forward('./jisongjianbao.html');
+				},
+				appraisal: function () {
+					forward('yfg://m.native.com/visitor/identification');
+				},
+				detail: function (item) {
+					forward('product-detail.html?id=' + item.id);
+				},
+				setRedDot: function () {
+					var _this = this;
+					if (_this.user && _this.user.type == 'appraiser') {
+						//查询我的鉴定红点
+						ajax(api('/my/appraisal/did-not-count'), {
+							dataType: 'json',
+							success: function (data) {
+								if (data != null) {
+									_this.unAppraisalCount = data;//未鉴定数量
+									if (window.Gold && window.Gold.showRedDotToKamPo) {
+										if (_this.unAppraisalCount > 0) {
+											Gold.showRedDotToKamPo();
+										} else {
+											Gold.hideRedDotToKamPo();
+										}
+									}
+								}
+							}
+						});
+					}
+				},
+				loadData: function (type) {
+					var _this = this;
+					// _this.setRedDot();
+
+					if (type === 1) {
+						// mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().refresh(true);
+						mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().scrollTo(0, 0, 100);
+					}
+
+					var data = {
+						pageIndex: _this.pageIndex,
+						pageSize: _this.pageSize,
+						status: _this.status
+					};
+					ajax(api('/appraisal'), {
+						data: data,
+						dataType: 'json',
+						success: function (data) {
+							if (type === 1) {
+								_this.items = data.objects;
+							} else {
+								for (var i = 0, len = data.objects.length; i < len; i++)
+									_this.items.push(data.objects[i]);
+							}
+
+							mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh(!data.hasNext);
+						}
+					});
+				},
+				switchStatus: function (status) {
+				    var self = this
+                    self.appraiser = {};
+					document.getElementsByClassName('popup')[0].style.display = 'none';
+					document.getElementsByClassName('popup')[0].style.opacity = 0;
+                    self.status = status;
+                    self.loadData(1);
+				},
+				showAppraiser: function (appraiser) {
+					this.appraiser = appraiser;
+					document.getElementsByClassName('popup')[0].style.display = 'block';
+					document.getElementsByClassName('popup')[0].style.opacity = 1;
+				},
+				hideAppraiser: function () {
+					this.appraiser = {};
+					document.getElementsByClassName('popup')[0].style.display = 'none';
+					document.getElementsByClassName('popup')[0].style.opacity = 0;
+				},
+				preViewImg: function (srcList, index) {
+					if (window.Photo) {
+						var obj = {
+							srcList,
+							index
+						};
+						window.Photo.preview(JSON.stringify(obj), function (e, cb) {
+						});
+					}
+				}
+			},
+			mounted: function () {
+				var _this = this;
+				//
+				// ajax(api('/my'), {
+				// 	autoProcessError: false,
+				// 	autoProcessComplete: false,
+				// 	dataType: 'json',
+				// 	success: function (data) {
+				// 		_this.user = data.user;
+				// 	},
+				// 	error: function () {
+
+				// 	},
+				// 	complete: function () {
+				// 		mask.close();
+				// 		mui.init({
+				// 			// swipeBack: true,
+				// 			pullRefresh: {
+				// 				container: '#pullrefresh',
+				// 				down: {
+				// 					auto: true,
+				// 					callback: function () {
+				// 						_this.pageIndex = 1;
+				// 						_this.loadData(1);
+				// 					}
+				// 				},
+				// 				up: {
+				// 					contentrefresh: '正在加载...',
+				// 					callback: function () {
+				// 						_this.pageIndex++;
+				// 						_this.loadData(2);
+				// 					}
+				// 				}
+				// 			}
+				// 		});
+				// 	}
+				// });
+
+				mui.init({
+					// swipeBack: true,
+					pullRefresh: {
+						container: '#pullrefresh',
+						down: {
+							auto: true,
+							callback: function () {
+								_this.pageIndex = 1;
+								_this.loadData(1);
+							}
+						},
+						up: {
+							contentrefresh: '正在加载...',
+							callback: function () {
+								_this.pageIndex++;
+								_this.loadData(2);
+							}
+						}
+					}
+				});
+			}
+		})
+	</script>
+</body>
+
+</html>

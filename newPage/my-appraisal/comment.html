@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/mui.min.css" rel="stylesheet"/>
+    <title>评论</title>
+    <style>
+        .mui-bar {
+            height: 70px;
+            padding-top: 20px;
+            text-align: center;
+            color: #000;
+        }
+        [v-cloak] {
+            display: none;
+        }
+        .mui-bar .mui-title {
+            color: rgb(53,53,53);
+            margin-top: 5px;
+        }
+
+        .mui-bar-nav~.mui-content {
+            padding:70px 0 50px 0;
+        }
+
+        .tabTop{
+            width: 100%;
+            background: white;
+            margin: 8px 0;
+            /*box-shadow: 0 1px 2px rgba(0,0,0,.1);*/
+        }
+        .tabTop span{
+            color: #666;
+            float: left;
+            display: block;
+            width: 50%;
+            text-align: center;
+            font-size: 14px;
+            height: 40px;
+            line-height: 40px;
+            border-bottom: 2px solid transparent;
+        }
+        .tabContent{
+            /*background: white;*/
+        }
+        .tabContent p{
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            font-size: 14px;
+        }
+        .tabContent .tabContentD{
+            padding:5px 10px 0 10px;
+            /*margin-bottom: 10px;*/
+        }
+        .tabContent .tabContentD div{
+            float: left;
+        }
+        .tabContent .tabContentD div:nth-child(1){
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-top: -1px;
+        }
+        .tabContent .tabContentD div:nth-child(1) img{
+            width: 100%;
+        }
+        .tabContent .tabContentD div:nth-child(2) p{
+            padding: 0;
+            margin: 0;
+            padding-left: 10px;
+            height: 18px;
+        }
+        .tabContent .tabContentD div:nth-child(3){
+            float: right;
+            padding: 1px;
+            border-radius: 18px;
+            width: 60px;
+            text-align: center;
+            height: 24px;
+            border: 1px solid #666;
+            font-size: 13px;
+            color: #666;
+            margin-top: 4px;
+        }
+        .tabContentB{
+            background: rgb(245,245,245);
+            /*margin-top: 5px;*/
+            padding:5px 13px 5px 10px;
+        }
+        .tabContentB div{
+            float: left;
+        }
+        .tabContentB div:nth-child(1){
+            width: 22%;
+        }
+        .tabContentB div:nth-child(1) img{
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            height: 80px;
+            vertical-align: middle;
+        }
+        .tabContentB div:nth-child(2){
+            margin-left: 3%;
+            width: 75%;
+        }
+        .tabContentB div:nth-child(2) p:nth-child(1){
+            font-size: 15px;
+            color: #333;
+            padding-top: 6px;
+        }
+        .tabContentB div:nth-child(2) p{
+            margin: 0;
+        }
+        .mui-bar-nav~.mui-content .mui-pull-top-pocket{
+            top: 70px;
+        }
+    </style>
+</head>
+<body>
+<header class="mui-bar mui-bar-nav">
+    <a class="mui-icon mui-icon-left-nav mui-pull-left" style="color:rgb(53,53,53)" href="javascript:back()"></a>
+    <h1 class="mui-title">评论</h1>
+</header>
+<div id='pullrefresh' class='mui-content mui-scroll-wrapper'>
+<div id="app" class="mui-content" v-cloak>
+    <div class="tabTop mui-clearfix">
+        <span v-for="(item,index) in tabT" @tap="tabIndexFn(index)" :style="item.borderB">{{item.text}}</span>
+    </div>
+
+    <div class="tabContent mui-clearfix" v-show="tabIndex===0">
+        <div v-for="(item,index) in list_me" style="margin-bottom: 10px;background: white;box-shadow: 0 1px 2px rgba(0,0,0,0.1)">
+            <div class="tabContentD mui-clearfix">
+
+                <div><img :src="item.comment.avatar" alt=""></div>
+                <div>
+                    <p>{{item.comment.fromName}} 回复 <span style="color:rgb(250,169,61)">{{item.comment.toName}}</span></p>
+                    <p>{{item.comment.createdAt}}</p>
+                </div>
+                <div @tap='forward_detail(item.trade)'>回复</div>
+            </div>
+            <p style="margin-bottom:5px;padding: 0 10px 0 60px">{{item.comment.content}}</p>
+            <div class="tabContentB mui-clearfix" @tap='forward_detail(item.trade)'>
+                <!--<div><img src="../../images/new2x/icon-moren.png" alt=""></div>-->
+                <div><img :src="item.photos[0]" alt=""></div>
+                <div>
+                    <p>@{{item.user.nickname}}</p>
+                    <p>{{item.questions}}</p>
+                </div>
+            </div>
+            <div style="height: 10px;background: white"></div>
+            <!--<div style="height: 5px;background: rgb(239,239,244)"></div>-->
+        </div>
+    </div>
+
+    <div class="tabContent mui-clearfix" v-show="tabIndex===1">
+
+        <div v-for="item in list_other" style="margin-bottom:10px;background: white;box-shadow: 0 1px 2px rgba(0,0,0,0.1)">
+            <div class="tabContentD mui-clearfix">
+                <div><img :src="item.comment.avatar" alt=""></div>
+                <div>
+                    <p>{{item.comment.fromName}}<span style="color:rgb(250,169,61)"> {{item.comment.toName}}</span></p>
+                    <p>{{item.comment.createdAt}}</p>
+                </div>
+                <div @tap='forward_detail(item.trade)'>回复</div>
+            </div>
+            <p style="margin-bottom:5px;padding: 0 10px 0 60px">{{item.comment.content}}</p>
+            <div class="tabContentB mui-clearfix" @tap='forward_detail(item.trade)'>
+                <div><img :src="item.photos[0]" alt=""></div>
+                <div>
+                    <p>@{{item.user.nickname}}</p>
+                    <p>{{item.questions}}</p>
+                </div>
+            </div>
+            <div style="height: 10px;background: white"></div>
+            <!--<div style="height: 5px;background: rgb(239,239,244)"></div>-->
+        </div>
+
+    </div>
+
+</div>
+</div>
+</body>
+<script src="../../js/vue.min.js"></script>
+<script src="../../js/mui.min.js?version=201801202115"></script>
+<script src="../../js/common.js?version=201801202115"></script>
+<script>
+    var app = new Vue({
+        el:"#app",
+        data:{
+            tabT:[
+                {
+                    text:"我的",
+                    borderB:"borderBottom: 2px solid rgb(250,169,61);color:rgb(250,169,61)"
+                },
+                {
+                    text:"他人",
+                    borderB:""
+                }
+            ],
+            tabIndex:0,
+            list_me:[],
+            list_other:[],
+        },
+        mounted(){
+            var self = this;
+            mui.init({
+                swipeBack: true,
+                pullRefresh: {
+                    container: '#pullrefresh',
+                    down: {
+                        auto:true,
+                        callback: function () {
+                            self.commentAll("me")
+                            self.commentAll("other")
+                            mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+                            mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
+                            mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().disablePullupToRefresh();
+                        }
+                    },
+                    up: {
+                        contentrefresh: '',
+                        callback: function () { }
+                    }
+                }
+            });
+        },
+        watch:{
+            "tabIndex"(newV){
+                var self = this
+                for(var i=0;i<self.tabT.length;i++){
+                    self.tabT[i].borderB=''
+                }
+                self.tabT[newV].borderB="borderBottom:2px solid rgb(250,169,61);color:rgb(250,169,61)"
+                self.tabContent=self.tabT[newV].text
+            }
+        },
+        methods:{
+            forward_detail(ID){
+                // forward("appraisal-details.html")
+                if(window.Page){
+                    window.Page.toAppraisalDetails(ID,'')
+                }
+            },
+            tabIndexFn(index){
+                this.tabIndex = index;
+            },
+            replyFn(id){
+                forward("reply.html?"+id)
+            },
+            commentAll(type){
+                var self = this;
+                ajax(api("/my/comments"), {
+                    dataType: 'json',
+                    type: 'GET',
+                    data:{
+                        type:type
+                    },
+                    success: function (data) {
+                        if(data.code==200){
+                            data.data.forEach(function(key,index,Arr){
+                                var Time = Arr[index].comment.createdAt
+                                if(Time.indexOf(".")>-1){
+                                    var Time_ = Time.split('.')[0]
+                                    Arr[index].comment.createdAt = Time_.replace("T",' ')
+                                }
+                            })
+                            if(type=="me"){
+                                self.list_me = data.data
+                            }else if(type=="other"){
+                                self.list_other = data.data
+                            }
+                        }else{
+                            mui.toast(data.message)
+                        }
+                    }
+                })
+            }
+        }
+    })
+</script>
+</html>

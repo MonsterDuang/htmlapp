@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/mui.min.css" rel="stylesheet" />
+    <title>回复</title>
+    <style>
+        .mui-bar {
+            height: 70px;
+            padding-top: 20px;
+            text-align: center;
+            color: #000;
+        }
+
+        .mui-bar .mui-title {
+            color: rgb(53,53,53);
+            margin-top: 5px;
+        }
+        [v-cloak] {
+            display: none;
+        }
+        .mui-bar-nav~.mui-content {
+            padding:80px 0 60px 0;
+        }
+        .comfirm{
+            position: absolute;
+            right: 12px;
+            font-size: 14px;
+            top: 35px;
+        }
+        textarea{
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+<div id="app" v-cloak>
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-icon mui-icon-left-nav mui-pull-left" style="color:rgb(53,53,53)" href="javascript:back()"></a>
+        <h1 class="mui-title">回复</h1>
+        <span class="comfirm" @tap="comfirmFn()">确认</span>
+    </header>
+    <div class='mui-content'>
+        <textarea v-model='textarea' id="" cols="30" placeholder="请输入您的回复" rows="8"></textarea>
+    </div>
+</div>
+</body>
+<script src="../../js/vue.min.js"></script>
+<script src="../../js/mui.min.js?version=201801202115"></script>
+<script src="../../js/common.js?version=201801202115"></script>
+<script>
+    var app = new Vue({
+        el:"#app",
+        data:{
+            textarea:''
+        },
+        watch:{
+        },
+        mounted(){},
+        methods:{
+            comfirmFn(){
+                if(!this.textarea){
+                    mui.toast("评论内容为空")
+                }else{
+                    ajax(api("/appraisal/comment"),{
+                        dataType: 'json',
+                        type:'POST',
+                        data:{
+                            content:'',//评论内容
+                            belong:'',//鉴定id
+                            trade:''//鉴定订单id
+                        },
+                        success(){
+
+                        },
+                        error(){
+
+                        }
+                    })
+                }
+            }
+        },
+    })
+</script>
+</html>

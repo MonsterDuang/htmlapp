@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>人气好店</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" href="css/mui.min.css">
+	<link href="css/mui.picker.css" rel="stylesheet" />
+	<link href="css/mui.poppicker.css" rel="stylesheet" />
+	<style>
+		li {
+			list-style: none;
+		}
+
+		a {
+			color: white;
+		}
+
+		p,
+		.mui-card-header.mui-card-media .mui-media-body,
+		.mui-card-header.mui-card-media .mui-media-body p {
+			font-size: 12px
+		}
+
+		.mui-bar {
+			background: url(images/1X/110.png);
+			background-size: contain;
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+			background-color: #e6a03c;
+			height: 70px;
+			padding-top: 20px;
+		}
+
+		.mui-bar .mui-title {
+			color: white;
+			margin-top: 5px;
+		}
+
+		.mui-bar-nav~.mui-content {
+			padding-top: 70px;
+		}
+
+		.mui-bar-nav~.mui-content .mui-pull-top-pocket {
+			top: 5px;
+		}
+
+		.mui-scroll-wrapper {
+			top: 110px;
+		}
+
+		.mui-slider-indicator.mui-segmented-control {
+			background-color: white;
+			font-size: 13px;
+		}
+
+		.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+			color: #F0AD4E;
+			border-bottom: 2px solid #F0AD4E;
+		}
+
+		.mui-control-content {
+			min-height: 600px;
+		}
+
+		.mui-card {
+			margin: 10px 0;
+		}
+
+		.mui-card-content ul:first-child .mui-table-view-cell {
+			padding: 10px 0 5px 10px;
+		}
+
+		.mui-card-content ul:first-child span {
+			color: #ff6464;
+		}
+
+		.mui-row {
+			margin: 0;
+			padding: 0;
+			color: black;
+			font-size: 12px;
+		}
+
+		.mui-card-header .head-img {
+			width: 30px;
+			height: 30px;
+			float: left;
+			border-radius: 15px;
+			overflow: hidden;
+		}
+
+		.mui-card-header .head-img img {
+			height: 32px;
+			width: 32px;
+			margin: -1px;
+		}
+
+		.mui-pull-caption {
+			font-size: 12px;
+		}
+
+		.mui-row .mui-table-view-cell {
+			padding: 0 10px 5px 10px;
+			text-align: left;
+		}
+
+		.mui-row .mui-table-view-cell span {
+			color: #f3a377;
+		}
+
+		.mui-card-header.mui-card-media .mui-media-body .shop-name span {
+			color: green;
+			border: 1px solid green;
+			background-color: white;
+			border-radius: 5px;
+			width: 30px;
+			height: 10px;
+			font-size: 10px;
+			margin-left: 5px;
+		}
+
+		.mui-card-content .mui-slider .mui-slider-group .mui-slider-item {
+			width: 100px;
+			padding: 5px 5px 0 5px;
+		}
+
+		.goods-photo {
+			height: 100px;
+		}
+
+		.empty-data {
+			margin-top: 100px;
+		}
+
+		.empty-data img {
+			width: 150px;
+			height: 150px;
+			margin: 0 auto;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="app">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+			<h1 class="mui-title">人气好店</h1>
+		</header>
+		<div class="mui-content">
+			<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted mui-segmented-control-primary">
+				<a class="mui-control-item mui-active" @tap="switchStauts('-vol')">
+					销量
+				</a>
+				<a class="mui-control-item" @tap="showFilterArea()">
+					地区
+				</a>
+			</div>
+			<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<div class="mui-control-content mui-active">
+						<template v-if="items.length>0">
+							<div class="mui-card" style="display:none" v-show="!!item" v-for="item in items" :key=item.id>
+								<div @tap="detail(item)" class="mui-card-header mui-card-media">
+									<div class="head-img">
+										<img :src="item.logo">
+									</div>
+									<div class="mui-media-body">
+										<div class="shop-name">{{item.name}}
+											<span>已认证</span>
+										</div>
+										<p>{{item.pv}}人来逛过</p>
+									</div>
+								</div>
+								<div class="mui-card-content">
+									<div class="mui-slider">
+										<div class="mui-slider-group">
+											<div class="mui-slider-item" style="border: 0;" v-for="goods in item.hotGoods">
+												<img @tap="productdetail(goods.id)" :src="goods.photos[0]" />
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</template>
+						<template v-else>
+							<div class="empty-data" style="text-align: center;">
+								<div>
+									<img src="images/1X/073.png" style="width: 60px; height: 60px;" />
+									<p>加油哦，还没有任何店铺上榜！</p>
+								</div>
+							</div>
+						</template>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+	<script src="js/vue.min.js"></script>
+	<script src="js/cityData.js?version=201801202115"></script>
+	<script src="js/mui.min.js?version=201801202115"></script>
+	<script src="js/common.js?version=201801202115"></script>
+	<script src="js/mui.picker.js?version=201801202115"></script>
+	<script src="js/mui.poppicker.js?version=201801202115"></script>
+	<script>
+		var cityPicker = new mui.PopPicker({
+			layer: 2
+		});
+		var app = new Vue({
+			el: '#app',
+			data: {
+				pageIndex: 1,
+				pageSize: 8,
+				items: [],
+				sort: '-vol',
+				province: undefined,
+				city: undefined
+			},
+			methods: {
+				loadData: function (type) {
+					if (type === 1) {
+						mui('#pullrefresh').pullRefresh().refresh(true);
+						mui('#pullrefresh').pullRefresh().scrollTo(0, 0, 100);
+					}
+
+					var _this = this;
+
+					var data = {
+						pageIndex: _this.pageIndex,
+						pageSize: _this.pageSize,
+						sort: _this.sort
+					};
+					if (_this.province) data.province = _this.province;
+					if (_this.city) data.city = _this.city;
+
+					ajax(api('/shop/hot'), {
+						data: data,
+						dataType: 'json',
+						success: function (data) {
+							if (type === 1) {
+								_this.items = data.objects;
+							} else {
+								for (var i = 0, len = data.objects.length; i < len; i++)
+									_this.items.push(data.objects[i]);
+							}
+
+							mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh(!data.hasNext);
+						}
+					});
+				},
+				detail: function (item) {
+					forward('./shop.html?id=' + item.id);
+				},
+				productdetail: function (id) {
+					forward('./product-detail.html?id=' + id);
+				},
+				switchStauts: function (status) {
+				    var self = this
+                    self.sort = status;
+                    self.province = undefined;
+                    self.city = undefined;
+                    self.loadData(1);
+				},
+				showFilterArea: function () {
+					var _this = this;
+					cityPicker.show(function (items) {
+						_this.province = (items[0] || {}).text;
+						_this.city = (items[1] || {}).text;
+						mui('.mui-control-item')[1].innerHTML = '地区(' + _this.province + _this.city + ')';
+						_this.loadData(1);
+					});
+				}
+			},
+			mounted: function () {
+				var _this = this;
+				mui.init({
+					swipeBack: true,
+					pullRefresh: {
+						container: '#pullrefresh',
+						down: {
+							auto: true,
+							callback: function () {
+								_this.pageIndex = 1;
+								_this.loadData(1);
+							}
+						},
+						up: {
+							contentrefresh: '正在加载...',
+							callback: function () {
+								_this.pageIndex++;
+								_this.loadData(2);
+							}
+						}
+					}
+				});
+				cityPicker.setData(cityData);
+			}
+		});
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/mui.min.css" rel="stylesheet" />
+    <title>鉴定</title>
+    <style>
+        .mui-bar {
+            height: 70px;
+            padding-top: 20px;
+            text-align: center;
+            color: #000;
+        }
+
+        .mui-bar .mui-title {
+            color: rgb(53,53,53);
+            margin-top: 5px;
+        }
+
+        [v-cloak] {
+            display: none;
+        }
+        .mui-bar-nav~.mui-content {
+            padding:70px 0 55px 0;
+        }
+        .ImgDetails{
+            color: rgb(51,51,51);
+            font-size: 14px;
+            height: 40px;
+            line-height: 40px;
+            padding-left: 10px;
+            background: white;
+            border-bottom: 1px solid rgb(229,229,229);
+            margin-top: 10px;
+        }
+        .ImgDetails_{
+            padding: 12px;
+            background: white;
+            margin-bottom: 10px;
+            /*box-shadow: 0 1px 2px rgba(0,0,0,.1);*/
+        }
+        .box-B{
+            /*box-shadow: 0 1px 2px rgba(0,0,0,.1);*/
+        }
+        .ImgDetails_ div{
+            background: rgb(245,245,245);
+        }
+        .ImgDetails_ img{
+            width: 26%;
+            margin: 3px 3.666666%;
+            max-height: 85px;
+        }
+        .describe{
+            color: rgb(51,51,51);
+            font-size: 14px;
+            height: 40px;
+            line-height: 40px;
+            padding:0 10px;
+            background: white;
+        }
+        .describe_{
+            color: rgb(102,102,102);
+            font-size: 14px;
+            padding: 10px;
+            background: white;
+            margin-bottom: 10px;
+        }
+        .describe span:nth-child(2){
+            float: right;
+        }
+        .result_{
+            padding: 15px 10px;
+            background: white;
+        }
+        .result_ div{
+            color: rgb(102,102,102);
+            font-size: 14px;
+            float: left;
+            width: 30%;
+            margin:0 1.666666%;
+            text-align:center;
+            background:rgb(242,242,242);
+            height:32px;
+            line-height:32px;
+            border-radius:20px;
+        }
+        .bottom_{
+            position: fixed;
+            bottom: 0;
+            height: 45px;
+            width: 100%;
+            background: white;
+            padding: 0 10px;
+            /*box-shadow: 1px 1px 6px #ccc;*/
+        }
+        .bottom_ img{
+            vertical-align: middle;
+            margin-top: 7px;
+            width: 32px;
+            height: 32px;
+        }
+        .bottom_ input {
+            position: absolute;
+            width: 58%;
+            margin: 0;
+            left: 15%;
+            top: 5px;
+            height: 35px;
+            border-radius: 20px;
+            background: rgb(243,243,243);
+            border: none;
+            font-size: 14px;
+        }
+        .bottom_ div{
+            position: absolute;
+            height: 35px;
+            line-height: 35px;
+            text-align: center;
+            width: 58%;
+            top: 5px;
+            left: 15%;
+            border-radius: 20px;
+            font-size: 14px;
+            border: 1px solid rgb(204,204,204);
+            color: rgb(204,204,204);
+        }
+        .bottom_ span{
+            display: inline-block;
+            color: white;
+            width: 70px;
+            height: 30px;
+            line-height: 30px;
+            background: rgb(255,169,61);
+            text-align: center;
+            border-radius: 20px;
+            float: right;
+            margin-top: 8px;
+            font-size: 14px;
+        }
+        .timeC{
+            background: white;
+            padding: 12px;
+        }
+        .timeC>div{
+            height: 55px;
+            line-height: 55px;
+            background: rgb(245,245,245);
+            color: rgb(102,102,102);
+            border-radius: 3px;
+            padding: 12.5px 15px;
+            position: relative;
+        }
+        .timeC>div>img{
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: 0;
+            top: 0;
+        }
+        .timeC>div>span{
+            position: absolute;
+            top: 0;
+            right: 18px;
+            font-size: 15px;
+        }
+        .timeC>div>div{
+            position: absolute;
+            width: 75%;
+            height: 30px;
+            background: rgb(255,169,61);
+            border-radius:0 30px 30px 30px;
+            padding-left: 15px;
+        }
+        .timeC>div>div span{
+            display: block;
+            height: 22px;
+            width: 17px;
+            margin-top: 4px;
+            background: url("../../images/new3x/IDF_icon_Voice3@3x-1.png")center center no-repeat;
+            background-size: cover;
+            animation: am 1s linear infinite;
+        }
+
+        @keyframes am {
+            0%{
+                background: url("../../images/new3x/IDF_icon_Voice3@3x-1.png")center center no-repeat;
+                background-size: cover;
+            }
+            50%{
+                background: url("../../images/new3x/IDF_icon_Voice3@3x-2.png")center center no-repeat;
+                background-size: cover;
+            }
+            100%{
+                background: url("../../images/new3x/IDF_icon_Voice3@3x-3.png")center center no-repeat;
+                background-size: cover;
+            }
+        }
+
+        .timeT{
+            background: white;
+            padding: 12px;
+            /*margin-bottom: 60px;*/
+        }
+        .timeT div{
+            position: relative;
+            padding: 12.5px 20px;
+            background: rgb(245,245,245);
+        }
+        .timeT div img{
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 20px;
+            height: 20px;
+        }
+        .timeT div p{
+            margin: 0;
+            border: none;
+            background: rgb(245,245,245);
+            color: rgb(102,102,102);
+            font-size: 14px;
+        }
+        .headRn{
+            position: absolute;
+            width: 20%;
+            height: 40px;
+            top: 20px;
+            left: 0;
+            z-index: 105;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+<header class="mui-bar mui-bar-nav">
+    <a class="mui-icon mui-icon-left-nav mui-pull-left" style="color:rgb(53,53,53)"></a>
+    <h1 class="mui-title">帮其鉴定</h1>
+    <span class="headRn" @tap.stop="returnFn()"></span>
+</header>
+<div class="mui-content" v-cloak>
+    <!--<p style="word-wrap:break-word;position:fixed;z-index: 100;top: 100px;background: blue;width: 100%;">{{test}}</p>-->
+    <!--<p style="word-wrap:break-word;position:fixed;z-index: 100;top: 150px;background: pink;width: 100%;">{{test_1}}</p>-->
+    <!--<p style="word-wrap:break-word;position:fixed;z-index: 100;top: 200px;background: blueviolet;width: 100%;">{{test_2}}</p>-->
+    <!--<p style="word-wrap:break-word;position:fixed;z-index: 100;top: 250px;background: red;width: 100%;">{{test_3}}</p>-->
+<div class="ImgDetails">藏品详细图片</div>
+<div class="ImgDetails_">
+    <div>
+        <img @tap='preview(index)' v-for="(item,index) in imgList" :src="item" alt="">
+    </div>
+</div>
+<div class='describe'>
+    问题描述
+</div>
+<div class="describe_ box-B">
+    {{orderDetails.questions}}
+</div>
+<div class="describe box-B" style="margin-bottom:10px">
+    <span>藏品种类</span>
+    <span style="color:red">{{orderDetails.category}}</span>
+</div>
+<div class="describe">
+    鉴定结果
+</div>
+<div class="result_ mui-clearfix box-B">
+    <div v-for="(item,index) in list" @tap="toggleColor(index)" :style="item.bgc">{{item.text}}</div>
+</div>
+
+
+    <div class="box-B" style="background: white;margin: 10px 0">
+
+        <!--<span @tap="audioFn()">点击12</span><br/>-->
+        <audio id="audioF" ref="audioV">您的浏览器不支持语音播放。
+            <!--controls-->
+            <source :src="audioUrl" type="audio/amr"/>
+        </audio>
+
+        <!--<div style="padding:5px" @tap="playV()">播放语音测试</div>-->
+
+    </div>
+    <!--<div style="background: white;margin: 10px 0">-->
+        <!--<button class="icon-audio" id="playerBtn" style="margin:0 5px;cursor:pointer;" :playerurl="audioUrl">播放</button>-->
+        <!--<div style="width:1px;height:1px;" id="playerQT"></div>-->
+    <!--</div>-->
+
+
+<div class="timeC box-B" v-show="voiceS">
+    <div>
+        <div @tap="playV()" :style="playStyle">
+            <span v-show="videoImg"></span>
+            <div v-show="!videoImg" style="width:17px;height:22px;margin-top:4px;background:url('../../images/new3x/IDF_icon_Voice3@3x-3.png');background-size: cover"></div>
+        </div>
+        <span>{{videoTiem_s}}</span>
+        <img @tap.stop="delFn()" src="../../images/new2x/icon_delete2@2x.png" alt="">
+    </div>
+</div>
+
+<div class="timeT box-B" v-show="textS">
+    <div>
+        <p>{{comment}}</p>
+        <img @tap.stop="delTextFn()" src="../../images/new2x/icon_delete2@2x.png" @tap.stop="textFn()" alt="">
+    </div>
+</div>
+<!--<div style="position: fixed;top: 100px;z-index: 100;background: red">{{test}}</div>-->
+<div class="bottom_">
+    <img @tap="isshow()" v-if="showO" src="../../images/new3x/icon-Keyboard@3x.png" alt="">
+    <img @tap="isshow()" v-if="showT" src="../../images/new3x/icon_yuyin@3x.png" alt="">
+    <input id="inputS" @focus="focusFn()" :disabled="disabled" v-if="showT" type="text" :placeholder="placeholder" v-model="Icomment">
+    <div v-if="showO" @tap="tapeFn()">点击输入语音</div>
+    <span @tap="confirm()">{{confirmT}}</span>
+</div>
+</div>
+</div>
+</body>
+<script src="../../js/jQuery-2.1.4.min.js"></script>
+<script src="../../js/vue.min.js"></script>
+<script src="../../js/mui.min.js?version=201801202115"></script>
+<!--<script src="../../js/common.js?version=201801202115"></script>-->
+<script src="../../js/common.js"></script>
+<script src="../../js/asmd.js"></script>
+<script>
+
+    // $("input").on("click", function() {
+    //     setTimeout(function(){
+    //         document.body.scrollTop = document.body.scrollHeight;
+    //     },300);
+    // })
+
+    // $("input").on("focus", function() {
+    //     setTimeout(function(){
+    //         app.$data.test = "获取光标";
+    //         document.body.scrollTop = document.body.scrollHeight;
+    //     },300);
+    // })
+    // $("#inputS").on("foucs", function() {
+    //     app.$data.test = "触发了click"
+    //     setTimeout(function(){
+    //         app.$data.test = "触发了定时器"
+    //         document.body.scrollTop = document.body.scrollHeight;
+    //     },300);
+    // })
+    var params = NewgetUrlParams_app()
+    // window.onresize = function () {
+    //
+    //     app.$data.test = '触发了new';
+    //     var h = $(window).height();
+    //     //console.log(h+','+window.screen.availHeight)
+    //     if (u.indexOf('ios') > -1 || u.indexOf('IOS') > -1) {
+    //         app.$data.test = '触发了'
+    //         if(h <= window.screen.availHeight/1.5){
+    //             // $('#but').css({'position':'absoult',"margin-top":"-.5rem",'display':'none'});
+    //             document.body.scrollTop = document.body.scrollHeight;
+    //         }else{
+    //             // $('#but').css({'position':'fixed','display':'block'});
+    //         }
+    //     }
+    //
+    // }
+
+    // $('input').on('focus',function(){
+    //     $('#but').hide();
+    // })
+    //
+    // $('input').on('blur',function(){
+    //     $('#but').show();
+    // })
+
+    // var playerQT = document.getElementById("playerQT");
+    // $("#playerBtn").bind("click",function(e){
+    //     var playerUrl = e.target.getAttribute("playerUrl");
+    //     playerAudio(playerUrl);
+    // });
+    // function playerAudio(url){
+    //     var html = 'ltembed width="1px" height="1px" name="plugin" src="'+url+'" type="audio/amr" id="QT_EMB">';
+    //     playerQT.innerHTML = html;
+    // }
+    var Timer;
+
+    function VideoCallback(V) {
+
+        var Val
+        if(V.indexOf("|")>-1){
+            var _split = V.split("|"),proportion;
+            Val = _split[0];
+
+            app.$data.videoTiem = _split[1];
+
+            // proportion = div(_split[1],300);
+            //
+            // proportion<0.2?
+            // proportion = "15%":
+            // proportion = mul(proportion,75)+"%";
+            //
+            // app.$data.playStyle = "width:"+proportion;
+
+            // app.$data.test = proportion + "新的数据";
+
+        }else {
+            Val = V;
+        }
+        app.$data.audioUrl = qiniuPath + Val;
+        app.$data.sendUrl =   Val;
+        app.$data.voiceS = true;
+        app.$data.textS = false;
+        app.$data.comment = '';
+        // app.$data.test = "url测试" + app.$data.audioUrl
+    }
+
+
+    function callBackFn(state) {
+
+        var St,time;
+        if(state.indexOf("|")>-1){
+            St = state.split("|")[0];
+            time = state.split("|")[1]-0;
+        }else {
+            St = state;
+        }
+        app.$data.videoImg = false;
+
+        // app.$data.test_2 = "时间==="+time;
+
+        switch (St){
+            case "0":
+                mui.toast("播放异常")
+                break;
+            case "1":
+                app.$data.videoTiem = time;
+                app.$data.videoTiem_s = timeFormat(time);
+                app.$data.videoImg = true;
+                app.$data.index = 2;
+                Timer = setInterval(()=> {
+                    app.$data.videoTiem==0?
+                        window.clearInterval(Timer):
+                        app.$data.videoTiem--;
+                        app.$data.videoTiem_s = timeFormat(app.$data.videoTiem);
+                },1000)
+                break;
+            case "2":
+                app.$data.index = 3;
+                window.clearInterval(Timer)
+                break;
+            case "3":
+                app.$data.index = 2;
+                Timer = setInterval(()=> {
+                    app.$data.videoTiem==0?
+                        window.clearInterval(Timer):
+                        app.$data.videoTiem--;
+                        app.$data.videoTiem_s = timeFormat(app.$data.videoTiem);
+                },1000)
+                app.$data.videoImg = true;
+                break;
+            case "4":
+                window.clearInterval(Timer);
+                app.$data.index = 1;
+                app.$data.videoTiem = time;
+                app.$data.videoImg = false;
+                break;
+        }
+
+    }
+
+    var app = new Vue({
+        el:"#app",
+        data:{
+            test:'new',
+            disabled:false,
+            placeholder:'请输入评论内容',
+            // test_1:'输出1',
+            // test_2:"输出2",
+            // test_3:'传过去的参数',
+            playStyle:'',
+            comment:'',
+            Icomment:'',
+            audioUrl:'',
+            sendUrl:'',
+            bgc:"background:rgb(243,151,0);color:white",
+            imgList:[],
+            list:[
+                {
+                    text:'真品',
+                    bgc:''
+                },
+                {
+                    text:'假品',
+                    bgc:''
+                },
+                {
+                    text:'其他',
+                    bgc:''
+                }
+            ],
+            showO:true,
+            showT:false,
+            voiceS:false,
+            textS:false,
+            index:1,
+            videoTiem:"",
+            videoTiem_s:"",
+            videoImg:false,
+            orderDetails:'',
+            result:'',
+            confirmT:'确认',
+        },
+        watch:{
+            // "index"(newV){
+                // this.test_3 = newV
+            // },
+            "videoTiem"(){
+                var self = this
+                self.videoTiem_s = timeFormat(self.videoTiem)
+            }
+        },
+        mounted(){
+            var self = this
+            self.getListt()
+        },
+        methods:{
+            focusFn(){
+                //var u = navigator.userAgent;
+                //var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+                //var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+                if(env.isIos){
+                    setTimeout(function () {
+                        document.body.scrollTop = document.body.scrollHeight;
+                    },300)
+                }
+            },
+            getListt(){
+                var obj = {tradeId:params},self = this
+                ajax(api("/my/appraisal/appraisaldetails"),{
+                    dataType: 'json',
+                    type:'GET',
+                    data:obj,
+                    success: function (data) {
+                        if(data.code==200){
+                            self.orderDetails = data.data;
+                            self.imgList = data.data.photos
+                        }else{
+                            mui.toast(data.message)
+                        }
+                    },
+                    error(){
+
+                    }
+                })
+            },
+            preview(index){
+                if (window.Photo) {
+                    var obj = {
+                        srcList: this.imgList,
+                        index: index || 0
+                    };
+                    window.Photo.preview(JSON.stringify(obj), function () {});
+                }
+            },
+            delTextFn(){
+                var self = this;
+                self.textS = false;
+                self.comment = '';
+                self.Icomment = '';
+                self.confirmT = "确定";
+                self.disabled = false,
+                self.placeholder='请输入评论内容'
+            },
+            delFn(){
+                var self = this
+                // if(window.Voice&&self.audioUrl){
+                //     // self.test='测试'+self.audioUrl
+                //     window.Voice.playVoice(JSON.stringify({
+                //         playState:4,
+                //         voiceUrl:self.audioUrl
+                //     }),"callBackFn")
+                    self.VoiceFn(4);
+                    self.voiceS = false;
+                    self.audioUrl = '';
+                    self.sendUrl = '';
+                // }
+            },
+            returnFn(){
+                var self = this;
+                if(self.audioUrl)self.VoiceFn(4);
+                back()
+            },
+            playV(){
+                var self = this;
+                self.VoiceFn(self.index)
+            },
+            // audioFn(){
+            //     var self = this;
+            //     self.$refs.audioV.play()
+            // },
+            VoiceFn(index){
+                var self = this
+                if(window.Voice){
+                    // self.test ="传过去的值"+self.index;
+
+                    self.index==2?self.videoImg=false:self.videoImg=true;
+
+                    window.Voice.playVoice(JSON.stringify({
+                        playState:index,
+                        voiceUrl:self.audioUrl
+                    }),"callBackFn")
+
+                }
+            },
+            tapeFn(){
+                var self = this;
+                if(self.audioUrl){
+                    self.VoiceFn(4)
+                }
+                self.index = 1
+                if(window.Voice)window.Voice.getVoiceUrl(JSON.stringify({url:''}),"VideoCallback");
+            },
+            textFn(){
+                var self = this;
+                self.textS = false;
+                self.comment = '';
+            },
+            forward(url){
+                forward(url)
+            },
+            confirm(){
+                var self = this;
+                if(!self.result){
+                    mui.toast("请选择鉴定结果")
+                    return
+                }
+                if(!self.Icomment&&!self.sendUrl&&!self.comment){
+                    mui.toast("请输入鉴定语音或鉴定文字")
+                    return
+                }
+
+                if(self.showT&&self.comment==""){
+                    self.textS = true;
+                    self.comment = self.Icomment;
+                    self.Icomment = '';
+                    self.confirmT = "提交";
+                    self.disabled = true,
+                    self.placeholder='请提交'
+                    return;
+                }
+                // if(self.showT&&self.Icomment&&self.Icomment!=" "){
+                //     self.comment = self.Icomment;
+                //     self.Icomment = "";
+                //     self.textS = true;
+                //     self.voiceS = false;
+                // }
+                var obj = {
+                    result:self.result,
+                    resultIntro:"",
+                    resultAudio:"",
+                }
+                if(self.comment)obj.resultIntro = self.comment;
+                if(self.sendUrl)obj.resultAudio = self.sendUrl;
+                ajax(api("/appraisal/"+self.orderDetails.orderId+"/result"),{
+                    dataType: 'json',
+                    type:'POST',
+                    data:obj,
+                    autoProcessError: false,
+                    success(data) {
+                        mui.toast(data.message)
+                        setTimeout(function(){
+                            back()
+                            if (window.Gold) {
+                                Gold.broadcast('refreshList', 'editAddress');
+                            }
+                        },300)
+                    },
+                    error(){
+
+                    }
+                })
+            },
+            isshow(){
+                var self = this;
+                self.showO=!self.showO;
+                self.showT=!self.showT;
+                if(self.showO){
+                    self.Icomment =''
+                    self.comment = ''
+                    self.textS = false
+                    self.confirmT = "确定"
+                    self.disabled = false,
+                    self.placeholder='请输入评论内容'
+                }else{
+                    self.audioUrl=''
+                    self.sendUrl=''
+                    self.voiceS = false
+                    if(self.audioUrl){
+                        self.VoiceFn(4)
+                    }
+                }
+            },
+            toggleColor(index){
+                var self = this;
+
+                self.list.forEach((key,index,Arr)=>{
+                    Arr[index].bgc='';
+                })
+                self.result = self.list[index].text
+                self.list[index].bgc=self.bgc;
+            }
+        }
+    })
+    // var u = navigator.userAgent;
+    // app.$data.test = JSON.stringify(u)
+</script>
+</html>

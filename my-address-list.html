@@ -1,0 +1,242 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>地址列表</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <link href="css/mui.min.css" rel="stylesheet" />
+  <style>
+    header a {
+      color: white;
+    }
+
+    ul,
+    li {
+      list-style: none
+    }
+
+    .mui-bar {
+      background: url(images/1X/110.png);
+      background-size: contain;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      background-color: #e6a03c;
+      height: 70px;
+      padding-top: 20px;
+    }
+
+    .mui-bar .mui-title {
+      color: white;
+      margin-top: 5px;
+    }
+
+    .mui-bar-nav~.mui-content {
+      padding-top: 70px;
+    }
+
+    .mui-content>.mui-card:first-child {
+      margin-top: 0;
+    }
+
+    .mui-card {
+      margin: 0 0px 10px 0px;
+      font-size: 12px;
+    }
+
+    .mui-table-view-cell:after {
+      background-color: #ffffff;
+    }
+
+    .mui-card-header {
+      padding: 0;
+    }
+
+    .mui-card-header {
+      font-size: 13px;
+    }
+
+    .mui-card-header:after {
+      margin-left: 15px;
+    }
+
+    .left,
+    .middle {
+      float: left;
+    }
+
+    .mui-card-content,
+    p {
+      font-size: 12px;
+    }
+
+    .mui-table-view-cell img {
+      margin-top: 10px;
+      margin-right: 10px;
+      width: 20px;
+      height: 20px;
+    }
+
+    .middle {
+      width: 65%;
+    }
+
+    .right {
+      float: right;
+    }
+
+    .right img {
+      margin-left: 10px;
+    }
+
+    .add {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="mui-bar mui-bar-nav">
+    <a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+    <h1 class="mui-title">地址列表</h1>
+  </header>
+
+  <div class="mui-content" id="app">
+
+    <div class="mui-card" v-for="item in items" :key="item.id">
+      <div class="mui-card-content" style="display:none;" :style="{display:item?'block':'none'}">
+        <div class="mui-row">
+          <div class="mui-col-sm-12 mui-col-xs-12">
+            <li class="mui-table-view-cell">
+              <div class="left" @tap="setDefault(item)">
+                <template v-if="item.isDefault">
+                  <img src="images/1X/072.png" />
+                </template>
+                <template v-else>
+                  <img src="images/1X/071.png" />
+                </template>
+              </div>
+              <div class="middle">
+                <span v-text="item.name"></span>(
+                <span v-text="(item.phone)"></span>)
+                <p class="mui-ellipsis" v-text="formatAddress(item)"></p>
+              </div>
+              <div class="right" @tap="del(item)">
+                <img src="images/1X/104.png" />
+              </div>
+              <div class="right" @tap="detail(item)">
+                <img src="images/1X/103.png" />
+              </div>
+            </li>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mui-card">
+      <div class="mui-card-content">
+        <div class="mui-row">
+          <div class="mui-col-sm-12 mui-col-xs-12" @tap="detail()">
+            <li class="mui-table-view-cell">
+              <div class="left">
+                <img src="images/1X/102.png" />
+              </div>
+              <div class="middle add">
+                <span>新增收货地址</span>
+              </div>
+            </li>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+  <script src="js/vue.min.js"></script>
+  <script src="js/mui.min.js?version=201801202115"></script>
+  <script src="js/common.js?version=201801202115"></script>
+  <script>
+    function refreshList() {
+      location.reload();
+    }
+    var app = new Vue({
+      el: '#app',
+      data: {
+        items: []
+      },
+      methods: {
+        loadData: function () {
+          var _this = this;
+
+          ajax(api('/my/address-books'), {
+            dataType: 'json',
+            success: function (data) {
+              _this.items = data;
+            }
+          });
+        },
+        formatAddress: function (item) {
+          return item.address.province + ' ' + item.address.city + ' ' + item.address.region + ' ' + item.address.street
+        },
+        setDefault: function (item) {
+          var _this = this;
+          ajax(api('/my/address-books/' + item.id + '/default'), {
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+              _this.items.forEach((value, index) => {
+                value.isDefault = false;
+              });
+              item.isDefault = true;
+              if (window.Gold) {
+                Gold.broadcast('refreshPage', 'defaultAddress');
+              }
+              mui.toast('设置默认地址成功');
+            }
+          });
+        },
+        del: function (item) {
+          var _this = this;
+          mui.confirm('确定删除该地址？', '提示', ['取消', '删除'], function (e) {
+            if (e.index != 0) {
+              ajax(api('/my/address-books/' + item.id), {
+                type: 'DELETE',
+                dataType: 'json',
+                success: function (data) {
+                  mui.toast('地址删除成功');
+                  _this.items.forEach((value, index) => {
+                    if (value.id == item.id) {
+                      _this.items.splice(index, 1);
+                    }
+                  });
+                }
+              });
+            }
+          });
+        },
+        detail: function (item) {
+          if (item) {
+            forward('my-address-edit.html?id=' + item.id);
+          } else {
+            forward('my-address-edit.html');
+          }
+        }
+      },
+      mounted: function () {
+        //阻尼系数
+        var deceleration = mui.os.ios ? 0.003 : 0.0009;
+        mui('.mui-scroll-wrapper').scroll({
+          bounce: false,
+          indicators: true, //是否显示滚动条
+          deceleration: deceleration
+        });
+        this.loadData();
+      }
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,371 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>个人信息</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link href="css/mui.min.css" rel="stylesheet" />
+	<link href="css/mui.picker.css" rel="stylesheet" />
+	<link href="css/mui.poppicker.css" rel="stylesheet" />
+	<style>
+		html,
+		body {
+			background-color: #efeff4;
+			font-size: 12px;
+		}
+
+		p {
+			font-size: 12px;
+		}
+
+
+		a {
+			color: white;
+		}
+
+		.mui-bar {
+			background: url(images/1X/110.png);
+			background-size: contain;
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+			background-color: #e6a03c;
+			height: 64px;
+			padding-top: 20px;
+		}
+
+		.mui-title {
+			color: white;
+		}
+
+		.mui-bar-nav~.mui-content {
+			padding-top: 64px;
+		}
+
+		.mui-content>.mui-card:first-child {
+			margin-top: 10px;
+		}
+
+		.mui-card {
+			margin: 10px 0 10px 0;
+		}
+
+		.mui-card-content {
+			font-size: 12px;
+		}
+
+		#head {
+			line-height: 70px;
+		}
+
+		.head-img {
+			position: inherit;
+			height: 70px;
+			width: 70px;
+			border-radius: 35px;
+			overflow: hidden;
+			right: 20px;
+			z-index: 99;
+		}
+
+		.head-img img {
+			width: 72px;
+			height: 72px;
+			margin: -1px;
+		}
+
+		.mui-table-view-cell>.mui-input-row {
+			max-width: 300px;
+			width: 200px;
+			position: absolute;
+			right: 0;
+		}
+
+		.mui-table-view-cell>.mui-input-row>input {
+			max-width: 150px;
+			width: 150px;
+			height: 0;
+		}
+
+		.mui-input-row .mui-input-clear~.mui-icon-clear {
+			top: 0;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="app">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+			<h1 class="mui-title">个人信息</h1>
+			<a class="mui-pull-right" @tap="save()" style="padding-top: 20px;">保存</a>
+		</header>
+		<div class="mui-content">
+			<div class="mui-card">
+				<div class="mui-card-content">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell">
+							<a id="head" class="mui-navigate-right">头像
+								<span class="mui-pull-right head-img">
+									<img @tap="actionsheetPop" class="mui-action-preview" id="head-img1" ref="userImg" :src="user.avatar" />
+								</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+
+			<div id="actionsheet" class="mui-popover mui-popover-action mui-popover-bottom">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<a @tap="uploadFromPhotograph">拍照</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a @tap="uploadFromAlbum">从相册选择</a>
+					</li>
+				</ul>
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<a @tap="cancelUpload()">
+							<b>取消</b>
+						</a>
+					</li>
+				</ul>
+			</div>
+
+
+			<div class="mui-card">
+				<div class="mui-card-content">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell" @tap="editUserName(user.nickname)">昵称
+							<span class="mui-badge mui-badge-inverted nickname" style="padding-right: 15px;" v-text="user.nickname"></span>
+							<span class="mui-navigate-right"></span>
+						</li>
+						<li class="mui-table-view-cell" id="showSexPicker">性别
+							<span id="showSexPickerResult" class="mui-badge mui-badge-inverted" style="padding-right: 15px;" v-text="$options.filters.formatGender(user.gender)"></span>
+							<span class="mui-navigate-right"></span>
+						</li>
+						<li class="mui-table-view-cell">手机
+							<span class="mui-badge mui-badge-inverted" style="padding-right: 15px;" v-text="user.phone"></span>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="mui-card">
+				<div class="mui-card-content">
+					<ul class="mui-table-view">
+
+						<li class="mui-table-view-cell" @tap="forward('my-address-list.html')" id="showCityPicker">我的地址
+							<span id="showCityPickerResult" class="mui-badge mui-badge-inverted" style="padding-right: 15px;">
+								<!-- <template v-if="defaultAddress != undefined">
+									{{defaultAddress.address.province}} {{defaultAddress.address.city}} {{defaultAddress.address.region}}
+								</template> -->
+							</span>
+							<span class="mui-navigate-right"></span>
+						</li>
+						<!-- <template v-if="defaultAddress != undefined">
+							<li class="mui-table-view-cell" @tap="editUserAddress(defaultAddress.address.street)">详细地址
+								<span class="mui-badge mui-badge-inverted mui-ellipsis" v-text="defaultAddress.address.street"></span>
+							</li>
+						</template>
+						<template v-else>
+							<li class="mui-table-view-cell" @tap="editUserAddress()">详细地址
+								<span class="mui-badge mui-badge-inverted mui-ellipsis"></span>
+							</li>
+						</template> -->
+					</ul>
+				</div>
+			</div>
+
+			<div class="mui-card">
+				<div class="mui-card-content">
+					<ul class="mui-table-view">
+						<template v-if="user.type == 'appraiser'">
+							<li class="mui-table-view-cell" @tap="editUserIntro(user.intro)">我的简介
+								<span class="mui-badge mui-badge-inverted" style="padding-right: 15px;"></span>
+								<span class="mui-navigate-right"></span>
+							</li>
+							<template v-if="user.intro!=''">
+								<li class="mui-table-view-cell" @tap="editUserIntro(user.intro)">
+									<p v-text="user.intro"></p>
+								</li>
+							</template>
+						</template>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+	<script src="js/vue.min.js"></script>
+	<script src="js/mui.min.js?version=201801202115"></script>
+	<!--<script src="js/common.js?version=201801202115"></script>-->
+	<script src="js/common.js"></script>
+	<script src="js/mui.picker.js?version=201801202115"></script>
+	<script src="js/mui.poppicker.js?version=201801202115"></script>
+	<script type="text/javascript">
+		function getPhoto_callback(data, status) {
+			if (status != 'cancel') {
+				var uploadObj = {
+					isURI: true,
+					photos: new Array(data)
+				}
+				QNUpload.uploadImage(JSON.stringify(uploadObj), 'uploadPhoto_callback');
+			}
+		}
+		function uploadPhoto_callback(data, status) {
+            if(status != 'cancel') {
+                app.$data.user.avatarKey = data;
+                document.getElementById('head-img1').src = qiniuPath + data;
+            }else {
+                mui.toast("服务器繁忙")
+			}
+            mui('#actionsheet').popover('toggle');
+		}
+
+		function editUserName(val) {
+			app.$data.user.nickname = val;
+		}
+		function editAddress(val) {
+			app.$data.defaultAddress.address.street = val;
+		}
+		function editUserIntro(val) {
+			Vue.delete(app.user, 'intro');
+			Vue.set(app.user, 'intro', val);
+		}
+
+		Vue.filter('formatGender', formatGender);
+		var app = new Vue({
+			el: '#app',
+			data: {
+				user: {},
+				defaultAddress: {
+					address: {
+
+					}
+				}
+			},
+			methods: {
+				loadData: function () {
+					var _this = this;
+
+					ajax(api('/my'), {
+						dataType: 'json',
+						success: function (data) {
+							_this.user = data.user;
+							_this.defaultAddress = data.defaultAddress;
+						}
+					});
+				},
+				save: function () {
+					var _this = this;
+					_this.user.avatar = _this.$refs.userImg.src;
+					var postData = {
+						nickname: _this.user.nickname,
+						intro: !_this.user.intro ? '' : _this.user.intro,
+					};
+					if (!!_this.user.gender) {
+						postData.gender = _this.user.gender;
+					} else {
+						postData.gender = 'F';
+					}
+					if (!!_this.user.avatarKey) {
+						postData.avatarKey = _this.user.avatarKey;
+					}
+					ajax(api('/auth/user'), {
+						data: postData,
+						type: 'PUT',
+						dataType: 'json',
+						success: function (data) {
+							mui.toast('保存成功', {
+								duration: 1000
+							});
+							setTimeout(function () {
+								if (window.Gold) {
+									Gold.broadcast('refreshLogin', 'editProfile');
+								}
+								back();
+							}, 1000);
+						}
+					});
+				},
+				actionsheetPop: function () {
+					mui('#actionsheet').popover('toggle');
+				},
+				uploadFromPhotograph: function () {//拍照
+					if (window.Photo) {
+						var obj = {
+							source: 1,
+							type: 'png',
+							returnType: 'uri',
+							edit: true,
+							// 张数
+                            photoNumber:1
+						};
+						window.Photo.getPhoto(JSON.stringify(obj), 'getPhoto_callback');
+					}
+				},
+				uploadFromAlbum: function () {//从相册选择
+					if (window.Photo) {
+						var obj = {
+							source: 2,
+							type: 'png',
+							// returnType: 'uri',
+							edit: false,
+                            photoNumber:1
+						};
+						window.Photo.getPhoto(JSON.stringify(obj), 'getPhoto_callback');
+					}
+				},
+				cancelUpload: function () {
+					mui('#actionsheet').popover('toggle');
+				},
+				editUserName: function (val) {
+					forward('profile-edit.html?type=username&val=' + encodeURIComponent(val));
+				},
+				editUserAddress: function (val) {
+					if (val == '') {
+						forward('profile-edit.html?type=address');
+					} else {
+						forward('profile-edit.html?type=address&val=' + encodeURIComponent(val));
+					}
+				},
+				editUserIntro: function (val) {
+					if (val == '') {
+						forward('profile-edit.html?type=intro&val=');
+					} else {
+						forward('profile-edit.html?type=intro&val=' + encodeURIComponent(val));
+					}
+				}
+			},
+			mounted: function () {
+				this.loadData();
+				mui.init();
+
+				var sexPicker = new mui.PopPicker();
+				sexPicker.setData([{
+					value: 'M',
+					text: '男'
+				}, {
+					value: 'F',
+					text: '女'
+				}]);
+				var showSexPicker = document.getElementById('showSexPicker');
+				var showSexPickerResult = document.getElementById('showSexPickerResult');
+				showSexPicker.addEventListener('tap', function (event) {
+					sexPicker.show(function (items) {
+						showSexPickerResult.innerText = (items[0] || {}).text;
+						app.user.gender = (items[0] || {}).value;
+					});
+				}, false);
+			}
+		});
+	</script>
+</body>
+
+</html>

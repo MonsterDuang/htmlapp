@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>我的鉴定</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <link rel="stylesheet" href="css/mui.min.css">
+  <link href="css/mui.picker.css" rel="stylesheet" />
+  <link href="css/mui.poppicker.css" rel="stylesheet" />
+  <style>
+    li {
+      list-style: none;
+    }
+
+    p {
+      font-size: 12px;
+    }
+
+    a {
+      color: white;
+    }
+
+    .mui-bar {
+      background: url(images/1X/110.png);
+      background-size: contain;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      background-color: #e6a03c;
+      height: 70px;
+      padding-top: 20px;
+    }
+
+    .mui-bar .mui-title {
+      color: white;
+      margin-top: 5px;
+    }
+
+    .mui-bar-nav~.mui-content {
+      padding-top: 70px;
+    }
+
+    .mui-slider-indicator {
+      background-color: white;
+    }
+
+    .mui-slider-indicator>a {
+      color: #C0C0C0;
+    }
+
+    .mui-slider-indicator>a:hover,
+    .mui-slider-indicator>a:active {
+      color: #C0C0C0;
+    }
+
+    .mui-segmented-control.mui-segmented-control-inverted .mui-control-item {
+      font-size: 13px;
+    }
+
+    .mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+      color: #F0AD4E;
+      border-bottom: 2px solid #F0AD4E;
+    }
+
+    .mui-control-content {
+      min-height: 650px;
+    }
+
+    .wallet-icon-layer {
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    .wallet-icon-layer div:nth-child(2),
+    .wallet-icon-layer div:nth-child(3) {
+      height: 25px;
+      line-height: 25px;
+    }
+
+    .wallet-icon-layer div:last-child {
+      color: black;
+    }
+
+    .wallet-icon {
+      margin: 0 auto;
+    }
+
+    .mui-card {
+      margin: 10px 0;
+    }
+
+    .mui-card-content {
+      font-size: 12px;
+    }
+
+    .card {
+      border-top: 1px solid #e0e0e0;
+    }
+
+    .mui-table-view-cell {
+      padding: 10px 0 10px 8px;
+    }
+
+    .item-left,
+    .item-right {
+      float: left;
+    }
+
+    .item-left {
+      margin-right: 5px;
+    }
+
+    .item-left-header {
+      height: 30px;
+      width: 30px;
+      float: left;
+      border-radius: 15px;
+      margin-right: 5px;
+      margin-bottom: 5px;
+      z-index: 1;
+    }
+
+    .item-left-header .head-img {
+      width: 30px;
+      height: 30px;
+      float: left;
+      border-radius: 15px;
+      overflow: hidden;
+    }
+
+    .item-left-header .head-img img {
+      height: 32px;
+      width: 32px;
+      margin: -1px;
+    }
+
+    .item-left img {
+      width: 30px;
+      height: 30px;
+      z-index: -1;
+    }
+
+    .item-left-text {
+      float: left;
+      height: 30px;
+      line-height: 30px;
+    }
+
+    .item-left-text span {
+      color: #9bcace;
+      width: 70px;
+      display: block;
+    }
+
+    .item-right img {
+      width: 75px;
+      height: 75px;
+      margin-left: 2px;
+    }
+
+    .empty-data {
+      margin-top: 50px;
+    }
+
+    .empty-data img {
+      width: 150px;
+      height: 150px;
+      margin: 0 auto;
+    }
+
+    .mui-pull-caption {
+      font-size: 12px;
+    }
+
+    .mui-bar-nav~.mui-content .mui-pull-top-pocket {
+      top: 0;
+    }
+
+    .mui-scroll-wrapper {
+      top: 105px
+    }
+
+    /* .mui-pull-bottom-pocket{
+      position: inherit;
+    } */
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <header class="mui-bar mui-bar-nav">
+      <a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+      <h1 class="mui-title">我的鉴定</h1>
+    </header>
+    <div class="mui-content">
+      <div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted mui-segmented-control-primary">
+        <a class="mui-control-item mui-active" @tap="switchStatus('did-not')">
+          未鉴定
+        </a>
+        <a class="mui-control-item" @tap="switchStatus('did')">
+          已鉴定
+        </a>
+      </div>
+      <div id="pullrefresh" class="mui-slider-item mui-scroll-wrapper mui-active">
+        <div class="mui-scroll">
+          <div class="mui-content">
+            <template v-if="items.length>0">
+              <template v-for="item in items" :key="item.id">
+                <div class="mui-card" style="display: none" :style="{ display: !!item ? 'block' : 'none' }" @tap="detail(item)">
+                  <div class="mui-card-content">
+                    <li class="mui-table-view-cell">
+                      <div class="item-left">
+                        <div class="item-left-header">
+                          <div class="head-img">
+                            <img :src="item.user.avatar" />
+                          </div>
+                        </div>
+                        <div class="item-left-text">
+                          <span class="mui-ellipsis" v-text="item.user.nickname"></span>
+                        </div>
+                        <div style=" clear: both;"></div>
+                        <div v-text="$options.filters.dateTime(item.createdAt)"></div>
+                      </div>
+                      <div class="item-right">
+                        <template v-for="(photo,index) in item.photos.slice(0,3)">
+                          <img :src="photo">
+                        </template>
+                      </div>
+                      <div style="clear:both;"></div>
+                    </li>
+                  </div>
+                </div>
+              </template>
+            </template>
+            <template v-else>
+              <div class="empty-data" style="text-align: center;">
+                <div>
+                  <img src="images/1X/073.png" style="width: 60px; height: 60px;" />
+                  <p>还木有任何宝贝哦！</p>
+                </div>
+              </div>
+            </template>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+    <script src="js/vue.min.js"></script>
+    <script src="js/mui.min.js?version=201801202115"></script>
+    <script src="js/common.js?version=201801202115"></script>
+    <script>
+      function refreshList() {
+        mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().pulldownLoading();
+      }
+
+      Vue.filter('dateTime', dateTime);
+      var app = new Vue({
+        el: '#app',
+        data: {
+          status: 'did-not',
+          pageIndex: 1,
+          pageSize: 8,
+          items: []
+        },
+        methods: {
+          detail: function (item) {
+            forward('appraisal.html?id=' + item.id);
+          },
+          loadData: function (type) {
+            if (type === 1) {
+              // mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().refresh(true);
+              mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().scrollTo(0, 0, 100);
+            }
+
+            var _this = this;
+
+            var data = {
+              pageIndex: _this.pageIndex,
+              pageSize: _this.pageSize,
+              status: _this.status
+            };
+            ajax(api('/my/appraisal'), {
+              data: data,
+              dataType: 'json',
+              success: function (data) {
+                if (type === 1) {
+                  _this.items = data.objects;
+                } else {
+                  for (var i = 0, len = data.objects.length; i < len; i++)
+                    _this.items.push(data.objects[i]);
+                }
+
+                mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+                mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().endPullupToRefresh(!data.hasNext);
+              }
+            });
+          },
+          switchStatus: function (status) {
+            this.pageIndex = 1;
+            this.status = status;
+            this.loadData(1);
+          },
+          preViewImg: function (srcList) {
+            if (window.Photo) {
+              var obj = {
+                srcList
+              };
+              window.Photo.preview(JSON.stringify(obj), function (e, cb) {
+              });
+            }
+          }
+        },
+        mounted: function () {
+          var _this = this;
+          mui.init({
+            // swipeBack: true,
+            pullRefresh: {
+              container: '#pullrefresh',
+              down: {
+                auto: true,
+                callback: function () {
+                  _this.pageIndex = 1;
+                  mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().refresh(true);
+                  _this.loadData(1);
+                }
+              },
+              up: {
+                contentrefresh: '正在加载...',
+                callback: function () {
+                  _this.pageIndex++;
+                  _this.loadData(2);
+                }
+              }
+            }
+          });
+        }
+      })
+    </script>
+
+</body>
+
+</html>

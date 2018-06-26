@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>订单详情</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" href="css/mui.min.css">
+	<style>
+		a {
+			color: white;
+		}
+
+		p {
+			font-size: 12px;
+		}
+
+		li {
+			list-style: none;
+		}
+
+		.mui-bar {
+			background: url(images/1X/110.png);
+			background-size: contain;
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+			background-color: #e6a03c;
+			height: 70px;
+			padding-top: 20px;
+		}
+
+		.mui-bar .mui-title {
+			color: white;
+			margin-top: 5px;
+		}
+
+		.mui-bar-nav~.mui-content {
+			padding-top: 70px;
+			margin-bottom: 45px;
+		}
+
+		.mui-content {
+			margin-top: 70px;
+			margin-bottom: 50px;
+		}
+
+		.mui-card {
+			margin: 10px 0;
+		}
+
+		.mui-media-body p {
+			color: #C0C0C0;
+		}
+
+		.mui-card-header {
+			font-size: 12px;
+			background-color: white;
+		}
+
+		.mui-card-content {
+			font-size: 12px;
+		}
+
+		.mui-media-body span {
+			margin-right: 5px;
+			font-size: 12px;
+		}
+
+		.head-img {
+			height: 30px;
+			width: 30px;
+			float: left;
+			border-radius: 15px;
+			overflow: hidden;
+			margin-right: 10px;
+		}
+
+		.head-img img {
+			height: 30px;
+			width: 30px;
+		}
+
+		.mui-card-header .head-img-text-left {
+			width: 250px;
+			max-width: 300px;
+			margin-top: 5px;
+			float: left;
+			color: #50a2aa;
+			text-align: left;
+		}
+
+		.order-item-product div {
+			margin-top: 15px;
+			padding-left: 10px;
+			float: left;
+		}
+
+		.order-item-product span {
+			display: block;
+		}
+
+		.order-item-product span:nth-child(2) {
+			margin-top: 10px;
+			color: #ff6464;
+		}
+
+		.mui-numbox {
+			position: absolute;
+			right: 5px;
+			top: 3px;
+		}
+
+		.pay img {
+			width: 30px;
+			height: 30px;
+		}
+
+		.mui-table-view-radio .mui-table-view-cell .mui-navigate-right:after {
+			background-color: #ff6464;
+			color: white;
+			border-radius: 15px;
+			font-size: 18px;
+		}
+
+		.fixed-buttom {
+			position: fixed;
+			z-index: 999;
+			bottom: 0;
+			border: 1px;
+			background-color: white;
+			width: 100%;
+		}
+
+		/* .fixed-buttom a {
+			text-align: center;
+		} */
+
+		.fixed-buttom .normal {
+			text-align: center;
+			background-color: white;
+			color: #C0C0C0;
+		}
+
+		.fixed-buttom .active {
+			text-align: center;
+			background-color: #ff6464;
+			color: white;
+		}
+	</style>
+</head>
+
+<body>
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+		<h1 class="mui-title">订单详情</h1>
+	</header>
+	<div id="app">
+		<div class="mui-content">
+			<template v-if="id!=undefined">
+				<div class="mui-card">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell mui-media">
+							<div class="mui-media-body">
+								<span>订单编号：{{item.no}}</span>
+							</div>
+							<span class="mui-badge mui-badge-inverted" style="color: #ff6464;">{{item.status | formatOrderStatus}}</span>
+						</li>
+					</ul>
+				</div>
+
+				<div class="mui-card">
+					<div class="mui-card-content">
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell mui-media">
+								<div class="mui-media-body">
+									<span>{{item.buyer.nickname}}</span>
+									<span>{{item.buyer.phone}}</span>
+									<p>地址：
+										<span>{{item.addressBook.address.province}}</span>
+										<span>{{item.addressBook.address.city}}</span>
+										<span>{{item.addressBook.address.region}}</span>
+										<span>{{item.addressBook.address.street}}</span>
+									</p>
+								</div>
+								<!--<span class="mui-badge mui-badge-inverted" style="color: #ff6464;">待付款</span>-->
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="mui-card">
+					<!--多个商铺可循环-->
+					<div class="mui-card-header mui-card-media">
+						<div>
+							<div class="head-img">
+								<img :src="user.id==item.seller.id?item.buyer.avatar:item.seller.avatar" />
+							</div>
+							<div class="head-img-text-left" v-text="user.id==item.seller.id?item.buyer.nickname:item.seller.nickname"></div>
+							<div style=" clear: both;"></div>
+						</div>
+					</div>
+					<div class="mui-card-content">
+						<ul class="mui-table-view">
+							<!--多个商品可循环-->
+							<li class="mui-table-view-cell mui-media order-item-product">
+								<a @tap="product(item)">
+									<img class="mui-pull-left" :src="item.auctionGoods.photos[0]" style="width: 100px; height: 100px;">
+									<div>
+										<span class="mui-ellipsis" style="max-width: 200px;">{{item.auctionGoods.name}}</span>
+										<span>¥{{item.price}}</span>
+										<span>X{{item.quantity}}</span>
+									</div>
+								</a>
+							</li>
+
+						</ul>
+					</div>
+				</div>
+
+				<div class="mui-card">
+					<ul class="mui-table-view">
+						<!-- <li class="mui-table-view-cell mui-media">
+							<div class="mui-media-body">
+								<span>购买数量：</span>
+							</div>
+							<span class="mui-badge mui-badge-inverted" style="color: #ff6464;">{{item.quantity}}</span>
+						</li> -->
+						<li class="mui-table-view-cell mui-media">
+							<div class="mui-media-body">
+								<span>已缴保证金：</span>
+							</div>
+							<span class="mui-badge mui-badge-inverted" style="color: #ff6464;">
+								<span v-text="'-¥'+$options.filters.formatCurrency(item.auctionGoods.marginMoney)"></span>
+							</span>
+						</li>
+						<li class="mui-table-view-cell mui-media">
+							<div class="mui-media-body">
+								<span>竞拍成功价：</span>
+							</div>
+							<span class="mui-badge mui-badge-inverted" style="color: #ff6464;">
+								<span v-text="'¥'+$options.filters.formatCurrency(item.auctionGoods.auctionGoodsBid.bid)"></span>
+							</span>
+						</li>
+						<li class="mui-table-view-cell mui-media">
+							<div class="mui-media-body">
+								<span>需付运费：</span>
+							</div>
+							<span class="mui-badge mui-badge-inverted" style="color: #ff6464;">
+								<span v-text="'¥'+$options.filters.formatCurrency(item.auctionGoods.postage)"></span>
+							</span>
+						</li>
+						<li class="mui-table-view-cell mui-media">
+							<div class="mui-media-body">
+								<span>需付运费：</span>
+							</div>
+							<span class="mui-badge mui-badge-inverted" style="color: #ff6464;">¥{{item.postage | formatCurrency}}</span>
+						</li>
+						<li class="mui-table-view-cell mui-media">
+							<div class="mui-media-body">
+								<span>应付总额：</span>
+							</div>
+							<span class="mui-badge mui-badge-inverted" style="color: #ff6464;">¥{{item.amount | formatCurrency}}</span>
+						</li>
+					</ul>
+				</div>
+
+				<div class="mui-card">
+					<div class="mui-card-header">选择支付方式</div>
+					<div class="mui-card-content pay">
+						<ul class="mui-table-view mui-table-view-radio">
+							<template v-if="item.payment.channel == 'wechat' ">
+								<li class="mui-table-view-cell mui-media">
+									<!-- <a href="javascript:;" class="mui-navigate-right"></a> -->
+									<img class="mui-pull-left" src="images/1X/054.png">
+									<div class="mui-media-body" style="padding-left:15px">
+										<span>微信</span>
+									</div>
+									<!-- </a> -->
+								</li>
+							</template> -->
+							<template v-else>
+								<li class="mui-table-view-cell mui-media">
+									<!-- <a href="javascript:;" class="mui-navigate-right"> -->
+									<img class="mui-pull-left" src="images/1X/055.png">
+									<div class="mui-media-body" style="padding-left:15px">
+										<span>支付宝</span>
+									</div>
+									<!-- </a> -->
+								</li>
+							</template>
+						</ul>
+					</div>
+				</div>
+			</template>
+			<template v-else>
+				<div class="mui-card">
+					<div class="mui-card-header">请确认收货地址</div>
+					<div class="mui-card-content">
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell mui-media">
+								<a href="javascript:;" class="mui-navigate-right">
+
+
+									<template v-if="item.addressBook!=undefined">
+										<div class="mui-media-body" @tap="forward('my-address-list.html')">
+											<span v-text="item.buyer.nickname"></span>
+											<span v-text="item.buyer.phone"></span>
+											<p>
+												地址：
+												<span>{{item.addressBook.address.province}}</span>
+												<span>{{item.addressBook.address.city}}</span>
+												<span>{{item.addressBook.address.region}}</span>
+												<span>{{item.addressBook.address.street}}</span>
+											</p>
+										</div>
+									</template>
+									<template v-else>
+										<div class="mui-media-body" @tap="forward('my-address-list.html')">
+											<span style="color:#c0c0c0">您还没有收货地址哦，请点击创建</span>
+											<!-- <p>
+											地址：
+											<span>广东省</span>
+											<span>深圳市</span>
+											<span>罗湖区</span>
+											<span>桂园街道</span>
+											<span>88号</span>
+										</p> -->
+										</div>
+									</template>
+								</a>
+								<!--<span class="mui-badge mui-badge-inverted" style="color: #ff6464;">待付款</span>-->
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="mui-card">
+					<div class="mui-card-header mui-card-media">
+						<div>
+							<div class="head-img">
+								<img :src="item.shop?item.shop.logo:item.auctionGoods.user.avatar" />
+							</div>
+							<div class="head-img-text-left" v-text="item.shop?item.shop.name:item.auctionGoods.user.nickname"></div>
+							<div style=" clear: both;"></div>
+						</div>
+					</div>
+					<div class="mui-card-content">
+						<ul class="mui-table-view">
+
+							<li class="mui-table-view-cell mui-media order-item-product">
+								<img class="mui-pull-left" :src="item.auctionGoods.photos[0]" style="width: 100px; height: 100px;">
+								<div>
+									<span class="mui-ellipsis" style="max-width: 200px;" v-text="item.auctionGoods.title"></span>
+									<span v-text="'¥'+$options.filters.formatCurrency(item.auctionGoods.floorPrice)"></span>
+									<!-- <span>X{{item.quantity}}</span> -->
+								</div>
+							</li>
+
+						</ul>
+					</div>
+				</div>
+
+				<div class="mui-card">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell mui-media">
+							<div class="mui-media-body">
+								<span>购买数量：</span>
+							</div>
+							<span class="mui-badge mui-badge-inverted" style="color: #ff6464;">
+								<span v-text="item.quantity"></span>
+							</span>
+						</li>
+						<li class="mui-table-view-cell mui-media">
+							<div class="mui-media-body">
+								<span>已缴保证金：</span>
+							</div>
+							<span class="mui-badge mui-badge-inverted" style="color: #ff6464;">
+								<span v-text="'-¥'+$options.filters.formatCurrency(item.auctionGoods.marginMoney)"></span>
+							</span>
+						</li>
+						<li class="mui-table-view-cell mui-media">
+							<div class="mui-media-body">
+								<span>竞拍成功价：</span>
+							</div>
+							<span class="mui-badge mui-badge-inverted" style="color: #ff6464;">
+								<span v-text="'¥'+$options.filters.formatCurrency(item.auctionGoods.auctionGoodsBid.bid)"></span>
+							</span>
+						</li>
+						<li class="mui-table-view-cell mui-media">
+							<div class="mui-media-body">
+								<span>需付运费：</span>
+							</div>
+							<span class="mui-badge mui-badge-inverted" style="color: #ff6464;">
+								<span v-text="'¥'+$options.filters.formatCurrency(item.auctionGoods.postage)"></span>
+							</span>
+						</li>
+						<li class="mui-table-view-cell mui-media">
+							<div class="mui-media-body">
+								<span>应付总额：</span>
+							</div>
+							<span class="mui-badge mui-badge-inverted" style="color: #ff6464;">
+								<span v-text="'¥'+$options.filters.formatCurrency(item.amount)"></span>
+							</span>
+						</li>
+					</ul>
+				</div>
+
+				<div class="mui-card">
+					<div class="mui-card-header">请选择支付方式</div>
+					<div class="mui-card-content pay">
+						<ul class="mui-table-view mui-table-view-radio">
+							<li class="mui-table-view-cell mui-media" @tap="switchType('wechat')">
+								<a href="javascript:;" class="mui-navigate-right">
+									<img class="mui-pull-left" src="images/1X/054.png">
+									<div class="mui-media-body" style="padding-left:15px">
+										<span>微信</span>
+									</div>
+								</a>
+							</li>
+							<li class="mui-table-view-cell mui-media" @tap="switchType('alipay')">
+								<a href="javascript:;" class="mui-navigate-right">
+									<img class="mui-pull-left" src="images/1X/055.png">
+									<div class="mui-media-body" style="padding-left:15px">
+										<span>支付宝</span>
+									</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</template>
+		</div>
+		<div class="fixed-buttom">
+			<div class="mui-row">
+				<template v-if="item.status == 'nopay'">
+					<div class="mui-col-sm-6 mui-col-xs-6" @tap="cancel(item)">
+						<li class="mui-table-view-cell normal">
+							取消订单
+						</li>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6">
+						<li class="mui-table-view-cell active" @tap="pay(item)">
+							立即付款
+						</li>
+					</div>
+				</template>
+				<template v-else-if="item.status == 'wait-shipping'">
+					<!-- <div class="mui-col-sm-6 mui-col-xs-6">
+						<li class="mui-table-view-cell">
+							<a @tap="shiping(item)" class="active" style="color:white;">
+								提醒发货
+							</a>
+						</li>
+					</div> -->
+					<div class="mui-col-sm-12 mui-col-xs-12">
+						<li class="mui-table-view-cell normal" @tap="refund(item)">
+							退货/退款
+						</li>
+					</div>
+				</template>
+				<template v-else-if="item.status == 'wait-receiving'">
+					<div class="mui-col-sm-6 mui-col-xs-6">
+						<li class="mui-table-view-cell active" @tap="confirmShipping(item)">
+							确认收货
+						</li>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6">
+						<li class="mui-table-view-cell normal" @tap="refund(item)">
+							退货/退款
+						</li>
+					</div>
+				</template>
+				<template v-else-if="item.status == 'refunding'">
+					<!-- <div class="mui-col-sm-6 mui-col-xs-6">
+						<li class="mui-table-view-cell">
+							<a href="javascript:;" class="normal" style="color: C0C0C0;">
+								取消订单
+							</a>
+						</li>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6">
+						<li class="mui-table-view-cell">
+							<a href="javascript:;" class="normal" style="color: C0C0C0;">
+								删除订单
+							</a>
+						</li>
+					</div> -->
+				</template>
+				<template v-else-if="item.status == 'completed'">
+					<div class="mui-col-sm-6 mui-col-xs-6">
+						<li class="mui-table-view-cell normal" @tap="product(item)">
+							再次购买
+						</li>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6" @tap="del(item)">
+						<li class="mui-table-view-cell normal">
+							删除订单
+						</li>
+					</div>
+				</template>
+				<template v-else>
+					<div class="mui-col-sm-12 mui-col-xs-12" @tap="pay(item)">
+						<li class="mui-table-view-cell normal" :class="{'active':item.addressBook && item.payment.channel!='undefined' && item.payment.channel!=''}">
+							立即付款
+						</li>
+					</div>
+				</template>
+			</div>
+		</div>
+	</div>
+	<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+	<script src="js/vue.min.js"></script>
+	<script src="js/mui.min.js?version=201801202115"></script>
+	<script src="js/common.js?version=201801202115"></script>
+	<script type="text/javascript">
+		Vue.filter('formatOrderStatus', formatOrderStatus);
+		Vue.filter('formatCurrency', formatCurrency);
+		function refreshPage() {
+			location.reload();
+		}
+		function pay_callback(code, msg) {
+			if (code == 0) {//支付成功
+				if (window.Gold) {
+					Gold.broadcast('refreshLogin', 'payAuctionGoodsOrder');
+				}
+				forward('my-order.html');
+			} else {
+				mui.toast('取消支付');
+			}
+		}
+		var params = getUrlParams();
+		var id = params['id'];
+		var auctionGoodsId = params['auctionGoodsId'];
+		var app = new Vue({
+			el: '#app',
+			data: {
+				user: { id: '' },
+				item: {
+					buyer: {
+						name: '',
+						id: ''
+					},
+					seller: {
+						id: ''
+					},
+					shop: {},
+					auctionGoods: {
+						auctionGoodsBid: {
+							bid: 0
+						},
+						photos: []
+					},
+					payment: {
+						channel: ''
+					},
+					addressBook: {
+						address: {
+
+						}
+					}
+				}
+			},
+			methods: {
+				loadData: function () {
+					var _this = this;
+
+					if (!id) {
+						if (!auctionGoodsId) {
+							mui.toast('竞拍不存在');
+							setTimeout(function () {
+								// back();
+							}, 1000);
+							return;
+						}
+
+						ajax(api('/order/pre/auction-goods/' + auctionGoodsId), {
+							dataType: 'json',
+							autoProcessError: false,
+							success: function (data) {
+								_this.item = data;
+								_this.item.buyer = {
+									nickname: data.addressBook ? data.addressBook.name : '',
+									phone: data.addressBook ? data.addressBook.phone : ''
+								}
+								_this.item.amount = (data.auctionGoods.auctionGoodsBid.bid + data.auctionGoods.postage - data.auctionGoods.marginMoney).toFixed(2);
+								_this.item.payment = {
+									channel: ''
+								}
+								_this.item.quantity = 1;
+							},
+							error: function (xhr, type, errerThrown) {
+								var data = JSON.parse(xhr.responseText);
+								mui.toast((data.pop()).message);
+								setTimeout(() => {
+									back();
+								}, 300);
+							}
+						});
+
+					} else {
+						ajax(api('/my'), {
+							dataType: 'json',
+							autoProcessError: false,
+							success: function (data) {
+								_this.user = data.user;
+
+								//订单查看
+								ajax(api('/my/order/' + id), {
+									dataType: 'json',
+									success: function (data) {
+										if (!data) {
+											mui.toast('订单不存在');
+											setTimeout(function () {
+												back();
+											}, 3000);
+											return;
+										}
+										_this.item = data;
+									}
+								});
+							}
+						});
+					}
+				},
+				product: function (item) {
+					if (item.auctionGoods) {
+						forward('auction-detail.html?id=' + item.auctionGoods.id);
+					} else {
+						forward('product-detail.html?id=' + item.goods.id)
+					}
+				},
+				cancel: function (item) {
+					var _this = this;
+					mui.confirm('确认取消订单?', '提示', ['取消', '确定'], function (e) {
+						if (e.index != 0) {
+							ajax(api('/my/order/' + item.id + '/cancel'), {
+								type: 'POST',
+								dataType: 'json',
+								success: function (data) {
+									mui.toast('取消成功');
+									if (window.Gold) {
+										Gold.broadcast('refreshLogin', 'cancelOrder');
+									}
+									setTimeout(() => {
+										back();
+									}, 1000);
+								}
+							});
+						}
+					});
+				},
+				pay: function (item) {
+					if (!this.item.addressBook) {
+						mui.toast('请选择收货地址');
+						return;
+					}
+					if (this.item.payment.channel == '') {
+						mui.toast('请选择支付方式');
+						return;
+					}
+					var obj = {
+                        addressBook: item.addressBook.id,
+                        auctionGoods: item.auctionGoods.id,
+                        quantity: item.quantity,
+                        payment: {
+                            channel: item.payment.channel
+                        }
+                    }
+                    // alert("参数")
+                    // alert(JSON.stringify(obj))
+					if (!item.id) {
+						//下单
+						ajax(api('/order/auction-goods/' + auctionGoodsId), {
+							type: 'POST',
+							autoProcessError: false,
+							data: obj,
+							dataType: 'json',
+							success: function (data) {
+							    // alert("成功")
+                                // alert(JSON.stringify(data))
+								//调用native支付组件
+								var paymentObj = { type: item.payment.channel == 'wechat' ? 'wx' : 'alipay', };
+								if (env.isIos) {
+									if (item.payment.channel == 'wechat') {
+										paymentObj.payment = data.payment.order;
+									} else {
+										paymentObj.sign = encodeURIComponent(data.payment.order.data.sign);
+									}
+								} else {
+									paymentObj.payment = data.payment.order;
+								}
+								if (window.Pay)
+									Pay.payment(JSON.stringify(paymentObj), 'pay_callback');
+							},
+							error: function (xhr, type, errerThrown) {
+								var data = JSON.parse(xhr.responseText);
+								mui.toast((data.pop()).message);
+							}
+						});
+					} else {
+						//调用native支付组件
+						var paymentObj = { type: item.payment.channel == 'wechat' ? 'wx' : 'alipay', };
+						if (env.isIos) {
+							if (item.payment.channel == 'wechat') {
+								paymentObj.payment = item.payment.order;
+							} else {
+								paymentObj.sign = encodeURIComponent(data.payment.order.data.sign);
+							}
+						} else {
+							paymentObj.payment = item.payment.order;
+						}
+						if (window.Pay)
+							Pay.payment(JSON.stringify(paymentObj), 'pay_callback');
+					}
+				},
+				shiping: function (item) {
+					var _this = this;
+					// mui.confirm('提醒卖家发货？', '提示', ['取消', '确定'], function (e) {
+					// 	if (e.index != 0) {
+					// 		ajax(api('/my/order/' + id + '/refund/result'), {
+					// 			type: 'POST',
+					// 			dataType: 'json',
+					// 			success: function (data) {
+					// 				setTimeout(() => {
+					// 					mui.toast('退款申请提交成功');
+					// 				}, 1000);
+					// 			}
+					// 		});
+					// 	}
+					// });
+				},
+				refund: function (item) {
+					forward('refund.html?id=' + item.id);
+				},
+				confirmShipping: function (item) {
+					var _this = this;
+					mui.confirm('确认收货？', '提示', ['取消', '确定'], function (e) {
+						if (e.index != 0) {
+							ajax(api('/my/order/' + item.id + '/confirm'), {
+								type: 'POST',
+								dataType: 'json',
+								success: function (data) {
+									mui.toast('确认收货成功!');
+									if (window.Gold) {
+										Gold.broadcast('refreshLogin', 'confirmShipping');
+									}
+									setTimeout(() => {
+										back();
+									}, 1000);
+								}
+							});
+						}
+					});
+				},
+				del: function (item) {
+					var _this = this;
+					mui.confirm('确认删除订单？', '提示', ['取消', '确定'], function (e) {
+						if (e.index != 0) {
+							ajax(api('/my/order/' + item.id), {
+								type: 'DELETE',
+								dataType: 'json',
+								success: function (data) {
+									mui.toast('删除成功');
+									if (window.Gold) {
+										Gold.broadcast('refreshLogin', 'deleteOrder');
+									}
+									setTimeout(() => {
+										back();
+									}, 1000);
+								}
+							});
+						}
+					});
+				},
+				switchType: function (type) {
+					Vue.delete(this.item, 'payment');
+					Vue.set(this.item, 'payment', { channel: type });
+				}
+			},
+			mounted: function () {
+				this.loadData();
+			}
+		});
+	</script>
+
+</body>
+
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的关注</title>
+    <link href="../../css/mui.min.css" rel="stylesheet" />
+    <style>
+        .mui-bar {
+            height: 70px;
+            padding-top: 20px;
+            text-align: center;
+            color: #000;
+        }
+        [v-cloak] {
+            display: none;
+        }
+        .mui-bar .mui-title {
+            color: rgb(53,53,53);
+            margin-top: 5px;
+        }
+
+        .mui-bar-nav~.mui-content {
+            padding:70px 0 60px 0;
+        }
+
+        ._content{
+            margin-top: 10px;
+            background: white;
+        }
+        ._content>div{
+            border-bottom: 1px solid rgb(242,242,242);
+        }
+        ._content>div>div{
+            float: left;
+            height: 85px;
+        }
+        ._content>div>div:nth-child(1){
+            width: 25%;
+            /*background: red;*/
+        }
+        ._content>div>div:nth-child(1)>div{
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            margin:15px auto;
+            overflow: hidden;
+        }
+        ._content>div>div:nth-child(1)>div img{
+            width: 100%;
+        }
+        ._content>div>div:nth-child(2){
+            width: 70%;
+            padding-top: 11px;
+            position: relative;
+            /*background: blue;*/
+        }
+        ._content>div>div:nth-child(2)>p{
+            margin: 0;
+            width: 55%;
+            font-size: 12px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        ._content>div>div:nth-child(2)>div{
+            position: absolute;
+            width: 80px;
+            height: 28px;
+            line-height: 28px;
+            text-align: center;
+            right: 3%;
+            top: 28.5px;
+            font-size: 14px;
+            /*color: rgb(102,102,102);*/
+            /*border: 1px solid rgb(217,217,217);*/
+            border-radius: 2px;
+        }
+        ._concern{
+            color: rgb(102,102,102);
+            border: 1px solid rgb(153,153,153);
+        }
+        .mui-bar-nav~.mui-content .mui-pull-top-pocket{
+            top: 70px;
+        }
+
+    </style>
+</head>
+<body>
+<div id="app" v-cloak>
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-icon mui-icon-left-nav mui-pull-left" style="color:rgb(53,53,53)" href="javascript:back()"></a>
+        <h1 class="mui-title">我的关注</h1>
+    </header>
+
+    <div class="mui-content" id='pullrefresh'>
+
+        <div class="_content">
+            <div v-for="item in list" class="mui-clearfix" @tap="toNative(item.appraiserId,item.userId)">
+                <div>
+                    <div><img :src="item.avatar" alt=""></div>
+                </div>
+                <div>
+                    <p style="font-size:15px;color:rgb(51,51,51)">{{item.nickname}}</p>
+                    <p>{{item.area}}</p>
+                    <p>{{item.honoraryname}}</p>
+                    <div class="_concern" @tap.stop='unfollow(item.commentId)'>取消关注</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+</body>
+<!--<script src="../../js/jQuery-2.1.4.min.js"></script>-->
+<script src="../../js/vue.min.js"></script>
+<script src="../../js/mui.min.js?version=201801202115"></script>
+<script src="../../js/common.js?version=201801202115"></script>
+<script>
+    var app = new Vue({
+        el:"#app",
+        data:{
+            LogoImg:'../../images/new2x/icon-moren.png',
+            list:[]
+        },
+        mounted(){
+            var self = this
+            mui.init({
+                swipeBack: true,
+                pullRefresh: {
+                    container: '#pullrefresh',
+                    down: {
+                        auto:true,
+                        callback: function () {
+                            self.getList()
+                            mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+                            mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
+                            mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().disablePullupToRefresh();
+                        }
+                    },
+                    up: {
+                        contentrefresh: '',
+                        callback: function () { }
+                    }
+                }
+            });
+        },
+        watch:{
+
+        },
+        methods:{
+            // 跳转至原生
+            toNative(appId,userId){
+                if(appId){
+                    if(window.Page){
+                        window.Page.toNativeDetails("professor",appId)
+                    }
+                    return;
+                }
+                if(userId){
+                    if(window.Page){
+                        window.Page.toNativeDetails("user",userId)
+                    }
+                }
+            },
+            // 取关
+            unfollow(commentId){
+                var self = this
+                ajax(api('/attention/cancel'),{
+                    dataType: 'json',
+                    type:'POST',
+                    data:{
+                        id:commentId
+                    },
+                    success: function (data) {
+                        mui.toast(data.message)
+                        self.getList()
+                    },
+                    error:function(){}
+                });
+            },
+            getList(){
+                var self = this
+                ajax(api('/my/attentions'), {
+                    dataType: 'json',
+                    data:{
+                        type:'atten'
+                    },
+                    success: function (data) {
+                        if(data.code==200){
+                            // self.LogoImg =data.data.avatar
+                            self.list = data.data
+                        }else{
+                            mui.toast(data.message)
+                        }
+                    },
+                    error:function(){
+
+                    }
+                });
+            }
+        }
+    })
+</script>
+</html>

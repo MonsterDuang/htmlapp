@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>竞拍</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" href="css/mui.min.css">
+	<style>
+		a {
+			color: white;
+		}
+
+		.mui-bar {
+			background: url(images/1X/110.png);
+			background-size: contain;
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+			background-color: #e6a03c;
+			height: 70px;
+			padding-top: 20px;
+		}
+
+		.mui-bar .mui-title {
+			color: white;
+			margin-top: 5px;
+		}
+
+		.mui-pull-bottom-pocket {
+			position: absolute;
+		}
+
+		.mui-bar-nav~.mui-content .mui-pull-top-pocket {
+			top: 0
+		}
+
+		.mui-pull-caption {
+			font-size: 12px;
+		}
+
+		.mui-scroll-wrapper {
+			top: 70px;
+		}
+
+		.mui-card-header:after,
+		.mui-card-footer:before,
+		.mui-table-view-cell:after {
+			background-color: #ffffff;
+		}
+
+		.mui-media-body .head-img {
+			height: 30px;
+			width: 30px;
+			float: left;
+			border-radius: 15px;
+			overflow: hidden;
+			margin-right: 10px;
+		}
+
+		.mui-media-body img {
+			width: 32px;
+			height: 32px;
+			margin: -1px;
+		}
+
+		.mui-slider {
+			padding-left: 10px;
+		}
+
+		.mui-card {
+			margin: 0 0px 10px 0px;
+		}
+
+		.mui-slider .mui-slider-group .mui-slider-item {
+			margin-right: 5px;
+			width: 100px;
+		}
+
+		.mui-slider .mui-slider-group .mui-slider-item img {
+			width: 100px;
+			height: 100px;
+		}
+
+		.mui-media-body a {
+			color: black;
+		}
+
+		.mui-card-header.mui-card-media .mui-media-body,
+		.mui-card-header.mui-card-media .mui-media-body span {
+			font-size: 12px;
+		}
+
+		.mui-card-header.mui-card-media .mui-media-body {
+			margin-left: 0;
+		}
+
+		.mui-card-header,
+		.mui-card-content,
+		.mui-card-footer {
+			min-height: 21px;
+			font-size: 12px;
+		}
+
+		.mui-card-content img {
+			float: left;
+			margin-left: 10px;
+			width: 110px;
+			height: 110px;
+		}
+
+		.mui-card-footer,
+		.mui-card-header {
+			padding: 5px 15px;
+		}
+
+		.item-head-text-orange {
+			color: #f25d07;
+		}
+
+		.item-head-text-green {
+			color: #22ac38;
+		}
+
+		.mui-card-footer .item-remark-text {
+			color: #b2d6da;
+		}
+
+		.mui-card-footer .item-price-label-text {
+			color: black;
+		}
+
+		.mui-card-footer .item-price-label-text span:first-child {
+			color: red;
+		}
+
+		.mui-card-footer .item-rule-label-text {
+			color: #e6a03c;
+			width: 70px;
+			float: left;
+			min-height: 30px;
+			max-height: 100px;
+		}
+
+		.mui-card-footer .item-rule-text {
+			min-height: 30px;
+			max-height: 100px;
+			overflow-y: hidden;
+		}
+
+		.mutilineword {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 2;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="app">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+			<h1 class="mui-title">竞拍</h1>
+			<a @tap="forward('search-tag.html')" class="mui-icon mui-icon-search mui-pull-right"></a>
+			<!--<a @tap="forward('message.html')" class="mui-icon mui-icon-chat mui-pull-right"></a>-->
+		</header>
+		<div class="mui-content">
+			<div class="mui-scroll-wrapper" id="pullrefresh">
+				<div class="mui-scroll">
+					<template v-for="item in items" :key="item.id">
+						<div @tap="detail(item)" class="mui-card" style="display: none" :style="{ display: !!item ? 'block' : 'none' }">
+							<div class="mui-card-header mui-card-media">
+								<div class="mui-media-body">
+									<div class="head-img">
+										<img :src="item.user?item.user.avatar:''" />
+									</div>
+									<span v-text="item.title" style="font-size:15px;"></span>
+									<template v-if="item.auctionStatus == 'ing'">
+										<p>
+											<span class="item-head-text-orange" :time="item.auctionEndAt">拍卖中</span>
+											<span style="padding-left: 10px;">离拍卖结束还剩：
+												<span v-if="substractTime('',item.auctionEndAt).days>0">
+													<span class="item-head-text-orange">{{substractTime('',item.auctionEndAt).days}}</span>天</span>
+												<span v-if="substractTime('',item.auctionEndAt).hours>0">
+													<span class="item-head-text-orange">{{substractTime('',item.auctionEndAt).hours}}</span>时</span>
+												<span v-if="substractTime('',item.auctionEndAt).minutes>0">
+													<span class="item-head-text-orange">{{substractTime('',item.auctionEndAt).minutes}}</span>分</span>
+												<span v-if="substractTime('',item.auctionEndAt).seconds>0">
+													<span class="item-head-text-orange">{{substractTime('',item.auctionEndAt).seconds}}</span>秒</span>
+											</span>
+										</p>
+									</template>
+									<template v-else-if="item.auctionStatus == 'not-started'">
+										<p>
+											<span class="item-head-text-green" :time="item.auctionStartAt">未开场</span>
+											<span style="padding-left: 10px;">离拍卖开始还剩：
+												<span v-if="substractTime('',item.auctionStartAt).days>0">
+													<span class="item-head-text-green">{{substractTime('',item.auctionStartAt).days}}</span>天</span>
+												<span v-if="substractTime('',item.auctionStartAt).hours>0">
+													<span class="item-head-text-green">{{substractTime('',item.auctionStartAt).hours}}</span>时</span>
+												<span v-if="substractTime('',item.auctionStartAt).minutes>0">
+													<span class="item-head-text-green">{{substractTime('',item.auctionStartAt).minutes}}</span>分</span>
+												<span v-if="substractTime('',item.auctionStartAt).seconds>0">
+													<span class="item-head-text-green">{{substractTime('',item.auctionStartAt).seconds}}</span>秒</span>
+											</span>
+										</p>
+									</template>
+									<template v-else>
+										<p>
+											<span class="item-head-text-green">已结束</span>
+										</p>
+									</template>
+								</div>
+							</div>
+							<div class="mui-card-content">
+								<div v-for="(photo,key) in item.photos.slice(0,3)">
+									<img :src="photo" data-preview-src="" :data-preview-group="item.id">
+								</div>
+								<div style="clear:both;"></div>
+								<!-- <div id="slider" class="mui-slider">
+								<div class="mui-slider-group mui-slider-item-loop">
+									<div class="mui-slider-item mui-slider-item-duplicate">
+										<img :src="item.photos.length>0?item.photos[item.photos.length-1]:''" data-preview-src="" :data-preview-group="item.id">
+									</div>
+									<div class="mui-slider-item" v-for="(photo,key) in item.photos">
+										<img :src="photo" data-preview-src="" :data-preview-group="item.id">
+									</div>
+									<div class="mui-slider-item mui-slider-item-duplicate">
+										<img :src="item.photos.length>0?item.photos[0]:''" data-preview-src="" :data-preview-group="item.id">
+									</div>
+								</div>
+							</div> -->
+								<div class="mui-card-footer">
+									<span class="item-remark-text">底价¥{{item.floorPrice}}</span>
+									<span class="item-remark-text">保证金¥{{item.marginMoney}}</span>
+									<span class="item-remark-text">加价幅度({{item.raisePriceRange}})</span>
+									<span class="item-remark-text">浏览({{item.pv}})</span>
+								</div>
+								<div class="mui-card-footer">
+									<span class="item-price-label-text">最新出价：
+										<span v-text="'¥'+((item.latestBid && item.latestBid.bid) || item.floorPrice)"></span>
+									</span>
+								</div>
+							</div>
+							<div class="mui-card-footer">
+								<div>
+									<div class="item-rule-label-text">拍品描述：</div>
+									<div class="item-rule-text mutilineword" v-html="formatDescription(item.description)"></div>
+									<div style=" clear: both;"></div>
+								</div>
+							</div>
+						</div>
+					</template>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+	<script src="js/vue.min.js"></script>
+	<script src="js/mui.min.js?version=201801202115"></script>
+	<script src="js/common.js?version=201801202115"></script>
+
+	<script type="text/javascript">
+		function editPrice(val) {
+			var obj = JSON.parse(val);
+			app.items.forEach((value, index) => {
+				if (value.id == obj.id) {
+					if (value.latestBid) {
+						value.latestBid.bid = obj.bid;
+					} else {
+						value.latestBid = { bid: obj.bid };
+					}
+				}
+			});
+		}
+		var app = new Vue({
+			el: '#app',
+			data: {
+				pageIndex: 1,
+				pageSize: 8,
+				// items: [{
+				// 	shop: {
+				// 		logo: ''
+				// 	},
+				// 	user: {
+				// 		avatar: ''
+				// 	},
+				// 	photos: []
+				// }],
+				items: []
+			},
+			computed: {
+			},
+			methods: {
+				loadData: function (type) {
+					if (type == 1) {
+						mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().scrollTo(0, 0, 100);
+					}
+					var _this = this;
+					ajax(api('/auction-goods'), {
+						data: {
+							pageIndex: _this.pageIndex,
+							pageSize: _this.pageSize
+						},
+						dataType: 'json',
+						success: function (data) {
+							if (type === 1) {
+								_this.items = data.objects;
+							} else {
+								for (var i = 0, len = data.objects.length; i < len; i++)
+									_this.items.push(data.objects[i]);
+							}
+
+							//结束下拉刷新
+							mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+							mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().endPullupToRefresh(!data.hasNext);
+						}
+					})
+				},
+				formatDescription: function (item) {
+					return item.replace(new RegExp('\n', 'gm'), '<br/>');
+				},
+				detail: function (item) {
+					forward('auction-detail.html?id=' + item.id);
+				}
+			},
+			mounted: function () {
+				var _this = this;
+				mui.init({
+					pullRefresh: {
+						container: '#pullrefresh',
+						down: {
+							auto: true,
+							callback: function () {
+								_this.pageIndex = 1;
+								// mui('#pullrefresh').pullRefresh().refresh(true);
+								_this.loadData(1);
+							}
+						},
+						up: {
+							contentrefresh: '正在加载...',
+							callback: function () {
+								_this.pageIndex++;
+								_this.loadData(2);
+							}
+						}
+					}
+				});
+			}
+		});
+	</script>
+</body>
+
+</html>

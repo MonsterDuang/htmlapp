@@ -1,0 +1,211 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>搜索标签</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link href="css/mui.min.css" rel="stylesheet" />
+	<style>
+		header a {
+			color: white;
+		}
+
+		.mui-bar {
+			background: url(images/1X/110.png);
+			background-size: contain;
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+			background-color: #e6a03c;
+			height: 70px;
+			padding-top: 20px;
+		}
+
+		.mui-bar .mui-title {
+			color: white;
+			margin-top: 5px;
+		}
+
+		.mui-bar input[type=search] {
+			margin: 11px 0;
+		}
+
+		.mui-bar-nav~.mui-content {
+			padding-top: 70px;
+		}
+
+		.mui-content>.mui-card:first-child {
+			margin-top: 0;
+		}
+
+		.mui-card {
+			margin: 0;
+		}
+
+		.mui-card-content {
+			font-size: 12px;
+		}
+
+		.mui-table-view {
+			background-color: #f4f4f8;
+		}
+
+		.mui-table-view-cell:after {
+			background-color: white;
+		}
+
+		input[type=search] {
+			background-color: white;
+		}
+
+		.mui-search .mui-placeholder {
+			top: 5px;
+		}
+
+		.mui-bar .mui-input-row .mui-input-clear~.mui-icon-clear,
+		.mui-bar .mui-input-row .mui-input-speech~.mui-icon-speech {
+			top: 5px;
+		}
+
+		.mui-card {
+			background-color: #f4f4f8;
+			padding: 0 0 10px 0;
+			box-shadow: 0 0 1px rgba(0, 0, 0, .3);
+		}
+
+		.mui-card-content span {
+			display: block;
+			float: left;
+			width: 60px;
+			text-align: center;
+			height: 30px;
+			line-height: 30px;
+			margin: 0 5px 5px 5px;
+			border: 1px solid #f4f4f8;
+			background-color: white;
+		}
+
+		.hot-search-tag,
+		.search-tag {
+			margin-left: 10px;
+		}
+
+		.hot-search-tag a,
+		.search-tag a {
+			color: #C0C0C0;
+		}
+
+		.search-tag {
+			position: relative;
+		}
+
+		.del {
+			font-size: 18px;
+			position: absolute;
+			right: 20px;
+			top: 20px;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="app">
+		<header class="mui-bar mui-bar-nav">
+			<div class="mui-row">
+				<div class="mui-col-sm-10 mui-col-xs-10">
+					<div class="mui-input-row mui-search">
+						<input type="search" class="mui-input-clear" style="border-radius: 15px;" placeholder="" v-model="searchWords" @keyup.enter="searchInput">
+					</div>
+				</div>
+				<div @tap="cancel()" class="mui-col-sm-2 mui-col-xs-2" style="margin-top: 15px; padding-left:10px;color:white;font-size:12px;">
+					<span>取&nbsp;&nbsp;消</span>
+				</div>
+			</div>
+		</header>
+
+		<div class="mui-content">
+			<div class="mui-card">
+				<template if="hotwords && hotwords.length>0">
+					<div class="mui-card-content">
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell">热门搜索</li>
+						</ul>
+						<div class="hot-search-tag">
+							<span class="mui-ellipsis" v-for="item in hotwords" v-text="item" @tap="search(item)"></span>
+							<div style="clear: both;"></div>
+						</div>
+					</div>
+				</template>
+			</div>
+
+			<div class="mui-card">
+				<template if="searchHistories && searchHistories.length>0">
+					<div class="mui-card-content">
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell">搜索记录
+								<div class="mui-icon mui-icon-closeempty del"></div>
+							</li>
+						</ul>
+						<div class="search-tag">
+							<span class="mui-ellipsis" v-for="item in searchHistories" v-text="item" @tap="search(item)"></span>
+							<div style="clear: both;"></div>
+						</div>
+					</div>
+				</template>
+			</div>
+		</div>
+	</div>
+	<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+	<script src="js/vue.min.js"></script>
+	<script src="https://cdn.bootcss.com/lodash.js/4.17.4/lodash.min.js?version=201801202115"></script>
+	<script src="js/mui.min.js?version=201801202115"></script>
+	<script src="js/common.js?version=201801202115"></script>
+	<script>
+		var searchHistories = localStorage.getItem('search-history');
+		searchHistories = searchHistories ? JSON.parse(searchHistories) : [];
+
+		var app = new Vue({
+			el: '#app',
+			data: {
+				hotwords: [],
+				searchWords: '',
+				searchHistories: searchHistories
+			},
+			methods: {
+				saveSearchHistory(words) {
+					if (!_.includes(searchHistories, words)) {
+						searchHistories.push(words);
+						localStorage.setItem('search-history', JSON.stringify(searchHistories));
+					}
+				},
+				searchInput: function () {
+					if (!this.searchWords) return;
+					this.saveSearchHistory(this.searchWords);
+					forward('./search.html?words=' + this.searchWords);
+				},
+				search: function (words) {
+					if (!words) return;
+					this.saveSearchHistory(words);
+
+					forward('./search.html?words=' + words);
+				},
+				cancel:function(){
+					back();
+				}
+			},
+			mounted: function () {
+				mui.init();
+				var _this = this;
+				mui.ajax(api('/p/hotwords'), {
+					success: function (data) {
+						_this.hotwords = data;
+					}
+				})
+			}
+		});
+	</script>
+</body>
+
+</html>

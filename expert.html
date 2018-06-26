@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>找专家</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link href="css/mui.min.css" rel="stylesheet" />
+    <style>
+        .mui-bar {
+             background: url(images/1X/110.png);
+             background-size: contain;
+             background-attachment: fixed;
+             background-repeat: no-repeat;
+             background-color: #e6a03c;
+             height: 70px;
+             padding-top: 20px;
+         }
+
+        .mui-bar .mui-title {
+            color: white;
+            margin-top: 5px;
+        }
+
+        .mui-bar-nav~.mui-content {
+            padding-top: 70px;
+        }
+
+
+        /*=====Search=====*/
+        .mui-content_1{
+            margin: 8px 8px 14px 8px;
+        }
+        .mui-content_1 input{
+            border-radius:8px;
+            height: 30px;
+            font-size: 12px;
+            padding-left: 25px;
+            margin: 0;
+        }
+        /*=====Search END=====*/
+
+        .A_nav{
+            border-top: 2px solid rgb(204,204,204);
+            border-bottom: 2px solid rgb(204,204,204);
+            margin: 0 3px;
+            position: relative;
+        }
+        .A_nav .A_nav_span_1,
+        .A_nav .A_nav_span_2{
+            display: inline-block;
+            padding: 0 5px;
+            height: 24px;
+            width: 64px;
+            text-align: center;
+            line-height: 24px;
+            background: rgb(239,239,244);
+            font-size: 12px;
+        }
+        .A_nav .A_nav_span_1{
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            margin-left: -32px;
+        }
+        .A_nav .A_nav_span_2{
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            margin-left: -32px;
+        }
+        .A_nav .A_nav_div{
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .A_nav .A_nav_div div{
+            float: left;
+            width: 25%;
+            text-align: center;
+        }
+        .A_nav .A_nav_div div span{
+            display: inline-block;
+            height: 60px;
+            width: 60px;
+            background: blue;
+            border-radius: 50%;
+        }
+        .A_nav .A_nav_div div p{
+            margin: 0;
+        }
+        .A_nav_div_b{
+            margin:20px 10px 20px 10px;
+        }
+        .A_nav_div_b div{
+            width: 36%;
+            height: 40px;
+            line-height: 40px;
+            margin: 0 7%;
+            border: 1px solid rgb(154,154,154);
+            float: left;
+            text-align: center;
+            border-radius: 5px;
+        }
+        .A_navD{
+            border: 1px solid rgb(154,154,154);
+            margin: 13px 8px;
+            padding-top: 5px;
+            padding-bottom: 0;
+        }
+        .A_navD div{
+            width: 100%;
+            height: 70px;
+            background: rgb(229,229,229);
+            margin-bottom: 5px;
+            border-radius: 10px;
+        }
+        .A_navD div span:nth-child(1){
+            display: inline-block;
+            height: 46px;
+            width: 46px;
+            border-radius: 50%;
+            background: red;
+            margin-top: 12px;
+            margin-left: 8px;
+        }
+        .A_navD div span:nth-child(2){
+            display: inline-block;
+            margin-left: 10px;
+        }
+        .A_navD div span:nth-child(2) p{
+            margin: 0;
+            height: 23.333px;
+        }
+        #app{
+            position: relative;
+        }
+        .zzc{
+            height: 100%;
+            width: 100%;
+            background: rgb(255,255,255);
+            position: absolute;
+            top: 0px;
+            z-index: 5;
+        }
+    </style>
+</head>
+<body>
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+        <h1 class="mui-title">找专家</h1>
+    </header>
+    <div class='mui-content' id='app'>
+        <!--<div class="zzc">遮罩层</div>-->
+        <div class="mui-content_1">
+            <input class="inp" type="text" v-model='Inp' placeholder="寻找专家" @focus="searchFn()">
+        </div>
+
+        <div class="A_nav mui-clearfix">
+            <span class="A_nav_span_1">找专家</span>
+            <span class="A_nav_span_2">鉴定广场</span>
+            <div class="A_nav_div mui-clearfix">
+                <div><span></span><p>名家瓷器</p></div>
+                <div><span></span><p>名家瓷器</p></div>
+                <div><span></span><p>名家瓷器</p></div>
+                <div><span></span><p>名家瓷器</p></div>
+                <div><span></span><p>名家瓷器</p></div>
+                <div><span></span><p>名家瓷器</p></div>
+                <div><span></span><p>名家瓷器</p></div>
+                <div><span></span><p>名家瓷器</p></div>
+            </div>
+
+        </div>
+
+        <div class="A_nav_div_b mui-clearfix">
+            <div>已鉴定</div>
+            <div>未鉴定</div>
+        </div>
+
+        <div class="A_nav mui-clearfix">
+            <span class="A_nav_span_1">推荐专家</span>
+            <div class="A_navD">
+                <div>
+                    <span></span>
+                    <span>
+                        <p style="color:#000">老师一</p>
+                        <p>瓷器青铜器</p>
+                        <p>中国艺术品馆长</p>
+                    </span>
+                </div>
+                <div>
+                    <span></span>
+                    <span>
+                        <p style="color:#000">老师二</p>
+                        <p>青铜器</p>
+                        <p>国家一级鉴定师</p>
+                    </span>
+                </div>
+            </div>
+
+            <div style="text-align:center;margin: 5px auto;font-size: 13px">点击加载更多...</div>
+
+        </div>
+
+    </div>
+</body>
+<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+<script src="js/vue.min.js"></script>
+<script src="js/mui.js?version=201801202115"></script>
+<script src="js/common.js?version=201801202115"></script>
+<script>
+new Vue({
+    el:'#app',
+    data:{
+        Inp:""
+    },
+    watch:{
+        "Inp":function(newV,oldV){
+            console.log(newV,"测试监听");
+        }
+    },
+    methods:{
+        focusFn:function () {
+            console.log("获取光标时触发");
+        },
+        forward: function (url) {
+            forward(url);
+        },
+        searchFn:function () {
+            forward('SearchPage.html');
+        }
+    },
+    created:function(){
+
+    },
+    mounted:function(){
+
+    }
+})
+</script>
+</html>

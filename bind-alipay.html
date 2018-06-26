@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>绑定支付宝</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" href="css/mui.min.css">
+</head>
+
+<body>
+
+	<style>
+
+		/*@media only screen and (min-width: 320px) and (max-width: 360px){*/
+			/*html {*/
+				/*font-size: 13.65px;!important;*/
+			/*}*/
+		/*}*/
+		/*@media only screen and (min-width: 360px) and (max-width: 375px){*/
+			/*html {*/
+				/*font-size: 15.36px;!important;*/
+			/*}*/
+		/*}*/
+		/*@media only screen and (min-width :375px) and (max-width: 390px){*/
+			/*html {*/
+				/*font-size: 16px;!important;*/
+			/*}*/
+		/*}*/
+		/*@media only screen and (min-width: 390px) and (max-width: 414px){*/
+			/*html {*/
+				/*font-size: 16.64px;*/
+			/*}*/
+		/*}*/
+		/*@media only screen and (min-width: 414px) and (max-width: 640px){*/
+			/*html {*/
+				/*font-size: 17.664px;*/
+			/*}*/
+		/*}*/
+
+
+		/*@media only screen and (min-width: 320px){*/
+			/*html{*/
+				/*font-size: 62.5% !important;*/
+			/*}*/
+		/*}*/
+		/*@media only screen and (min-width: 420px){*/
+			/*html{*/
+				/*font-size: 87.5% !important;*/
+			/*}*/
+		/*}*/
+		/*@media only screen and (min-width: 520px){*/
+			/*html{*/
+				/*font-size: 112.5% !important;*/
+			/*}*/
+		/*}*/
+		/*@media only screen and (min-width: 640px){*/
+			/*html{*/
+				/*font-size: 125% !important;*/
+			/*}*/
+		/*}*/
+		/*@media only screen and (min-width: 750px){*/
+			/*html{*/
+				/*font-size: 150% !important;*/
+			/*}*/
+		/*}*/
+
+
+		li {
+			list-style: none;
+		}
+
+		a {
+			color: white;
+		}
+
+		input,
+		select,
+		textarea {
+			font-size: 12px;
+		}
+
+		.mui-bar {
+			background: url(images/1X/110.png);
+			background-size: contain;
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+			background-color: #e6a03c;
+			height: 70px;
+			padding-top: 20px;
+		}
+
+		.mui-bar .mui-title {
+			color: white;
+			margin-top: 5px;
+		}
+
+		.mui-bar-nav~.mui-content {
+			padding-top: 70px;
+		}
+
+		.mui-card {
+			margin: 0;
+		}
+
+		.mui-input-row {
+			font-size: 12px;
+			/* height: 50px;
+				line-height: 50px; */
+		}
+
+		.mui-input-row label {
+			color: black;
+			width: 30%;
+			padding: 12px 5px 8px 15px;
+		}
+
+		input[type=text] {
+			height: 35px;
+			padding: 5px;
+		}
+
+		.mui-input-group {
+			padding-top: 5px;
+		}
+
+		.mui-input-row label~input {
+			width: 70%;
+		}
+
+		.wallet-button {
+			padding: 20px 20px;
+		}
+
+		.wallet-button button {
+			width: 100%;
+			height: 40px;
+			font-size: 18px;
+			background-color: #C0C0C0;
+			border: 1px solid #C0C0C0;
+		}
+
+		.wallet-button button.active {
+			width: 100%;
+			height: 40px;
+			font-size: 18px;
+			background-color: #ff6464;
+		}
+
+		.mui-input-group .mui-button-row {
+			height: auto;
+		}
+
+		.mui-input-group .mui-input-row {
+			height: auto;
+		}
+	</style>
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+		<h1 class="mui-title">绑定支付宝</h1>
+	</header>
+	<div class="mui-content" id="app">
+
+		<div class="mui-input-row">
+			<label>您&nbsp;的&nbsp;姓&nbsp;名：</label>
+			<input type="text" class="mui-input-clear" maxlength="8" placeholder="请填写您的姓名" v-model="alipay.name">
+		</div>
+		<div class="mui-input-row">
+			<label>支付宝账号：</label>
+			<input type="text" class="mui-input-clear" maxlength="30" placeholder="请填写您的支付宝账号" v-model="alipay.account">
+		</div>
+		<div class="mui-button-row">
+			<div class="wallet-button">
+				<template v-if="alipay.name!=undefined && alipay.account!=undefined">
+					<button @tap="bind()" class="mui-btn mui-btn-danger active">绑定</button>
+				</template>
+				<template v-else>
+					<button @tap="bind()" class="mui-btn mui-btn-danger">绑定</button>
+				</template>
+			</div>
+		</div>
+
+	</div>
+	</div>
+	<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+	<script src="js/vue.min.js"></script>
+	<script src="js/mui.min.js?version=201801202115"></script>
+	<script src="js/common.js?version=201801202115"></script>
+		<script type="text/javascript">
+		var app = new Vue({
+			el: '#app',
+			data: {
+				alipay: {}
+			},
+			methods: {
+				bind: function () {
+					var _this = this;
+					if (!_this.alipay.name || _this.alipay.name.length < 2) {
+						mui.toast('请填写您正确的姓名');
+						return;
+					}
+					if (!_this.alipay.account || _this.alipay.account.length < 2) {
+						mui.toast('请填写您正确的支付宝账号');
+						return;
+					}
+					ajax(api('/my/receipts-account/alipay'), {
+						autoProcessError: false,
+						type: 'POST',
+						data: {
+							name: _this.alipay.name,
+							account: _this.alipay.account,
+						},
+						dataType: 'json',
+						success: function (data) {
+							if (data) {
+								mui.toast(data.message);
+							}
+						},
+						error: function (xhr, type, errerThrown) {
+							var data = JSON.parse(xhr.responseText);
+							if (xhr.status == 422) {
+								mui.toast((data.pop()).message);
+							}
+						}
+					});
+				},
+			},
+			mounted: function () {
+
+			}
+		});
+	</script>
+
+</body>
+
+</html>

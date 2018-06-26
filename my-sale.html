@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>我的寄售</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" href="css/mui.min.css">
+</head>
+
+<body>
+
+	<style>
+		p {
+			font-size: 12px;
+		}
+
+		li {
+			list-style: none;
+		}
+
+		a {
+			color: white;
+		}
+
+		.mui-bar {
+			background: url(images/1X/110.png);
+			background-size: contain;
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+			background-color: #e6a03c;
+			height: 70px;
+			padding-top: 20px;
+		}
+
+		.mui-bar .mui-title {
+			color: white;
+			margin-top: 5px;
+		}
+
+		.mui-bar-nav~.mui-content {
+			padding-top: 70px;
+		}
+
+		.mui-slider-indicator {
+			background-color: white;
+		}
+
+		.mui-slider-indicator>a {
+			color: #C0C0C0;
+		}
+
+		.mui-slider-indicator>a:hover,
+		.mui-slider-indicator>a:active {
+			color: #C0C0C0;
+		}
+
+		.mui-segmented-control.mui-segmented-control-inverted .mui-control-item {
+			font-size: 13px;
+		}
+
+		.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+			color: #F0AD4E;
+			border-bottom: 2px solid #F0AD4E;
+		}
+
+		.mui-control-content {
+			min-height: 650px;
+		}
+
+		.mui-scroll-wrapper {
+			margin-bottom: 100px;
+		}
+
+		.mui-card {
+			margin: 10px 0;
+		}
+
+		.mui-card-content {
+			font-size: 12px;
+		}
+
+		.mui-card-content .item-remark {
+			margin-left: 10px;
+			color: black;
+		}
+
+		.mui-card-content .item-remark .left {
+			float: left;
+			width: 70%;
+		}
+
+		.mui-card-content .item-remark .right {
+			float: right;
+			margin-top: 15px;
+			margin-right: 10px;
+		}
+
+		.mui-card-content .item-remark .right button {
+			width: 80px;
+			background-color: #e6a03c;
+			color: white;
+			border: 0;
+			border-radius: 5px;
+		}
+
+		.mui-card-content .item-remark .right .active {
+			background-color: green;
+		}
+
+		.mui-card-content .item-remark div {
+			height: 30px;
+			line-height: 30px;
+		}
+
+		.item-img {
+			padding: 0 5px 0 5px;
+		}
+
+		.item-img img {
+			display: block;
+			width: auto;
+			height: auto;
+			max-height: 200px;
+		}
+
+		.mui-card-content .item-remark div:last-child {
+			color: #ff6464;
+		}
+
+		.empty-data {
+			margin-top: 100px;
+		}
+
+		.empty-data img {
+			width: 150px;
+			height: 150px;
+			margin: 0 auto;
+		}
+
+		.mui-pull-caption {
+			font-size: 12px;
+		}
+
+		.mui-bar-nav~.mui-content .mui-pull-top-pocket {
+			top: 0;
+		}
+	</style>
+	<div id="app">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+			<h1 class="mui-title">我的寄售</h1>
+		</header>
+		<div class="mui-content">
+			<!-- <div id="slider"> -->
+			<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted mui-segmented-control-primary">
+				<a class="mui-control-item" :class="{' mui-active':status==''}" @tap="changeStatus('')">
+					全部
+				</a>
+				<a class="mui-control-item" :class="{' mui-active':status=='wait-shipping'}" @tap="changeStatus('wait-shipping')">
+					已被拍
+				</a>
+				<a class="mui-control-item" :class="{' mui-active':status=='wait-receiving'}" @tap="changeStatus('wait-receiving')">
+					已发货
+				</a>
+				<a class="mui-control-item" :class="{' mui-active':status=='completed'}" @tap="changeStatus('completed')">
+					已完成
+				</a>
+			</div>
+
+			<div class="mui-slider-item mui-control-content mui-active">
+				<div id="pullrefresh" class="mui-scroll-wrapper">
+					<div>
+						<template v-if="items.length>0">
+							<div class="mui-card" v-for="item in items">
+								<div class="mui-card-content">
+									<div class="item-remark">
+										<div class="left">
+											<div class="mui-ellipsis" v-text="item.name?item.name:item.goods.name"></div>
+											<div>¥
+												<span v-text="$options.filters.formatCurrency(item.name?item.price:item.amount)"></span>
+											</div>
+										</div>
+										<div class="right">
+											<template v-if="item.isSoldOut">
+												<button class="active" @tap="soldOut(item,false)">点击上架</button>
+											</template>
+											<template v-else>
+												<button @tap="soldOut(item,true)">点击下架</button>
+											</template>
+										</div>
+										<div style="clear:both;"></div>
+									</div>
+									<div class="item-img" @tap="detail(item)">
+										<img :src="item.photos?item.photos[0]+'-convertH200':item.goods.photos[0]+'-height200'" />
+									</div>
+								</div>
+							</div>
+						</template>
+						<template v-else>
+							<div class="empty-data" style="text-align: center;">
+								<div>
+									<img src="images/1X/073.png" style="width: 60px; height: 60px;" />
+									<p>您还木有寄售商品哦！</p>
+								</div>
+							</div>
+						</template>
+					</div>
+				</div>
+
+			</div>
+
+			<!-- </div> -->
+		</div>
+	</div>
+	<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+	<script src="js/vue.min.js"></script>
+	<script src="js/mui.min.js?version=201801202115"></script>
+	<script src="js/common.js?version=201801202115"></script>
+	<script type="text/javascript">
+		Vue.filter('formatCurrency', formatCurrency);
+		var params = getUrlParams();
+		var param_status = params['status'];
+		var app = new Vue({
+			el: '#app',
+			data: {
+				pageIndex: 1,
+				pageSize: 8,
+				status: !param_status ? '' : param_status,
+				items: []
+			},
+			methods: {
+				loadData: function (type) {
+					if (type == 1) {
+						// mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().refresh(true);
+						mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().scrollTo(0, 0, 100);
+					}
+					var _this = this;
+
+					if (_this.status == '') {
+						ajax(api('/my/goods/sale'), {
+							data: {
+								pageIndex: _this.pageIndex,
+								pageSize: _this.pageSize,
+							},
+							dataType: 'json',
+							success: function (data) {
+								if (type === 1) {
+									_this.items = data.objects;
+								} else {
+									for (var i = 0, len = data.objects.length; i < len; i++)
+										_this.items.push(data.objects[i]);
+								}
+
+								mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+								mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().endPullupToRefresh(!data.hasNext);
+							}
+						});
+					} else {
+						ajax(api('/my/order/consign'), {
+							data: {
+								pageIndex: _this.pageIndex,
+								pageSize: _this.pageSize,
+								status: !_this.status ? '' : _this.status,
+							},
+							dataType: 'json',
+							success: function (data) {
+								if (type === 1) {
+									_this.items = data.objects;
+								} else {
+									for (var i = 0, len = data.objects.length; i < len; i++)
+										_this.items.push(data.objects[i]);
+								}
+
+								mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+								mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().endPullupToRefresh(!data.hasNext);
+							}
+						});
+					}
+
+				},
+				changeStatus: function (status) {
+					this.status = status;
+					this.loadData(1);
+				},
+				detail: function (item) {
+					if (item.goods) {
+						forward('my-order-detail.html?id=' + item.id);
+					} else
+						forward('product-detail.html?id=' + item.id);
+				},
+				soldOut: function (item, val) {
+					var _this = this;
+					var url = val ? '/goods/' + item.id + '/sold-out' : '/goods/' + item.id + '/sold';
+					ajax(api(url), {
+						type: 'POST',
+						dataType: 'json',
+						success: function (data) {
+							mui.toast(data.message);
+							_this.items.forEach((value, index) => {
+								if (value.id == item.id) {
+									value.isSoldOut = !value.isSoldOut;
+								}
+							});
+						}
+					});
+				}
+			},
+			mounted: function () {
+				var _this = this;
+				mui.init({
+					pullRefresh: {
+						container: '#pullrefresh',
+						down: {
+							auto: true,
+							callback: function () {
+								_this.pageIndex = 1;
+								mui('#pullrefresh').pullRefresh().refresh(true);
+								_this.loadData(1);
+							}
+						},
+						up: {
+							contentrefresh: '正在加载...',
+							callback: function () {
+								_this.pageIndex++;
+								_this.loadData(2);
+							}
+						}
+					}
+				});
+			}
+		});
+	</script>
+
+</body>
+
+</html>

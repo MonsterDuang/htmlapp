@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>宝贝详情</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!--<link href="https://cdn.bootcss.com/mui/3.7.1/css/mui.min.css" rel="stylesheet">-->
+    <link rel="stylesheet" href="css/mui.min.css">
+    <style>
+        li {
+            list-style: none;
+        }
+
+        a {
+            color: white;
+        }
+
+        .mui-bar {
+            background: url(images/1X/110.png);
+            background-size: contain;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-color: #e6a03c;
+            height: 70px;
+            padding-top: 20px;
+        }
+
+        .mui-bar .mui-title {
+            color: white;
+            margin-top: 5px;
+        }
+
+        .mui-bar-nav~.mui-content {
+            padding-top: 70px;
+        }
+
+        .mui-slider .mui-slider-group .mui-slider-item {
+            vertical-align: middle;
+        }
+
+        #slider img {
+            width: 100%;
+            /* height: 450px; */
+        }
+
+        .auction-remark {
+            /* max-height: 120px; */
+            color: black;
+        }
+
+        .auction-remark p {
+            margin-top: 5px;
+            color: #C0C0C0;
+        }
+
+        .mui-table-view-cell,
+        .mui-table-view-cell p {
+            font-size: 12px;
+        }
+
+        .mui-table-view-cell:nth-child(2) {
+            background-color: #f4f4f8;
+        }
+
+        .mui-table-view-cell .item {
+            line-height: 25px;
+        }
+
+        .mui-table-view-cell .item .propname {
+            width: 80px;
+            color: #969696;
+        }
+
+        .fixed-noapp-header {
+            font-size: 12px;
+            position: fixed;
+            z-index: 99;
+            top: 0;
+            border: 1px;
+            background-color: #666666;
+            filter: Alpha(Opacity=8, Style=0);
+            opacity: 0.8;
+            width: 100%;
+            color: white;
+        }
+
+        .fixed-noapp-header img {
+            width: 30px;
+            height: 30px;
+            margin-right: 5px;
+        }
+
+        .fixed-noapp-header span {
+            padding-top: 6px;
+            display: block;
+        }
+
+        .fixed-noapp-header .item-img {
+            float: left;
+        }
+
+        .fixed-noapp-header button {
+            width: 80px;
+            border: 1px;
+            border-radius: 5px;
+        }
+
+
+        .fixed-noapp-bottom {
+            display: none;
+            font-size: 12px;
+            position: fixed;
+            z-index: 99;
+            bottom: 0;
+            border: 1px;
+            background-color: white;
+            width: 100%;
+            color: white;
+        }
+        .fixed-noapp-bottom .mui-table-view-cell{
+            border-top: 1px solid #f4f4f8 ;
+        }
+
+        .fixed-noapp-bottom button {
+            width: 80%;
+            border: 1px;
+            border-radius: 5px;
+            color: white;
+            background-color: #ff6464;
+        }
+
+        .fixed-buttom {
+            font-size: 12px;
+            position: fixed;
+            z-index: 999;
+            bottom: 0;
+            border: 1px;
+            background-color: white;
+            width: 100%;
+            color: #afafaf;
+        }
+
+        .fixed-buttom img {
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+        }
+
+        .fixed-buttom span {
+            padding-top: 2px;
+            display: block;
+        }
+
+        .fixed-buttom .item-img {
+            float: left;
+        }
+
+        .fixed-buttom .item-text {
+            margin-left: 5px;
+            float: left;
+        }
+
+        .fixed-buttom button {
+            width: 100%;
+            border: 1px;
+        }
+
+        .fixed-buttom .item-botton-active {
+            color: white;
+            background-color: #ff6464;
+        }
+
+        .fixed-buttom .item-botton-normal {
+            width: 120px;
+            border: 1px;
+            color: white;
+            background-color: #C0C0C0;
+        }
+
+        .item-tag {
+            margin: 10px 0px;
+        }
+
+        .item-tag span {
+            margin: 5px 20px 5px 0;
+            padding: 5px 10px;
+            border-radius: 20px;
+            color: white;
+        }
+
+        .item-tag span:first-child {
+            background-color: #22ac38;
+        }
+
+        .item-tag span:nth-child(2) {
+            background-color: #e6a03c;
+        }
+
+        .mutilineword {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+        }
+        .BGC{
+            background:rgba(0,0,0,0.5);width:100%;height:100%;position:fixed;top:0;z-index:1000
+        }
+        .imgSt{
+            pointer-events: none;width: 85%;margin-left: 10%;
+        }
+        .returnC{
+            border: 1px solid white;padding: 2px 7px;color: white;
+        }
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+<div id="app" v-cloak>
+    <div v-if="AndroidShow" class='BGC'>
+        <img class='imgSt' src="images/hint_.png" alt="">
+        <br>
+        <div style="text-align:center;width: 100%"><span @tap='returnFn' class='returnC'>返回</span></div>
+    </div>
+    <div v-if="iOSshow" class='BGC'>
+        <img class='imgSt' src="images/hitn_ios.png" alt="">
+        <br>
+        <div style="text-align:center;width: 100%"><span @tap='returnFn' class='returnC'>返回</span></div>
+    </div>
+    <template v-if="!env.appVersion">
+        <div class="fixed-noapp-header">
+            <div class="mui-row">
+                <div class="mui-col-sm-4 mui-col-xs-4">
+                    <li class="mui-table-view-cell">
+                        <div class="item-img">
+                            <img src="images/1X/logo.png" />
+                        </div>
+                        <span>艺方购</span>
+                    </li>
+                </div>
+                <div class="mui-col-sm-8 mui-col-xs-8">
+                    <li class="mui-table-view-cell" style="float:right">
+                        <div style="width:165px;height:31px;margin-top:2px;position: relative;margin: 0;">
+                            <button style="position: absolute;right:90px;line-height:20px" @tap="openApp()">打开APP</button>
+                            <button style="position: absolute;right:5px;line-height:20px" @tap="download()">下载APP</button>
+                        </div>
+                    </li>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template v-else>
+        <header class="mui-bar mui-bar-nav">
+            <a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+            <h1 class="mui-title" v-text="goods.name"></h1>
+            <a href="javascript:;" @tap="share">
+					<span class="mui-icon mui-pull-right" style="font-size: 14px;padding-top: 15px;color: white;">
+						<img src="images/1X/067.png" style="width: 20px; height: 20px;" />
+					</span>
+            </a>
+        </header>
+    </template>
+    <div class="mui-content">
+        <div id="slider" class="mui-slider">
+            <div class="mui-slider-group mui-slider-loop">
+                <!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+                <div v-if="!!firstPhoto" class="mui-slider-item mui-slider-item-duplicate">
+                    <img :src="firstPhoto" @click="preview(goods.photos.length-1)">
+                </div>
+                <!-- 第一张 -->
+                <div class="mui-slider-item" v-for="(cover,index) in goods.photos">
+                    <img :src="cover" @click="preview(index)">
+                </div>
+                <!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+                <div class="mui-slider-item mui-slider-item-duplicate">
+                    <img :src="lastPhoto" @click="preview(0)">
+                </div>
+            </div>
+            <div class="mui-slider-indicator">
+                <div class="mui-indicator" v-bind:class="{'mui-active':n==1}" v-for="n in indicatorCount"></div>
+            </div>
+        </div>
+        <ul class="mui-table-view" style="padding-bottom: 50px">
+            <li class="mui-table-view-cell auction-remark">
+                <span style="font-size: 16px;" v-text="goods.name"></span>
+                <div style="line-height: 35px; display: flex; flex-flow: row; justify-content: space-between">
+						<span style="color: #ff6464;">
+							价格：
+							<span v-text="goods.price"></span>
+						</span>
+                    <div style="display: inline-flex; flex-flow: row; align-items: center;">
+                        <template v-for="tag in goods.tags">
+                            <img v-if="tag == '绝对正品'" src="./images/2X/115.png" style="width: 18px; height: 18px"></img>
+                            <img v-if="tag == '七天自由退换'" src="./images/2X/116.png" style="width: 18px; height: 18px"></img>
+                            <span style="color: #ccc; padding: 0 5px" v-text="tag"></span>
+                        </template>
+                    </div>
+                </div>
+                <!-- <br /> -->
+                <p v-text="goods.description"></p>
+            </li>
+            <li class="mui-table-view-cell">
+                <div class="item">
+						<span class="propname">
+							【
+							<span>库&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;存</span>
+							】
+						</span>
+                    <span v-text="goods.stock"></span>
+                </div>
+                <div class="item" v-for="prop in goods.props">
+						<span class="propname">
+							【
+							<span v-if="prop.name.length == 2">
+								<span v-text="prop.name[0]"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<span v-text="prop.name.slice(1)"></span>
+							</span>
+							<span v-else-if="prop.name.length == 3">
+								<span v-text="prop.name[0]"></span>&nbsp;&nbsp;
+								<span v-text="prop.name[1]"></span>&nbsp;&nbsp;
+								<span v-text="prop.name[2]"></span>
+							</span>
+							<span v-else v-text="prop.name"></span>
+							】
+						</span>
+                    <span v-text="prop.val"></span>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <template v-if="!env.appVersion">
+        <div class="fixed-noapp-bottom">
+            <div class="mui-row">
+                <div class="mui-col-sm-12 mui-col-xs-12">
+                    <li class="mui-table-view-cell" style="text-align:center">
+                        <button class="item-botton-normal" @tap="navigatorTotarget()">戳我进入App购买</button>
+                    </li>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template v-else>
+        <div class="fixed-buttom">
+            <div class="mui-row">
+                <div class="mui-col-sm-4 mui-col-xs-4">
+                    <li class="mui-table-view-cell" @tap="backTop">
+                        <div class="item-img">
+                            <img src="images/1X/013.png" />
+                        </div>
+                        <span>首页</span>
+                    </li>
+                </div>
+                <div class="mui-col-sm-4 mui-col-xs-4">
+                    <li class="mui-table-view-cell" @tap="like">
+                        <div class="item-img">
+                            <img :src="goods.liked? 'images/1X/061.png' : 'images/1X/060.png'" />
+                        </div>
+                        <span v-text="goods.likeCount"></span>
+                    </li>
+                </div>
+                <div class="mui-col-sm-4 mui-col-xs-4">
+                    <li class="mui-table-view-cell">
+                        <button class="item-botton-active" @tap="buy">立即购买</button>
+                    </li>
+                </div>
+            </div>
+        </div>
+    </template>
+</div>
+<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+<script src="js/vue.min.js"></script>
+<script src="js/mui.min.js?version=201801202115"></script>
+<script src="js/common.js?version=201801202115"></script>
+<script>
+    var params = getUrlParams();
+    var id = params['id'];
+
+    Vue.filter('dateTime', dateTime);
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            goods: {},
+            AndroidShow:false,
+            iOSshow:false,
+        },
+        computed: {
+            firstPhoto: function () {
+                return this.goods.photos ? this.goods.photos[this.goods.photos.length - 1] : ''
+            },
+            lastPhoto: function () {
+                return this.goods.photos ? this.goods.photos[0] : ''
+            },
+            indicatorCount: function () {
+                return this.goods.photos ? (this.goods.photos.length) : 0
+            }
+        },
+        methods: {
+            returnFn(){
+                this.AndroidShow = false
+                this.iOSshow = false
+            },
+            openApp(){
+                let self = this
+                if (env.isIos) {
+                    if(env.isWechat){
+                        self.iOSshow = true;
+                        return;
+                    }
+                    var ua = navigator.userAgent.toLowerCase();//获取判断用的对象
+                    if (ua.match(/QQ/i) == "qq"||ua.indexOf('qq') > -1) {
+                        window.location.href = "yfg://m.native.com/visitor/webView?type=goodsDetail&goodsId="+id;
+                        self.iOSshow = true;
+                    }else {
+                        window.location.href = "https://www.yjsczx.cn/yfg/m.native.com/visitor/webView?type=goodsDetail&goodsId="+id;
+                    }
+                }else {
+                    if(env.isWechat){
+                        self.AndroidShow = true;
+                        return;
+                    }
+                    window.location.href = "yfg://m.native.com/visitor/webView?type=goodsDetail&goodsId="+id;
+                }
+            },
+            download(){
+                // window.location.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.yitao.juyiting';
+                if (env.isIos) {
+                    forward(iosDownLoadUrl);
+                } else {
+                    forward(androidDownLoadUrl);
+                }
+            },
+            downloadapp: function () {
+                var url = {
+                    open: "yfg://m.native.com/visitor/webView?type=goodsDetail&goodsId="+id,
+                    down: ""
+                };
+                if (env.isIos) {
+                    url.open = "yfg://"
+                    url.down = 'https://itunes.apple.com/cn/app/%E8%89%BA%E6%96%B9%E8%B4%AD/id1321524438?mt=8'
+                } else {
+                    url.down = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.yitao.juyiting'
+                }
+                var iframe = document.createElement('iframe');
+                var body = document.body;
+                iframe.style.cssText='display:none;width=0;height=0';
+                var timer = null;
+                if(env.isWechat) {
+                    // 引导用户在浏览器中打开
+                    mui.toast('请点击微信右上角，浏览器中打开');
+                } else {
+                    body.appendChild(iframe);
+                    iframe.src = url.open;
+                    timer = setTimeout(function(){
+                        window.location.href = url.down;
+                    }, 1200);
+                }
+
+                $(document).on('visibilitychange webkitvisibilitychange', function() {
+                    var tag = document.hidden || document.webkitHidden;
+                    if (tag) {
+                        clearTimeout(timer);
+                    }
+                })
+
+                $(window).on('pagehide', function() {
+                    clearTimeout(timer);
+                })
+
+            },
+            navigatorTotarget: function () {
+                if (env.isWechat) {
+                    mui.toast('请点击微信右上角，浏览器中打开');
+                } else {
+                    awakenToTarget(location.href);
+                }
+            },
+            share: function () {
+                var _this = this;
+                if (window.Share) {
+                    window.Share.share(JSON.stringify({
+                        title: this.goods.name,
+                        shareUrl: location.href,
+                        imageUrl: this.goods.photos[0],
+                        description: this.goods.description
+                    }), 'inject');
+                }
+            },
+            preview: function (index) {
+                if (window.Photo) {
+                    var obj = {
+                        srcList: this.goods.photos,
+                        index: index || 0
+                    };
+                    window.Photo.preview(JSON.stringify(obj), function () { });
+                }
+            },
+            like: function () {
+                console.info(1);
+                var _this = this;
+                ajax(api('/goods/' + id + '/like'), {
+                    autoProcessError: false,
+                    type: 'POST',
+                    success: function (data) {
+                        _this.goods.liked = !_this.goods.liked;
+                        _this.goods.likeCount = data.likeCount;
+                    },
+                    error: function (xhr, type, errerThrown) {
+                        var data = JSON.parse(xhr.responseText);
+                        mui.toast((data.pop()).message);
+                    }
+                });
+            },
+            buy: function () {
+                var _this = this;
+                if (_this.goods.stock <= 0) {
+                    mui.toast('库存不足');
+                    return;
+                }
+                ajax(api('/my'), {
+                    autoProcessError: false,
+                    dataType: 'json',
+                    success: function () {
+                        forward('./my-order-detail.html?goodsId=' + _this.goods.id);
+                    },
+                    error: function (xhr, type, errerThrown) {
+                        var data = JSON.parse(xhr.responseText);
+                        mui.toast((data.pop()).message);
+                    }
+                });
+            },
+            backTop: function () {
+                backTop();
+            }
+        },
+        mounted: function () {
+            var _this = this;
+            ajax(api('/goods/' + id), {
+                success: function (data) {
+                    _this.goods = data;
+                    window.document.title = _this.goods.name;
+                }
+            });
+
+            mui.init({
+                swipeBack: true
+            });
+
+            //获得slider插件对象
+            var gallery = mui('.mui-slider');
+            gallery.slider({
+                interval: 5000 //自动轮播周期，若为0则不自动播放，默认为0；
+            });
+
+            mui('.mui-scroll-wrapper').scroll({
+                indicators: true //是否显示滚动条
+            });
+        }
+    });
+</script>
+
+</body>
+
+</html>

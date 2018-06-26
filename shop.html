@@ -1,0 +1,710 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>店铺详情</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link href="https://cdn.bootcss.com/mui/3.7.1/css/mui.min.css" rel="stylesheet">
+	<style>
+		a {
+			color: white;
+		}
+
+		li {
+			list-style: none;
+		}
+
+		.mui-slider-indicator {
+			background-color: white;
+		}
+
+		.mui-slider-indicator>a {
+			color: #C0C0C0;
+		}
+
+		.mui-slider-indicator>a:hover,
+		.mui-slider-indicator>a:active {
+			color: #C0C0C0;
+		}
+
+		#slider .mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+			color: #F0AD4E;
+			border-bottom: 2px solid #F0AD4E;
+		}
+
+		.mui-control-content {
+			min-height: 650px;
+		}
+
+		.shop-info {
+			position: relative;
+			color: white;
+			margin-top: 50px;
+			margin-left: 40px;
+		}
+
+		.shop-icon {
+			border-radius: 30px;
+			border: 1px solid #C0C0C0;
+			width: 60px;
+			height: 60px;
+			z-index: 99;
+			float: left;
+		}
+
+		.shop-icon img {
+			width: 60px;
+			height: 60px;
+			border-radius: 30px;
+		}
+
+		.shop-info p {
+			color: white;
+			font-size: 12px;
+		}
+
+		.shop-info-text {
+			float: left;
+			font-size: 13px;
+			margin-top: 10px;
+			margin-left: 10px;
+		}
+
+		.shop-info-text .tag {
+			color: green;
+			border: 1px solid green;
+			background-color: white;
+			border-radius: 5px;
+			width: 30px;
+			height: 10px;
+			padding: 2px;
+			font-weight: bold;
+			font-size: 12px;
+			margin-left: 5px;
+		}
+
+		.shop-remark {
+			height: 70px;
+			margin-top: 10px;
+			background-color: rgba(0, 0, 0, .3);
+			color: white;
+			font-size: 14px;
+			padding: 5px;
+			position: relative;
+			margin-left: -10px;
+			margin-right: -10px;
+		}
+
+		.shop-remark p {
+			color: #fff;
+		}
+
+		.mui-row {
+			margin: 0;
+			padding: 0;
+			font-size: 12px;
+			color: black;
+		}
+
+		.mui-row img {
+			width: 100%;
+			height: 200px;
+		}
+
+		.mui-row span {
+			color: #ff6464;
+		}
+
+		.mui-row .mui-table-view-cell {
+			padding: 10px;
+			text-align: left;
+		}
+
+		/*tab2*/
+
+		.mui-slider .mui-slider-group .mui-slider-item .mui-card-header img {
+			width: 34px;
+			height: 34px;
+		}
+
+		.mui-card-header.mui-card-media .mui-media-body a {
+			color: black;
+		}
+
+		#scroll2 .mui-slider .mui-slider-group .mui-slider-item img {
+			width: 100px;
+			height: 100px;
+			padding-right: 5px;
+		}
+
+		#scroll2 .mui-slider .mui-slider-group .mui-slider-item {
+			width: 100px;
+			height: 100px;
+		}
+
+		#scroll2 .mui-slider .mui-segmented-control.mui-segmented-control-inverted~.mui-slider-group .mui-slider-item {
+			border-top: 0 solid #c8c7cc;
+			border-bottom: 0 solid #c8c7cc;
+		}
+
+		.mui-card-content {
+			font-size: 12px;
+		}
+
+		.mui-card-header.mui-card-media .mui-media-body {
+			font-size: 13px;
+		}
+
+		.mui-card-header.mui-card-media .mui-media-body p {
+			font-size: 12px;
+		}
+
+		.item-head-text-orange {
+			color: #f25d07;
+		}
+
+		.item-head-text-green {
+			color: #22ac38;
+		}
+
+		.mui-card-footer .item-remark-text {
+			color: #b2d6da;
+		}
+
+		.mui-card-footer .item-price-label-text {
+			color: black;
+		}
+
+		.mui-card-footer .item-price-label-text span:first-child {
+			color: red;
+		}
+
+		.mui-card-footer .item-rule-label-text {
+			color: #e6a03c;
+			width: 70px;
+			float: left;
+			min-height: 30px;
+			max-height: 100px;
+		}
+
+		.mui-card-footer .item-rule-text {
+			min-height: 30px;
+			max-height: 100px;
+			overflow-y: hidden;
+			font-size: 12px;
+		}
+
+		.mutilineword {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 3;
+		}
+
+		.mui-bar-nav~.mui-content .mui-pull-top-pocket {
+			top: 0
+		}
+
+		.auction-goods-card {
+			margin: 10px 0 0 0
+		}
+
+		.auction-goods-card .mui-media-body .head-img {
+			height: 30px;
+			width: 30px;
+			float: left;
+			border: 1px solid #c0c0c0;
+			border-radius: 15px;
+			overflow: hidden;
+			margin-right: 10px;
+		}
+
+		.auction-goods-card .mui-media-body .head-img img {
+			width: 30px;
+			height: 30px;
+		}
+
+		.auction-goods-card>.mui-media-body a {
+			color: black;
+		}
+
+		.auction-goods-card>.mui-card-header.mui-card-media .mui-media-body,
+		.auction-goods-card>.mui-card-header.mui-card-media .mui-media-body span {
+			font-size: 12px;
+		}
+
+		.auction-goods-card>.mui-card-header.mui-card-media .mui-media-body {
+			margin-left: 0;
+		}
+
+		.auction-goods-card>.mui-card-header,
+		.auction-goods-card>.mui-card-content,
+		.auction-goods-card>.mui-card-footer {
+			min-height: 21px;
+			font-size: 12px;
+		}
+
+		.auction-goods-card>.mui-card-content img {
+			float: left;
+			margin-left: 10px;
+			width: 105px;
+			height: 105px;
+		}
+
+		.auction-goods-card .mui-card-footer,
+		.auction-goods-card .mui-card-header {
+			padding: 5px 15px;
+		}
+
+		.auction-goods-card .item-head-text-orange {
+			color: #f25d07;
+		}
+
+		.auction-goods-card .item-head-text-green {
+			color: #22ac38;
+		}
+
+		.auction-goods-card .mui-card-footer .item-remark-text {
+			color: #b2d6da;
+		}
+
+		.auction-goods-card .mui-card-footer .item-price-label-text {
+			color: black;
+		}
+
+		.auction-goods-card .mui-card-footer .item-price-label-text span:first-child {
+			color: red;
+		}
+
+		.auction-goods-card .mui-card-footer .item-rule-label-text {
+			color: #e6a03c;
+			width: 70px;
+			float: left;
+			min-height: 30px;
+			max-height: 100px;
+		}
+
+		.auction-goods-card .mui-card-footer .item-rule-text {
+			min-height: 30px;
+			max-height: 100px;
+			overflow-y: hidden;
+		}
+
+		.auction-goods-card .mutilineword {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 5;
+		}
+
+		.auction-goods-card .mui-card-header:after,
+		.auction-goods-card .mui-card-footer:before,
+		.auction-goods-card .mui-table-view-cell:after {
+			background-color: #ffffff;
+		}
+
+		.goods-scroll {
+			padding-bottom: 40px;
+		}
+
+		.goods-scroll>.mui-pull-bottom-pocket {
+			position: absolute
+		}
+
+		.fixed-noapp-header {
+			font-size: 12px;
+			position: fixed;
+			z-index: 99;
+			top: 0;
+			border: 1px;
+			background-color: #666666;
+			filter: Alpha(Opacity=8, Style=0);
+			opacity: 0.8;
+			width: 100%;
+			color: white;
+		}
+
+		.fixed-noapp-header img {
+			width: 30px;
+			height: 30px;
+			margin-right: 5px;
+		}
+
+		.fixed-noapp-header span {
+			padding-top: 6px;
+			display: block;
+			color: white;
+		}
+
+		.fixed-noapp-header .item-img {
+			float: left;
+		}
+
+		.fixed-noapp-header button {
+			width: 80px;
+			border: 1px;
+			border-radius: 5px;
+		}
+
+		.fixed-noapp-bottom {
+			display: none;
+			font-size: 12px;
+			position: fixed;
+			z-index: 99;
+			bottom: 0;
+			border: 1px;
+			background-color: white;
+			width: 100%;
+			color: white;
+		}
+
+		.fixed-noapp-bottom .mui-table-view-cell {
+			border-top: 1px solid #f4f4f8;
+		}
+
+		.fixed-noapp-bottom button {
+			width: 80%;
+			border: 1px;
+			border-radius: 5px;
+			color: white;
+			background-color: #ff6464;
+		}
+	</style>
+</head>
+
+<body style="overflow: hidden;">
+	<div id="app">
+		<template v-if="!env.appVersion">
+			<div class="fixed-noapp-header">
+				<div class="mui-row">
+					<div class="mui-col-sm-6 mui-col-xs-6">
+						<li class="mui-table-view-cell">
+							<div class="item-img">
+								<img src="images/1X/logo.png" />
+							</div>
+							<span>艺方购</span>
+						</li>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6">
+						<li class="mui-table-view-cell" style="text-align:right">
+							<div style="width:165px;height:31px;margin-top:2px;position: relative;margin: 0;">
+								<button style="position:absolute;right:90px;line-height:20px" @tap="openApp()">打开APP</button>
+								<button style="position:absolute;right:5px;line-height:20px" @tap="download()">下载APP</button>
+							</div>
+						</li>
+					</div>
+				</div>
+			</div>
+		</template>
+		<template v-else>
+			<header class="mui-bar mui-bar-nav" style="height: 210px; padding-top: 20px">
+				<img :src="shop.cover" style="position: absolute; top: 0; left: 0; right: 0; height: 210px; width: 100%;" alt="">
+				<div style="position: absolute; top: 0; left: 0; right: 0; height: 210px; width: 100%; opacity: .4; background: #000" alt=""></div>
+				<a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+				<a href="javascript:;" @tap="share">
+					<span class="mui-icon mui-pull-right" style="font-size: 14px;padding-top: 15px;color: white;">
+						<img src="images/1X/067.png" style="width: 20px; height: 20px;" />
+					</span>
+				</a>
+				<div class="shop-info">
+					<div class="shop-icon">
+						<img :src="shop.logo" />
+					</div>
+					<div class="shop-info-text">
+						<div class="shop-name">
+							<span v-text="shop.name"></span>
+							<span class="tag">已认证</span>
+						</div>
+						<p>成交量：
+							<span v-text="shop.vol">0</span>
+						</p>
+					</div>
+					<div style="clear: both;"></div>
+				</div>
+				<div class="shop-remark">
+					<p class="mutilineword" v-text="shop.intro"></p>
+				</div>
+			</header>
+		</template>
+
+		<div class="mui-content" style="padding-top: 210px;">
+			<div id="slider" class="mui-control-content mui-active" data-slider="8">
+				<div id="segmentedControl" class="mui-segmented-control mui-segmented-control-inverted mui-segmented-control-primary" style="padding: 10px 0 0 0; z-index: 9999; background: #fff">
+					<a class="mui-control-item" :class="{ 'mui-active' : type == 0 }" @tap="switchType(0)">
+						宝贝(
+						<span v-text="shop.goodsCount">0</span>)
+					</a>
+					<a class="mui-control-item" :class="{ 'mui-active' : type == 1 }" @tap="switchType(1)">
+						拍卖(
+						<span v-text="shop.auctionGoodsCount">0</span>)
+					</a>
+				</div>
+			</div>
+			<div id="pullrefresh" class="mui-content mui-scroll-wrapper" style="top: 260px;">
+				<div class="mui-scroll goods-scroll">
+					<div v-if="type == 0" class="mui-card" style="margin: 5px">
+						<div class="mui-card-content">
+							<ul class="mui-row">
+								<template v-for="item in items">
+									<div @tap="goodsDetail(item.id)" class="mui-col-sm-6 mui-col-xs-6">
+										<li class="mui-table-view-cell">
+											<div>
+												<img :src="item.photos[0]" />
+												<div class="mui-ellipsis" v-text="item.description"></div>
+												<div>
+													<span>¥
+														<span v-text="item.price">0</span>
+													</span>
+												</div>
+											</div>
+										</li>
+									</div>
+								</template>
+							</ul>
+						</div>
+					</div>
+
+					<template v-if="type == 1" v-for="item in items">
+						<div @tap="auctionGoodsDetail(item.id)" class="mui-card auction-goods-card" style="display: none" :style="{ display: !!item ? 'block' : 'none' }">
+							<div class="mui-card-header mui-card-media">
+								<div class="mui-media-body">
+									<div class="head-img">
+										<img :src="shop.logo" />
+									</div>
+									<span v-text="item.title" style="font-size:15px;"></span>
+									<template v-if="item.auctionStatus == 'ing'">
+										<p>
+											<span class="item-head-text-orange" :time="item.auctionEndAt">拍卖中</span>
+											<span style="padding-left: 10px;">离拍卖结束还剩：
+												<span v-if="substractTime('',item.auctionEndAt).days>0">
+													<span class="item-head-text-orange">{{substractTime('',item.auctionEndAt).days}}</span>天</span>
+												<span v-if="substractTime('',item.auctionEndAt).hours>0">
+													<span class="item-head-text-orange">{{substractTime('',item.auctionEndAt).hours}}</span>时</span>
+												<span v-if="substractTime('',item.auctionEndAt).minutes>0">
+													<span class="item-head-text-orange">{{substractTime('',item.auctionEndAt).minutes}}</span>分</span>
+												<span v-if="substractTime('',item.auctionEndAt).seconds>0">
+													<span class="item-head-text-orange">{{substractTime('',item.auctionEndAt).seconds}}</span>秒</span>
+											</span>
+										</p>
+									</template>
+									<template v-else-if="item.auctionStatus == 'not-started'">
+										<p>
+											<span class="item-head-text-green" :time="item.auctionStartAt">未开场</span>
+											<span style="padding-left: 10px;">离拍卖开始还剩：
+												<span v-if="substractTime('',item.auctionStartAt).days>0">
+													<span class="item-head-text-green">{{substractTime('',item.auctionStartAt).days}}</span>天</span>
+												<span v-if="substractTime('',item.auctionStartAt).hours>0">
+													<span class="item-head-text-green">{{substractTime('',item.auctionStartAt).hours}}</span>时</span>
+												<span v-if="substractTime('',item.auctionStartAt).minutes>0">
+													<span class="item-head-text-green">{{substractTime('',item.auctionStartAt).minutes}}</span>分</span>
+												<span v-if="substractTime('',item.auctionStartAt).seconds>0">
+													<span class="item-head-text-green">{{substractTime('',item.auctionStartAt).seconds}}</span>秒</span>
+											</span>
+										</p>
+									</template>
+									<template v-else>
+										<p>
+											<span class="item-head-text-green">已结束</span>
+										</p>
+									</template>
+								</div>
+							</div>
+							<div class="mui-card-content">
+								<div v-for="(photo,key) in item.photos.slice(0,3)">
+									<img :src="photo" data-preview-src="" :data-preview-group="item.id">
+								</div>
+								<div style="clear:both;"></div>
+								<div class="mui-card-footer">
+									<span class="item-remark-text">底价¥{{item.floorPrice}}</span>
+									<span class="item-remark-text">保证金¥{{item.marginMoney}}</span>
+									<span class="item-remark-text">加价幅度({{item.raisePriceRange}})</span>
+									<span class="item-remark-text">浏览({{item.pv}})</span>
+								</div>
+								<div class="mui-card-footer">
+									<span class="item-price-label-text">最新出价：
+										<span>¥{{item.floorPrice}}</span>
+									</span>
+								</div>
+							</div>
+							<div class="mui-card-footer">
+								<div>
+									<div class="item-rule-label-text">拍品描述：</div>
+									<div class="item-rule-text mutilineword" v-html="formatDescription(item.description)"></div>
+									<div style=" clear: both;"></div>
+								</div>
+							</div>
+						</div>
+					</template>
+				</div>
+			</div>
+		</div>
+		<template v-if="!env.appVersion">
+			<div class="fixed-noapp-bottom">
+				<div class="mui-row">
+					<div class="mui-col-sm-12 mui-col-xs-12">
+						<li class="mui-table-view-cell" style="text-align:center">
+							<button class="item-botton-normal" @tap="navigatorTotarget()">戳我进入App查看</button>
+						</li>
+					</div>
+				</div>
+			</div>
+		</template>
+	</div>
+
+	<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+	<script src="js/vue.min.js"></script>
+	<script src="js/mui.min.js?version=201801202115"></script>
+	<script src="js/common.js?version=201801202115"></script>
+	<script type="text/javascript">
+		function inject() { }
+		var params = getUrlParams();
+		var id = params['id'];
+		var type = params['type'] || 0;
+
+		Vue.filter('dateTime', dateTime);
+		var vm = new Vue({
+			el: '#app',
+			data: {
+				shop: {},
+				type: type,
+				items: [],
+				pageIndex: 1,
+				pageSize: 8
+			},
+			methods: {
+				openApp(){
+					let self = this;
+					if (env.isIos) {
+						if(env.isWechat){
+							self.iOSshow = true;
+							return;
+						}
+						var ua = navigator.userAgent.toLowerCase();//获取判断用的对象
+						if(ua.match(/QQ/i) == "qq"||ua.indexOf('qq') > -1){
+							window.location.href = "yfg://m.native.com/visitor/webView?type=userCenter&userId="+userId;
+							self.iOSshow = true;
+						}else {
+							window.location.href = "https://www.yjsczx.cn/yfg/m.native.com/visitor/webView?type=userCenter&userId="+userId;
+						}
+					}else {
+						if(env.isWechat){
+							self.AndroidShow = true;
+							return;
+						}
+						window.location.href = "yfg://m.native.com/visitor/webView?type=userCenter&userId="+userId;
+					}
+				},
+				download(){
+					// window.location.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.yitao.juyiting';
+					if (env.isIos) {
+							forward(iosDownLoadUrl);
+					} else {
+							forward(androidDownLoadUrl);
+					}
+				},
+				navigatorTotarget: function () {
+					if (env.isWechat) {
+						mui.toast('请点击微信右上角，浏览器中打开');
+					} else {
+						awakenToTarget(location.href);
+					}
+				},
+				share: function () {
+					if (window.Share) {
+						var _this = this;
+						window.Share.share(JSON.stringify({
+							title: _this.shop.name,
+							shareUrl: location.href,
+							imageUrl: _this.shop.logo,
+							description: _this.shop.intro
+						}), 'inject');
+					}
+				},
+				formatDescription: function (item) {
+					return item.replace(new RegExp('\n', 'gm'), '<br/>');
+				},
+				loadData: function (action) {
+					if (action === 1) {
+						mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().refresh(true);
+						mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().scrollTo(0, 0, 100);
+					}
+
+					var _this = this;
+
+					var data = {
+						pageIndex: _this.pageIndex,
+						pageSize: _this.pageSize,
+						status: _this.status
+					};
+
+					ajax(this.type == 0 ? api('/shop/' + id + '/goods') : api('/shop/' + id + '/auction-goods'), {
+						data: data,
+						dataType: 'json',
+						success: function (data) {
+							if (action === 1) {
+								_this.items = data.objects;
+							} else {
+								for (var i = 0, len = data.objects.length; i < len; i++)
+									_this.items.push(data.objects[i]);
+							}
+
+							//结束下拉刷新
+							mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+							/*结束上拉加载，并根据情况切换“下拉显示更多数据”，以及“没有更多数据了”。
+							执行endPullupToRefresh()方法，结束转雪花进度条的“正在加载...”过程,若还有更多数据，
+							则传入false; 否则传入true，之后滚动条滚动到底时*/
+							mui('#pullrefresh').length > 0 && mui('#pullrefresh').pullRefresh().endPullupToRefresh(!data.hasNext);
+						}
+					});
+				},
+				goodsDetail: function (id) {
+					forward('./product-detail.html?id=' + id);
+				},
+				auctionGoodsDetail: function (id) {
+					forward('./auction-detail.html?id=' + id);
+				},
+				switchType: function (type) {
+					this.pageIndex = 1;
+					this.type = type;
+					this.loadData(1);
+				}
+			},
+			mounted: function () {
+				var _this = this;
+				ajax(api('/shop/' + id), {
+					success: function (data) {
+						_this.shop = data;
+					}
+				});
+
+				mui.init({
+					swipeBack: true,
+					pullRefresh: {
+						container: '#pullrefresh',
+						down: {
+							auto: true,
+							callback: function () {
+								_this.pageIndex = 1;
+								_this.loadData(1);
+							}
+						},
+						up: {
+							contentrefresh: '正在加载...',
+							callback: function () {
+								_this.pageIndex++;
+								_this.loadData(2);
+							}
+						}
+					}
+				});
+			}
+		});
+	</script>
+</body>
+
+</html>

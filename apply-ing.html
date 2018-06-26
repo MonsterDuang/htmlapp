@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>申请进度</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <link href="css/mui.min.css" rel="stylesheet" />
+  <style>
+    .mui-bar {
+      background: url(images/1X/110.png);
+      background-size: contain;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      background-color: #e6a03c;
+      height: 70px;
+      padding-top: 20px;
+    }
+
+    .mui-bar .mui-title {
+      color: white;
+      margin-top: 5px;
+    }
+
+    .mui-bar-nav~.mui-content {
+      padding-top: 70px;
+    }
+
+    header a {
+      color: white;
+    }
+
+    .mui-content>.mui-card:first-child {
+      margin-top: 0;
+    }
+
+    .mui-card {
+      margin: 0 0px 10px 0px;
+    }
+
+    .mui-card-content {
+      font-size: 12px;
+    }
+
+    .mui-table-view-cell {
+      min-height: 600px;
+    }
+
+    .empty-data {
+      margin-top: 50px;
+    }
+
+    .empty-data img {
+      width: 150px;
+      height: 150px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="mui-bar mui-bar-nav">
+    <a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+    <h1 class="mui-title">申请进度</h1>
+  </header>
+
+  <div class="mui-content" id="app">
+    <div class="mui-card">
+      <div class="mui-card-content">
+        <ul class="mui-table-view">
+          <li class="mui-table-view-cell">
+            <div class="empty-data" style="text-align: center;">
+              <div>
+                <img src="images/1X/073.png" style="width: 60px; height: 60px;" />
+                <template v-if="applyType=='merchant'">
+                  <p>正在申请商户，请等候审批</p>
+                </template>
+                <template v-else>
+                  <p>正在申请鉴定师，请等候审批</p>
+                </template>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+  <script src="js/vue.min.js"></script>
+  <script src="js/mui.min.js?version=201801202115"></script>
+  <script src="js/common.js?version=201801202115"></script>
+  <script type="text/javascript">
+    var params = getUrlParams();
+    var applyType = params['applyType'];
+    var app = new Vue({
+      el: '#app',
+      data: {
+        applyType: params['applyType']
+      },
+      methods: {
+        loadData: function () {
+          var _this = this;
+
+          // ajax(api('/p/about-us'), {
+          //   success: function (data) {
+          //     _this.aboutUs = data.replace(new RegExp('\n', 'gm'), '<br/>');
+          //   }
+          // });
+        }
+      },
+      mounted: function () {
+        this.loadData();
+      }
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,186 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>预展区</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link href="https://cdn.bootcss.com/mui/3.7.1/css/mui.min.css" rel="stylesheet">
+	<style>
+		header a {
+			color: white;
+		}
+
+		.mui-bar {
+			background: url(images/1X/110.png);
+			background-size: contain;
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+			background-color: #e6a03c;
+			height: 70px;
+			padding-top: 20px;
+		}
+
+		.mui-bar .mui-title {
+			color: white;
+			margin-top: 5px;
+		}
+
+		.mui-bar-nav~.mui-content {
+			padding-top: 70px;
+		}
+
+		.mui-bar-nav~.mui-content .mui-pull-top-pocket {
+			top: 70px;
+		}
+
+		.mui-pull-caption {
+			font-size: 12px;
+		}
+
+		.mui-content>.mui-card:first-child {
+			margin-top: 10px;
+		}
+
+		.mui-card {
+			margin: 5px;
+		}
+
+		.mui-media img {
+			width: 100px;
+			height: 100px;
+			margin-right: 10px;
+		}
+
+		.mui-media-body span {
+			display: block;
+		}
+
+		.mui-media-body span:first-child {
+			color: black;
+		}
+
+		.mui-card-content {
+			font-size: 12px;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="app">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+			<h1 class="mui-title mui-ellipsis">预展区</h1>
+		</header>
+
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<div class="mui-content">
+					<template v-for="item in items" :key="item.id">
+						<div class="mui-card" style="display: none" :style="{ display: !!item ? 'block' : 'none' }">
+							<div class="mui-card-content">
+								<ul class="mui-table-view mui-table-view-chevron">
+									<li class="mui-table-view-cell mui-media" @tap="forward(item)">
+										<img class="mui-pull-left" :src="item.cover+'-convert100'">
+										<div class="mui-media-body">
+											<span class="mui-ellipsis" v-text="item.title"></span>
+											<span class="mui-ellipsis">
+												预展商家：{{item.name}}
+											</span>
+											<span>预展地点：{{item.address}}
+											</span>
+											<span>预展时间：{{item.startAt | dateTime('yyyy-MM-dd')}}</span>
+											</span>
+											<span>预展宝贝({{item.goodsCount}})</span>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</template>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+	<script src="js/vue.min.js"></script>
+	<script src="js/mui.min.js?version=201801202115"></script>
+	<script src="js/common.js?version=201801202115"></script>
+	<script>
+		Vue.filter('dateTime', dateTime);
+		var app = new Vue({
+			el: '#app',
+			data: {
+				pageIndex: 1,
+				pageSize: 8,
+				items: []
+			},
+			methods: {
+				loadData: function (type) {
+					var _this = this;
+
+					ajax(api('/preview/shops'), {
+						data: {
+							pageIndex: _this.pageIndex,
+							pageSize: _this.pageSize
+						},
+						dataType: 'json',
+						success: function (data) {
+							if (type === 1) {
+								_this.items = data.objects;
+							} else {
+								for (var i = 0, len = data.objects.length; i < len; i++)
+									_this.items.push(data.objects[i]);
+							}
+
+							//结束下拉刷新
+							mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+							/*结束上拉加载，并根据情况切换“下拉显示更多数据”，以及“没有更多数据了”。
+							执行endPullupToRefresh()方法，结束转雪花进度条的“正在加载...”过程,若还有更多数据，
+							则传入false; 否则传入true，之后滚动条滚动到底时*/
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh(!data.hasNext);
+						}
+					});
+				},
+				forward: function (item) {
+					forward('pre-shop-product-list.html?id=' + item.id + '&shop=' + encodeURIComponent(item.name));
+				}
+			},
+			mounted: function () {
+				var _this = this;
+				//阻尼系数
+				var deceleration = mui.os.ios ? 0.003 : 0.0009;
+				mui('.mui-scroll-wrapper').scroll({
+					bounce: false,
+					indicators: true, //是否显示滚动条
+					deceleration: deceleration
+				});
+				mui.init({
+					pullRefresh: {
+						container: '#pullrefresh',
+						down: {
+							style: 'circle',
+							auto: true,
+							callback: function () {
+								_this.pageIndex = 1;
+								mui('#pullrefresh').pullRefresh().refresh(true);
+								_this.loadData(1);
+							}
+						},
+						up: {
+							contentrefresh: '正在加载...',
+							callback: function () {
+								_this.pageIndex++;
+								_this.loadData(2);
+							}
+						}
+					}
+				});
+			}
+		});
+	</script>
+</body>
+
+</html>

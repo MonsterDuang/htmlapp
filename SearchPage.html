@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/mui.min.css" rel="stylesheet" />
+    <style>
+        .mui-bar {
+            background: url(images/1X/110.png);
+            background-size: contain;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-color: #e6a03c;
+            height: 70px;
+            padding-top: 20px;
+        }
+        .mui-bar .mui-title {
+            color: white;
+            margin-top: 5px;
+        }
+        .mui-bar-nav~.mui-content {
+            padding-top: 70px;
+        }
+
+        /*========  header-End  ========*/
+
+
+        /*======Search======*/
+        .headC{
+            height: 50px;line-height: 50px;
+        }
+        .headC a{
+            margin-top: 13.5px;margin-left: 7px;
+        }
+        .inputC{
+            display: inline-block;width: 88%;margin: 0;
+        }
+        .inputC input{
+            height: 30px;border-radius: 8px;font-size: 12px;padding-left: 25px;
+        }
+        /*======Search END======*/
+
+        ._C_content{
+            margin: 0 10px;
+        }
+
+    </style>
+</head>
+<body>
+<header class="mui-bar mui-bar-nav">
+    <a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+    <h1 class="mui-title">找专家</h1>
+</header>
+<div class='mui-content' id="app">
+
+    <div class="headC">
+        <a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:back()"></a>
+        <div class="inputC mui-clearfix">
+            <input type="text" placeholder="找专家">
+        </div>
+    </div>
+
+    <div class="_C_content">
+        <div>搜索缓存1</div>
+        <div>搜索缓存2</div>
+        <div>搜索缓存3</div>
+        <div>搜索缓存4</div>
+    </div>
+
+</div>
+</body>
+<!--<script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js?version=201801202115"></script>-->
+<script src="js/vue.min.js"></script>
+<script src="js/mui.js?version=201801202115"></script>
+<script src="js/common.js?version=201801202115"></script>
+<script>
+
+
+
+</script>
+</html>
